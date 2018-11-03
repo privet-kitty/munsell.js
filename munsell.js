@@ -83,7 +83,7 @@ function calcMHVCToLCHabValueIntegerCase(hue40, scaledValue, halfChroma, dark = 
     return calcMHVCToLCHabValueChromaIntegerCase(hue40, scaledValue, halfChroma, dark);
   } else {
     const [lstar, cstarab1, hab1] = calcMHVCToLCHabValueChromaIntegerCase(hue40, scaledValue, halfChroma1, dark);
-    const [_, cstarab2, hab2] = calcMHVCToLCHabValueChromaIntegerCase(hue40, scaledValue, halfChroma2, dark);
+    const [, cstarab2, hab2] = calcMHVCToLCHabValueChromaIntegerCase(hue40, scaledValue, halfChroma2, dark);
     const [astar1, bstar1] = calcLCHabToLab(cstarab1, hab1);
     const [astar2, bstar2] = calcLCHabToLab(cstarab2, hab2);
     const astar = astar1 * (halfChroma2 - halfChroma) + astar2 * (halfChroma - halfChroma1);
@@ -100,7 +100,7 @@ function calcMHVCToLCHabGeneralCase(hue40, scaledValue, halfChroma, dark = false
   if (scaledValue1 === scaledValue2) {
     return calcMHVCToLCHabValueIntegerCase(hue40, scaledValue1, halfChroma, dark);
   } else if (scaledValue1 === 0) {
-    const [_, cstarab, hab] = calcMHVCToLCHabValueIntegerCase(hue40, 1, halfChroma, dark);
+    const [, cstarab, hab] = calcMHVCToLCHabValueIntegerCase(hue40, 1, halfChroma, dark);
     return [lstar, cstarab, hab];
   } else {
     const [lstar1, cstarab1, hab1] = calcMHVCToLCHabValueIntegerCase(hue40, scaledValue1, halfChroma, dark);
