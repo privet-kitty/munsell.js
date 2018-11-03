@@ -1,6 +1,6 @@
 ;;;
 ;;; This script file fetches the Munsell renotation data and saves
-;;; several arrays as a .js file. You need SBCL and Quicklisp to run
+;;; several arrays to a .js file. You need SBCL and Quicklisp to run
 ;;; it.
 ;;;
 ;;; Usage:
@@ -12,22 +12,23 @@
 
 (use-package :dufy-internal)
 
-(defparameter this-file-path (load-time-value (or #.*compile-file-pathname* *load-pathname*)))
+(defparameter this-pathname (load-time-value (or #.*compile-file-pathname* *load-pathname*)))
 
+;; Downloads all.dat.
 (defparameter dat-url "http://www.rit-mcsl.org/MunsellRenotation/all.dat")
 (format t "Downloading ~A ...~%" dat-url)
 (defparameter dat-txt (babel:octets-to-string (drakma:http-request dat-url) :encoding :ascii))
 (format t "Successfully downloaded.~%")
 
 
-(defparameter munsell-renotation-data nil)
+(defvar munsell-renotation-data)
 
 ;; Reads the Munsell renotation data to a list. Y values in the MRD
-;; are substituted by #'dufy:munsell-value-to-y (the formula in the
-;; ASTM D1535-08e1)
+;; are substituted by #'dufy:munsell-value-to-y (which conforms to the
+;; formula in the ASTM D1535-08e1)
 (with-input-from-string (in dat-txt)
   (setf munsell-renotation-data nil)
-  (read-line in) ; the first row is the label of the data
+  (read-line in) ; The first row is the label of the data.
   (let ((*read-default-float-format* 'double-float))
     (loop
       (let* ((hue (read in nil))
@@ -39,11 +40,10 @@
         (declare (ignore largey))
         (if (null hue)
             (return)
-            (unless (<= y 0) ; ignore non-positive y
+            (unless (<= y 0) ; Ignore non-positive y.
               (let ((row (list hue value chroma x y
                                (dufy:munsell-value-to-y value))))
                 (push row munsell-renotation-data))))))))
-
 
 (defun quantize-40hue (hue-name hue-prefix)
   (let ((hue-number
@@ -64,7 +64,7 @@
 	(if (apply predicate (cons x args))
 	    (vector-push-extend x str))))))
 
-;; Quantizes hue spec. in the list.
+;; Quantizes hue specifications in the list.
 (let ((quantized-data nil))
   (dolist (x munsell-renotation-data)
     (let* ((hue-str (string (car x)))
@@ -77,8 +77,8 @@
 (defparameter max-chroma-overall
   (apply #'max (mapcar #'third munsell-renotation-data)))
 
-;; Constructs max-chroma-arr (for 40 hues and V in {0, ..., 10}) and
-;; max-chroma-arr-dark (for 40 hues and V in {0, 0.2, ..., 1})
+;; Constructs max-chroma-arr (for 40 hues and V in {0, 1, ..., 10})
+;; and max-chroma-arr-dark (for 40 hues and V in {0, 0.2, ..., 1}).
 (defparameter max-chroma-arr
   (make-array '(40 11) :element-type 'fixnum))
 (defparameter max-chroma-arr-dark
@@ -86,7 +86,7 @@
 
 (dotimes (hue 40)
   (dotimes (value 11)
-     ;; use value=1 when value=0, as the data V=0 are not in mrd. 
+     ;; Uses V=1 when V=0 as the data V=0 are not in the MRD.
     (let ((value$ (if (zerop value) 1 value)))
       (setf (aref max-chroma-arr hue value)
 	    (let ((rows nil))
@@ -126,7 +126,8 @@
 
 (dotimes (hue 40)
   (dotimes (dark-value 6)
-     ;; use dark-value=1 (i.e. 0.2) when dark-value=0, as the data V=0 are not in mrd. 
+    ;; Uses dark-value=1 (i.e. 0.2) when dark-value=0 as the data for
+    ;; V=0 are not in the MRD.
     (let ((value$ (if (zerop dark-value) 1 dark-value)))
       (setf (aref max-chroma-arr-dark hue dark-value)
 	    (let ((rows nil))
@@ -137,7 +138,7 @@
 	      (apply #'max rows))))))
 
 (defun max-chroma-simple-case (hue value)
-  ;; use value=0.2d0 when value=0, as the data value=0 are not in mrd. 
+  ;; Uses V=0.2d0 when V=0 as the data for V=0 are not in the MRD.
   (let ((value$ (if (zerop value) 0.2d0 value)))
     (let ((rows nil))
       (dolist (row munsell-renotation-data)
@@ -154,7 +155,7 @@
 (defun get-xyy-from-dat (hue-num value chroma)
   "Illuminant C. Returns a list. 
 
-Note: The data with value=0 are substituted with the data with
+Note: The data for value=0 are substituted with the data for
 value=0.2."
   (cond ((= chroma 0)
 	 (multiple-value-list (munsell-value-to-achromatic-xyy value)))
@@ -192,6 +193,7 @@ value=0.2."
 
 (defun get-extrapolated-lchab-from-dat (hue-num value chroma)
   "CHROMA must be even."
+  (assert (evenp chroma))
   (or (get-lchab-from-dat hue-num value chroma)
       (let* ((mchroma (max-chroma-simple-case hue-num value)))
         (destructuring-bind (lstar cstarab hab)
@@ -202,14 +204,14 @@ value=0.2."
 
 
 
-;; constructs Munsell-to-LCHab data.
+;; Constructs Munsell-to-LCHab data.
 
 (defparameter half-chroma-size (+ (/ max-chroma-overall 2) 1))
 
 (defparameter mrd-array-c-h
   (make-array (list 40 11 half-chroma-size 2)
 	      :element-type 'double-float))
-;; separate the data whose values are within [0, 1]
+;; Separates the data whose values are within [0, 1].
 (defparameter mrd-array-c-h-dark
   (make-array (list 40 6 half-chroma-size 2)
 	      :element-type 'double-float))
@@ -249,18 +251,9 @@ value=0.2."
 	  (setf (aref mrd-array-c-h-dark hue value-idx half-chroma 1) hab))))))
 
 
-(defun array-to-list (array)
-  "array->list coercion"
-  (let* ((dimensions (array-dimensions array))
-         (indices (make-list (length dimensions) :initial-element 0)))
-    (labels ((traverse (dimensions-rest indices-rest)
-               (loop for idx of-type fixnum below (car dimensions-rest)
-                  do (setf (car indices-rest) idx)
-                  collect (if (null (cdr dimensions-rest))
-                              (apply #'aref array indices)
-                              (traverse (cdr dimensions-rest)
-                                       (cdr indices-rest))))))
-      (traverse dimensions indices))))
+;;
+;; Output
+;;
 
 (defgeneric write-js-object (obj &key stream))
 
@@ -272,6 +265,7 @@ value=0.2."
 
 (defmethod write-js-object ((obj float) &key (stream *standard-output*))
   (format stream "~F" obj))
+
 (defmethod write-js-object ((obj array) &key (stream *standard-output*))
   (let* ((dims (array-dimensions obj))
          (indices (make-list (length dims) :initial-element 0)))
@@ -288,6 +282,7 @@ value=0.2."
                                         (cdr indices-rest)))
                      (write #\] :stream stream)))))
       (traverse dims indices) stream)))
+
 (defmethod write-js-object ((obj t) &key (stream *standard-output*))
   (write obj :stream stream))
 
@@ -299,12 +294,12 @@ value=0.2."
 
 ;; Saves the arrays to a .js file.
 (defun main (&optional (obj-filename "MRD.js"))
-  (let ((obj-path (uiop:merge-pathnames* obj-filename this-file-path)))
+  (let ((obj-path (uiop:merge-pathnames* obj-filename this-pathname)))
     (with-open-file (out obj-path
 			 :direction :output
 			 :if-exists :supersede)
       (format out "/* This file is automatically generated by ~a. */~%~%"
-	      (file-namestring this-file-path))
+	      (file-namestring this-pathname))
       (print-js-object-definition "mrdCHTable" mrd-array-c-h :stream out)
       (print-js-object-definition "mrdCHTableDark" mrd-array-c-h-dark :stream out)
       (print-js-object-definition "mrdLTable" mrd-array-l :stream out)
@@ -319,6 +314,7 @@ value=0.2."
   (if args
       (main (car args))
       (main)))
+
 #-swank (uiop:quit)
 
   
