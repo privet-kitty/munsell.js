@@ -1,0 +1,9 @@
+{
+  "source": {
+    "include": "./", 
+    "exclude": "./test/"
+  },
+  "opts": {
+    "destination": "./doc/"
+  }
+}

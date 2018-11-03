@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8"/>
+    <link rel="stylesheet" type="text/css" href="style.css"/>
+    <script type="module" src="munsell.js"></script>
+    <script type="module" src="interface.js"></script>
+    <title>Albert</title>
+  </head>
+  <body>
+    <div id="toolbody">
+      <h1 data-split="Albert">Albert</h1>
+      <canvas id="colorpanel"  width="300" height="300"/>
+    </div>
+    <div id="input-panels">
+      <dl>
+        <dt>Hue</dt>
+        <dd>
+          <table class="buttons" id="hue-table">
+            <tr><td onclick="changeHueNumber(this)">R</td><td onclick="changeHueNumber(this)">YR</td><td onclick="changeHueNumber(this)">Y</td><td onclick="changeHueNumber(this)">GY</td><td onclick="changeHueNumber(this)">G</td><td onclick="changeHueNumber(this)">BG</td><td onclick="changeHueNumber(this)">B</td><td onclick="changeHueNumber(this)">PB</td><td onclick="changeHueNumber(this)">P</td><td onclick="changeHueNumber(this)">RP</td></tr></table>
+        </dd>
+        <dt>Hue prefix</dt>
+        <dd>
+          <table class="buttons" id="hue-prefix-table">
+            <tr><td onclick="changeHuePrefix(this)">1</td><td onclick="changeHuePrefix(this)">2</td><td onclick="changeHuePrefix(this)">3</td><td onclick="changeHuePrefix(this)">4</td><td onclick="changeHuePrefix(this)">5</td><td onclick="changeHuePrefix(this)">6</td><td onclick="changeHuePrefix(this)">7</td><td onclick="changeHuePrefix(this)">8</td><td onclick="changeHuePrefix(this)">9</td><td onclick="changeHuePrefix(this)">10</td></tr>
+          </table>
+        </dd>
+        <dt>Value</dt>
+        <dd>
+          <input id="value-slider" class="slider" type="range" min="0" max="10" value="5" step="0.1" oninput="changeValue(this)" />
+          <div class="indicator" id="current-value-indicator"></div>
+        </dd>
+        <dt>Chroma</dt>
+        <dd>
+          <input id="chroma-slider" class="slider" type="range" min="0" max="30" value="5" step="0.5" oninput="changeChroma(this)" />
+          <div class="indicator" id="current-chroma-indicator"></div>
+        </dd>
+      </dl>
+    </div>
+  </body>
+</html>

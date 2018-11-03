@@ -1,0 +1,99 @@
+body {
+    background: black;
+}
+
+#toolbody {
+    background: linear-gradient(90deg, black 50%, white 50%);
+    width: 100%;
+    text-align: center;
+}
+
+
+#toolbody h1 {
+    font-family: 'Open Sans', sans-serif;
+    position: absolute;
+    display: inline-block;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: linear-gradient(-90deg, black 50%, white 50%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    white-space: nowrap;
+    font-size: 4em;
+}
+
+
+#colorpanel {
+    background: #797979;
+    margin: 6em 0% 1.5em 0%;
+    display: inline;
+
+}
+
+#input-panels {
+    margin: 1em 0 1em 0;
+    margin-left: auto;
+    margin-right: auto;
+    width: 100%;
+    color: white;
+    font-family: 'Open Sans', sans-serif;
+    font-size: 1.5em;
+}
+
+table.buttons {
+    border: solid 2px white;
+    border-collapse: collapse;
+    text-align: center;
+}
+
+table.buttons td {
+    border: solid 2px white;
+    width: 3em;
+}
+
+td.selected {
+    background: white;
+    color: black;
+}
+
+#input-panels dl dt {
+    float: left;
+    width: 10%;
+    min-width: 5.5em;
+    font-weight: bold;
+}
+
+#input-panels dl dd {
+    width: 90%;
+    margin-top: 4px;
+    font-weight: bold;
+}
+
+.slider {
+    float: left;
+    -webkit-appearance: none;
+    width: 70%;
+    border-radius: 0;
+    margin-left: 0;
+    margin-top: 4px;
+    background: white;
+    outline: none;
+}
+
+.slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 25px;
+    height: 25px;
+    background: black;
+    border: 0;
+    cursor: pointer;
+}
+
+.slider::-moz-range-thumb {
+    width: 25px;
+    height: 25px;
+    background: black;
+    border: 0;
+    cursor: pointer;
+}
