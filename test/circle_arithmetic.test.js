@@ -1,4 +1,4 @@
-import {mod, circularNearer, circularClip, circularLerp} from '../circle_arithmetic.js'
+import {mod, circularNearer, circularClamp, circularLerp} from '../circle_arithmetic.js'
 
 describe('mod()', () => {    
     test('zero case', () => {
@@ -10,7 +10,7 @@ describe('mod()', () => {
     })
 })
 
-describe('circularNearer', () => {
+describe('circularNearer()', () => {
     test('basics', () => {
         expect(circularNearer(6.2, 4.2, 1)).toBe(1);
         expect(circularNearer(-0.5, 358, 10, 360)).toBe(358);
@@ -18,19 +18,19 @@ describe('circularNearer', () => {
 })
          
 
-describe('circularClip', () => {
+describe('circularClamp()', () => {
     test('zero perimeter', () => {
-        expect(circularClip(2, 1, 3, 0)).toBeNaN();
+        expect(circularClamp(2, 1, 3, 0)).toBeNaN();
     })
     test('basics', () => {
-        expect(circularClip(50, 0, 0)).toBe(0);
-        expect(circularClip(-3, 350, 10, 360)).toBe(-3);
-        expect(circularClip(-11, 350, 10, 360)).toBe(350);
-        expect(circularClip(30, 350, 10, 360)).toBe(10);
+        expect(circularClamp(50, 0, 0)).toBe(0);
+        expect(circularClamp(-3, 350, 10, 360)).toBe(-3);
+        expect(circularClamp(-11, 350, 10, 360)).toBe(350);
+        expect(circularClamp(30, 350, 10, 360)).toBe(10);
     })
 })
          
-describe('circularLerp', () => {
+describe('circularLerp()', () => {
     test('basics', () => {
         expect(circularLerp(1, 0.2, 1)).toBe(1);
         expect(circularLerp(0.4, 350, 10, 360)).toBeCloseTo(358);

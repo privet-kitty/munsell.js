@@ -8,7 +8,7 @@
  * @author Hugo I.
  */
 
-const TWO_PI = Math.PI + Math.PI;
+export const TWO_PI = Math.PI + Math.PI;
 
 export function mod(dividend, divisor) {
     const x = dividend % divisor;
@@ -37,15 +37,15 @@ export function circularNearer(x, theta1, theta2, perimeter = TWO_PI) {
 }
 
 /**
- * A clip function in a circle group. If x is not in the
- * (counterclockwise) closed interval [min, max], circularClip returns
+ * A clamp function in a circle group. If x is not in the
+ * (counterclockwise) closed interval [min, max], circularClamp returns
  * min or max whichever is nearer to x.
  * @param {number} x
  * @param {number} min
  * @param {number} max
  * @param {number} [perimeter = TWO_PI]
  */
-export function circularClip(x, min, max, perimeter = TWO_PI) {
+export function circularClamp(x, min, max, perimeter = TWO_PI) {
     const xMod = mod(x, perimeter);
     const minMod = mod(min, perimeter);
     const maxMod = mod(max, perimeter);
@@ -79,5 +79,5 @@ export function circularClip(x, min, max, perimeter = TWO_PI) {
  */
 export function circularLerp (coef, theta1, theta2, perimeter = TWO_PI) {
     const arcLength = mod(theta2-theta1, perimeter);
-    return circularClip(theta1 + (arcLength * coef), theta1, theta2, perimeter);
+    return circularClamp(theta1 + (arcLength * coef), theta1, theta2, perimeter);
 }

@@ -7,9 +7,13 @@
     "test": "jest",
     "doc": "./node_modules/.bin/jsdoc -c jsdoc_conf.json"
   },
+  "jest": {
+    "verbose": true
+  },
   "author": "Hugo I.",
   "license": "MPL-2.0",
   "devDependencies": {
+    "babel-core": "^6.26.3",
     "babel-jest": "^23.6.0",
     "babel-polyfill": "^6.26.0",
     "babel-preset-env": "^1.7.0",
