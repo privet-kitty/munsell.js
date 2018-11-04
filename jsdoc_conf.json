@@ -1,6 +1,6 @@
 {
   "source": {
-    "include": "./", 
+    "include": "./src/", 
     "exclude": "./test/"
   },
   "opts": {

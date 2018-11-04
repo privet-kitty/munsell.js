@@ -1,12 +1,12 @@
 // -*- coding: utf-8 -*-
 
 /**
- * @file Some arithmetic in a circle group.
+ * Some arithmetic in a circle group.
 
  * Note that no functions take `multiple laps' into consideration:
  * i.e. the arc length of the interval [-2pi, 2pi] is not 4pi but 2pi.
- * @author Hugo I.
- */
+ * @module
+*/
 
 export const TWO_PI = Math.PI + Math.PI;
 

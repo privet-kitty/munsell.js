@@ -1,4 +1,4 @@
-import {calcLCHabToLab, calcLabToLCHab} from '../basic_color_lib.js'
+import {calcLCHabToLab, calcLabToLCHab} from '../src/basic_color_lib.js'
 import './jest_extension.js'
 
 describe('Lab <-> LCHab', () => {

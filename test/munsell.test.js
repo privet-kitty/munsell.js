@@ -1,4 +1,4 @@
-import {calcMunsellValueToL} from '../munsell.js'
+import {calcMunsellValueToL, calcMHVCToLCHab, calcMunsellToMHVC, calcMunsellToLCHab} from '../src/munsell.js'
 import './jest_extension.js'
 
 describe('calcMunsellValueToL()', () => {
@@ -8,8 +8,33 @@ describe('calcMunsellValueToL()', () => {
   })
 })
 
-describe('munsell', () => {    
-  test('calcMHVCToLCHabAllIntegerCase', () => {
-    expect([5, 4.0001]).toNearlyEqual([5, 4], 3);
+describe('calcMHVCToLCHab()', () => {    
+  test('zero case', () => {
+    expect(calcMHVCToLCHab(-300, 0, 0).splice(0,2)).toEqual([0, 0]);
   })
+})
+
+describe('calcMunsellToMHVC()', () => {
+  test('not 3 number error', () => {
+    expect(() => calcMunsellToMHVC("RP 5.3")).toThrowError(SyntaxError);
+  })
+  test('invalid hue designator error', () => {
+    expect(() => calcMunsellToMHVC("8PP 4.3/5.2")).toThrowError(SyntaxError);
+  })
+  test('achromatic', () => {
+    expect(calcMunsellToMHVC("N 10")).toEqual([0, 10, 0]);
+  })
+  test('negative hue prefix', () => {
+    expect(calcMunsellToMHVC("2R 10/2")).toEqual(calcMunsellToMHVC("-18Y 10/2"));
+  })
+})
+
+describe('calcMunsellToLCHab()', () => {
+  test('all integer case', () => {
+    expect(calcMunsellToLCHab("10RP 1/2")).toNearlyEqual([10.408445518542798, 12.62516744125353,350.5640125227419], 5);
+  })
+  test('all integer case (dark)', () => {
+    expect(calcMunsellToLCHab("10RP 0.2/2")).toNearlyEqual([2.08753985167084, 14.303978740258524,342.0002491832269], 5);
+  })
+
 })

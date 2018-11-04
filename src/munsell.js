@@ -2,6 +2,23 @@ import * as MRD from './MRD.js'
 import {functionF, calcLCHabToLab, calcLabToLCHab} from './basic_color_lib.js'
 import {mod, circularLerp} from './circle_arithmetic.js'
 
+/**
+* These converters handle the Munsell Color based on the {@link
+* https://www.rit.edu/cos/colorscience/rc_munsell_renotation.php
+* Munsell Renotation Data}.
+
+* `Munsell' is the standard string specification of the Munsell Color:
+* e.g. "4.2RP 3/11", "N 10". `MHVC', or Munsell HVC, is its 3-number
+* expression composed of [Hue, Value, Chroma]: e.g. [94.2, 3, 11], [0,
+* 10 ,0]. Hue is the circle group R/100Z: i.e. 0R (= 10RP) corresponds
+* to 0 (= 100 = 300 = -2000) and 12YR corresponds to 12 (= -88 =
+* 412). Value is in the interval [0, 10] and the converters will clamp
+* it if a given value exceeds it. Chroma is non-negative and the
+* converters will assume it to be zero if a given chroma is
+* negative. Note that every converter accepts a huge chroma out of the
+* MRD (e.g. 1000000) and returns a extrapolated result.
+* @module
+*/
 
 export function calcMunsellValueToY(v) {
   return v * (1.1914 + v * (-0.22533 + v * (0.23352 + v * (-0.020484 + v * 0.00081939)))) * 0.01;
@@ -145,4 +162,27 @@ export function calcMHVCToLCHab(hue100, value, chroma) {
   }
 }
 
+
+const hueNames = ["R", "YR", "Y", "GY", "G", "BG", "B", "PB", "P", "RP", "N"];
+
+export function calcMunsellToMHVC(munsellStr) {
+  const nums = munsellStr.split(/[^a-z0-9.\-]+/)
+        .filter(Boolean)
+        .map(str => Number(str));
+  const hueName = munsellStr.match(/[A-Z]+/)[0];
+  const hueNumber = hueNames.indexOf(hueName);
+  if (hueNumber === 10) {
+    return [0, nums[0], 0];
+  } else if (nums.length !== 3) {
+    throw new SyntaxError(`Doesn't contain 3 numbers: ${nums}`);
+  } else if (hueNumber === -1) { // achromatic
+    throw new SyntaxError(`Invalid hue designator: ${hueName}`);
+  } else {
+    return [hueNumber * 10 + nums[0], nums[1], nums[2]];
+  }
+}
+
+export function calcMunsellToLCHab(munsellStr) {
+  return calcMHVCToLCHab.apply(null, calcMunsellToMHVC(munsellStr));
+}
 

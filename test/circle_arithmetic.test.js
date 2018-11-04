@@ -1,4 +1,4 @@
-import {mod, circularNearer, circularClamp, circularLerp} from '../circle_arithmetic.js'
+import {mod, circularNearer, circularClamp, circularLerp} from '../src/circle_arithmetic.js'
 
 describe('mod()', () => {    
     test('zero case', () => {
