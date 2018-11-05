@@ -49,3 +49,4 @@ const getCurrentMHVC = () => {
 }
 
 window.onload = init;
+

@@ -1,7 +1,6 @@
 {
   "source": {
-    "include": "./src/", 
-    "exclude": "./test/"
+    "include": "./src/"
   },
   "opts": {
     "destination": "./doc/"

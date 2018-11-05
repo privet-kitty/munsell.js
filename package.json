@@ -2,10 +2,12 @@
   "name": "albert",
   "version": "0.1.0",
   "description": "Training tool for colorimetry",
+  "private": true,
   "main": "interface.js",
   "scripts": {
     "test": "jest",
-    "doc": "./node_modules/.bin/jsdoc -c jsdoc_conf.json"
+    "doc": "jsdoc -c jsdoc_conf.json",
+    "build": "browserify src/interface.js -o lib/interface.js -t babelify"
   },
   "jest": {
     "verbose": true
@@ -13,11 +15,15 @@
   "author": "Hugo I.",
   "license": "MPL-2.0",
   "devDependencies": {
+    "babel-cli": "^6.26.0",
     "babel-core": "^6.26.3",
     "babel-jest": "^23.6.0",
     "babel-polyfill": "^6.26.0",
     "babel-preset-env": "^1.7.0",
+    "babelify": "^8.0.0",
+    "browserify": "^16.2.3",
     "jest": "^23.6.0",
     "jsdoc": "^3.5.5"
-  }
+  },
+  "dependencies": {}
 }
