@@ -1,5 +1,9 @@
-import {calcMunsellValueToL, calcMHVCToLCHab, calcMunsellToMHVC, calcMunsellToLCHab} from '../src/munsell.js'
-import './jest_extension.js'
+import {calcMunsellValueToL,
+        calcMHVCToLCHab,
+        calcMunsellToMHVC,
+        calcMunsellToLCHab,
+        calcMHVCToXYZ} from '../src/munsell.js';
+import './jest_extension.js';
 
 describe('calcMunsellValueToL()', () => {
   test('boundary case', () => {
@@ -15,10 +19,10 @@ describe('calcMHVCToLCHab()', () => {
 })
 
 describe('calcMunsellToMHVC()', () => {
-  test('not 3 number error', () => {
+  test('not-3-number error', () => {
     expect(() => calcMunsellToMHVC("RP 5.3")).toThrowError(SyntaxError);
   })
-  test('invalid hue designator error', () => {
+  test('invalid-hue-designator error', () => {
     expect(() => calcMunsellToMHVC("8PP 4.3/5.2")).toThrowError(SyntaxError);
   })
   test('achromatic', () => {
@@ -36,5 +40,11 @@ describe('calcMunsellToLCHab()', () => {
   test('all integer case (dark)', () => {
     expect(calcMunsellToLCHab("10RP 0.2/2")).toNearlyEqual([2.08753985167084, 14.303978740258524,342.0002491832269], 5);
   })
-
 })
+
+describe('calcMHVCToXYZ()', () => {
+  test('consistency with dufy (Illuminant C)', () => {
+    expect(calcMHVCToXYZ(0, 2.18, 3.1)).toNearlyEqual([0.04523934371724674, 0.03523421325804837, 0.041406345927430574], 6);
+  })
+})
+

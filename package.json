@@ -4,6 +4,7 @@
   "description": "Training tool for colorimetry",
   "private": true,
   "main": "interface.js",
+  "sourceType": "module",
   "scripts": {
     "test": "jest",
     "doc": "jsdoc -c jsdoc_conf.json",
@@ -25,5 +26,7 @@
     "jest": "^23.6.0",
     "jsdoc": "^3.5.5"
   },
-  "dependencies": {}
+  "dependencies": {
+    "esm": "^3.0.84"
+  }
 }

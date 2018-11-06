@@ -1,24 +1,43 @@
-import * as MRD from './MRD.js'
-import {functionF, calcLCHabToLab, calcLabToLCHab} from './basic_color_lib.js'
-import {mod, circularLerp} from './circle_arithmetic.js'
+// -*- encoding: utf-8 -*-
+import * as MRD from './MRD.js';
+import {functionF,
+        calcLCHabToLab,
+        calcLabToLCHab,
+        calcLabToXYZ,
+        ILLUMINANT_C,
+        ILLUMINANT_D65} from './basic_color_lib.js';
+import {mod, circularLerp} from './circle_arithmetic.js';
 
 /**
-* These converters handle the Munsell Color based on the {@link
-* https://www.rit.edu/cos/colorscience/rc_munsell_renotation.php
-* Munsell Renotation Data}.
+ * This module handles the Munsell Color system. Its main facility is
+ * the conversion from the Munsell Color space to other spaces
+ * (e.g. RGB).
 
-* `Munsell' is the standard string specification of the Munsell Color:
-* e.g. "4.2RP 3/11", "N 10". `MHVC', or Munsell HVC, is its 3-number
-* expression composed of [Hue, Value, Chroma]: e.g. [94.2, 3, 11], [0,
-* 10 ,0]. Hue is the circle group R/100Z: i.e. 0R (= 10RP) corresponds
-* to 0 (= 100 = 300 = -2000) and 12YR corresponds to 12 (= -88 =
-* 412). Value is in the interval [0, 10] and the converters will clamp
-* it if a given value exceeds it. Chroma is non-negative and the
-* converters will assume it to be zero if a given chroma is
-* negative. Note that every converter accepts a huge chroma out of the
-* MRD (e.g. 1000000) and returns a extrapolated result.
-* @module
-*/
+ * The data underlying this module is {@link
+ * https://www.rit.edu/cos/colorscience/rc_munsell_renotation.php
+ * Munsell Renotation Data}. Every converter inter- and extrapolates
+ * them using cylindrical coordinates of LCH(ab) space. This algorithm
+ * is similar to the one by Paul Centore. (See "An open‐source
+ * inversion algorithm for the Munsell renotation", 2011). All of
+ * relevant colorimetric data are (indirectly) based on corresponding
+ * standards via {@link https://github.com/privet-kitty/dufy dufy}, my
+ * color library for Common Lisp.
+ *
+ * This module handles the Munsell Color in two ways, a string or
+ * numbers, which can be identified by the name of method. The one is
+ * `Munsell', the standard string specification of the Munsell Color:
+ * e.g. "4.2RP 3/11", "N 10". The other is `MHVC', or Munsell HVC,
+ * which is its 3-number expression composed of [Hue, Value, Chroma]:
+ * e.g. [94.2, 3, 11], [0, 10 ,0]. Hue is the circle group R/100Z:
+ * i.e. 0R (= 10RP) corresponds to 0 (= 100 = 300 = -2000) and 12YR
+ * corresponds to 12 (= -88 = 412). Value is in the interval [0, 10]
+ * and the converters will clamp it if a given value exceeds
+ * it. Chroma is non-negative and the converters will assume it to be
+ * zero if a given chroma is negative. Note that every converter
+ * accepts a huge chroma out of the MRD (e.g. 1000000) and returns a
+ * extrapolated result.
+ * @module
+ */
 
 export function calcMunsellValueToY(v) {
   return v * (1.1914 + v * (-0.22533 + v * (0.23352 + v * (-0.020484 + v * 0.00081939)))) * 0.01;
@@ -44,12 +63,12 @@ function calcMHVCToLCHabAllIntegerCase(hue40, scaledValue, halfChroma, dark = fa
   // ..., 39}; scaledValue must be in {0, 1, ..., 10} if dark is
   // false, and {0, 1, ..., 6} if dark is true; halfChroma must be
   // a non-negative integer.
-  if (dark) {
+  if (dark) { // Value is in {0, 0.2, 0.4, 0.6, 0.8, 1}.
     if (halfChroma <= 25) {
       return [MRD.mrdLTableDark[scaledValue],
               MRD.mrdCHTableDark[hue40][scaledValue][halfChroma][0],
               MRD.mrdCHTableDark[hue40][scaledValue][halfChroma][1]];
-    } else {
+    } else { // Linearly extrapolates a color outside the MRD.
       const cstarab = MRD.mrdCHTableDark[hue40][scaledValue][25][0];
       const factor = halfChroma/25;
       return [MRD.mrdLTableDark[scaledValue],
@@ -84,7 +103,7 @@ function calcMHVCToLCHabValueChromaIntegerCase(hue40, scaledValue, halfChroma, d
         (mod(hab2 - hab1, 360) >= 180)) { // workaround for the rare case hab1 exceeds hab2
       return [lstar, cstarab1, hab1];
     } else {
-      const hab = circularLerp(hue40 - hue1, hab1, hab2, 360)
+      const hab = circularLerp(hue40 - hue1, hab1, hab2, 360);
       const cstarab = (cstarab1 * mod(hab2 - hab, 360) / mod(hab2 - hab1, 360))
             + (cstarab2 * mod(hab - hab1, 360) / mod(hab2 - hab1, 360));
       return [lstar, cstarab, hab];
@@ -117,6 +136,9 @@ function calcMHVCToLCHabGeneralCase(hue40, scaledValue, halfChroma, dark = false
   if (scaledValue1 === scaledValue2) {
     return calcMHVCToLCHabValueIntegerCase(hue40, scaledValue1, halfChroma, dark);
   } else if (scaledValue1 === 0) {
+    // If the given color is so dark (V < 0.2) that it is out of MRD,
+    // we use the fact that the chroma and hue of LCHab corresponds
+    // roughly to that of Munsell.
     const [, cstarab, hab] = calcMHVCToLCHabValueIntegerCase(hue40, 1, halfChroma, dark);
     return [lstar, cstarab, hab];
   } else {
@@ -186,3 +208,14 @@ export function calcMunsellToLCHab(munsellStr) {
   return calcMHVCToLCHab.apply(null, calcMunsellToMHVC(munsellStr));
 }
 
+export function calcMHVCToLab(hue100, value, chroma) {
+  const [lstar, cstarab, hab] = calcMHVCToLCHab(hue100, value, chroma);
+  return [lstar].concat(calcLCHabToLab(cstarab, hab));
+}
+
+export function calcMHVCToXYZ(hue100, value, chroma, illuminant = ILLUMINANT_C) {
+  const [lstar, astar, bstar] = calcMHVCToLab(hue100, value, chroma);
+  return calcLabToXYZ(lstar, astar, bstar, illuminant);
+}
+
+console.log(calcMHVCToXYZ(0, 2, 3));

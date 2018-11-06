@@ -6,17 +6,17 @@
  * Note that no functions take `multiple laps' into consideration:
  * i.e. the arc length of the interval [-2pi, 2pi] is not 4pi but 2pi.
  * @module
-*/
+ */
 
 export const TWO_PI = Math.PI + Math.PI;
 
 export function mod(dividend, divisor) {
-    const x = dividend % divisor;
-    if (x >= 0) {
-        return x;
-    } else {
-        return x + divisor;
-    }
+  const x = dividend % divisor;
+  if (x >= 0) {
+    return x;
+  } else {
+    return x + divisor;
+  }
 }
 
 /**
@@ -29,11 +29,11 @@ export function mod(dividend, divisor) {
  * @param {number} [perimeter = TWO_PI]
  */
 export function circularNearer(x, theta1, theta2, perimeter = TWO_PI) {
-    if (mod(x - theta1, perimeter) <= mod(theta2 - x, perimeter)) {
-        return theta1;
-    } else {
-        return theta2;
-    }
+  if (mod(x - theta1, perimeter) <= mod(theta2 - x, perimeter)) {
+    return theta1;
+  } else {
+    return theta2;
+  }
 }
 
 /**
@@ -46,26 +46,26 @@ export function circularNearer(x, theta1, theta2, perimeter = TWO_PI) {
  * @param {number} [perimeter = TWO_PI]
  */
 export function circularClamp(x, min, max, perimeter = TWO_PI) {
-    const xMod = mod(x, perimeter);
-    const minMod = mod(min, perimeter);
-    const maxMod = mod(max, perimeter);
-    if (isNaN(xMod) || isNaN(minMod) || isNaN(maxMod)) {
-        return NaN;
-    }
-    if (minMod <= maxMod) {
-        if (minMod <= xMod <= maxMod) {
-            return x;
-        } else {
-            // minMod <= maxMod < xMod or xMod < minMod <= maxMod.
-            return circularNearer(x, max, min)
-        }
+  const xMod = mod(x, perimeter);
+  const minMod = mod(min, perimeter);
+  const maxMod = mod(max, perimeter);
+  if (isNaN(xMod) || isNaN(minMod) || isNaN(maxMod)) {
+    return NaN;
+  }
+  if (minMod <= maxMod) {
+    if (minMod <= xMod <= maxMod) {
+      return x;
     } else {
-        if ((xMod <= maxMod) || (minMod <= xMod)) {
-            return x; // xMod <= maxMod < minMod or maxMod < minMod <= xMod
-        } else {
-            return circularNearer(x, max, min) // maxMod < xMod < minMod
-        }
+      // minMod <= maxMod < xMod or xMod < minMod <= maxMod.
+      return circularNearer(x, max, min);
     }
+  } else {
+    if ((xMod <= maxMod) || (minMod <= xMod)) {
+      return x; // xMod <= maxMod < minMod or maxMod < minMod <= xMod
+    } else {
+      return circularNearer(x, max, min); // maxMod < xMod < minMod
+    }
+  }
 }
 
 /**
@@ -78,6 +78,6 @@ export function circularClamp(x, min, max, perimeter = TWO_PI) {
  * @param {number} [perimeter = TWO_PI]
  */
 export function circularLerp (coef, theta1, theta2, perimeter = TWO_PI) {
-    const arcLength = mod(theta2-theta1, perimeter);
-    return circularClamp(theta1 + (arcLength * coef), theta1, theta2, perimeter);
+  const arcLength = mod(theta2-theta1, perimeter);
+  return circularClamp(theta1 + (arcLength * coef), theta1, theta2, perimeter);
 }
