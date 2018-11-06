@@ -3,7 +3,7 @@ import {calcLCHabToLab,
         calcXYZToLinearRGB,
         calcLinearRGBToRGB,
         calcRGBToQuantizedRGB,
-        calcRGBToHex} from '../src/basic_color_lib.js';
+        calcRGBToHex} from '../src/colorspace.js';
 import './jest_extension.js';
 
 describe('Lab <-> LCHab', () => {

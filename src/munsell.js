@@ -5,8 +5,8 @@ import {functionF,
         calcLabToLCHab,
         calcLabToXYZ,
         ILLUMINANT_C,
-        ILLUMINANT_D65} from './basic_color_lib.js';
-import {mod, circularLerp} from './circle_arithmetic.js';
+        ILLUMINANT_D65} from './colorspace.js';
+import {mod, circularLerp} from './arithmetic.js';
 
 /**
  * This module handles the Munsell Color system. Its main facility is

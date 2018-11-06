@@ -1,4 +1,4 @@
-import {TWO_PI, mod} from './circle_arithmetic.js';
+import {TWO_PI, mod} from './arithmetic.js';
 
 const CONST1 = 216/24389;
 const CONST2 = 24389/27/116;

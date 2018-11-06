@@ -7,7 +7,7 @@
   "sourceType": "module",
   "scripts": {
     "test": "jest",
-    "doc": "jsdoc -c jsdoc_conf.json",
+    "doc": "jsdoc -c jsdoc-conf.json",
     "build": "browserify src/interface.js -o lib/interface.js -t babelify"
   },
   "jest": {
