@@ -91,8 +91,15 @@ td.selected {
     color: black;
 }
 
+#input-panels dl {
+    max-width: 97%;
+    margin-right: auto;
+    margin-left: auto;
+}
+
 #input-panels dl dt {
     float: left;
+    margin-right: 1em;
     width: 10%;
     min-width: 5.5em;
     font-weight: bold;
