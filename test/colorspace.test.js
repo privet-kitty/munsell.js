@@ -1,9 +1,11 @@
 import {calcLCHabToLab,
         calcLabToLCHab,
+        calcLabToXYZ,
         calcXYZToLinearRGB,
         calcLinearRGBToRGB,
         calcRGBToQuantizedRGB,
-        calcRGBToHex} from '../src/colorspace.js';
+        calcRGBToHex,
+        ILLUMINANT_C} from '../src/colorspace.js';
 import './jest_extension.js';
 
 describe('Lab <-> LCHab', () => {
@@ -15,6 +17,16 @@ describe('Lab <-> LCHab', () => {
     for (let ab of [[-3, 4], [3.9e10, 3.9e-10], [0, 0]]) {
       expect(calcLCHabToLab.apply(null, calcLabToLCHab.apply(null, ab))).toNearlyEqual(ab, 10);
     }
+  })
+})
+
+describe('Lab <-> XYZ', () => {
+  test('boundary case', () => {
+    expect(calcLabToXYZ(100, 0, 0, ILLUMINANT_C)).toNearlyEqual([ILLUMINANT_C.X, 1, ILLUMINANT_C.Z], 5);
+  })
+  test('consistency with dufy', () => {
+    expect(calcLabToXYZ(1, 1, 1)).toNearlyEqual([0.0012962827110591009, 0.0011070564598794526, 5.063061751414016e-4], 6);
+    expect(calcLabToXYZ(50, 10, 3)).toNearlyEqual([0.19417300681355418, 0.18418651851244416, 0.1851153188341182],6);
   })
 })
 

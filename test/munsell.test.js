@@ -44,7 +44,7 @@ describe('calcMunsellToLCHab()', () => {
 
 describe('calcMHVCToXYZ()', () => {
   test('consistency with dufy (Illuminant C)', () => {
-    expect(calcMHVCToXYZ(0, 2.18, 3.1)).toNearlyEqual([0.04523934371724674, 0.03523421325804837, 0.041406345927430574], 6);
+    expect(calcMHVCToXYZ(0, 2.18, 3.1)).toNearlyEqual([0.0440725663863256, 0.03510249660220537, 0.03810015623085167], 6);
   })
 })
 

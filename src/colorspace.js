@@ -1,4 +1,8 @@
-import {TWO_PI, mod} from './arithmetic.js';
+import {TWO_PI,
+        mod,
+        multMatrixVector,
+        multMatrixMatrix,
+        clamp} from './arithmetic.js';
 
 const CONST1 = 216/24389;
 const CONST2 = 24389/27/116;
@@ -25,18 +29,34 @@ export function calcLCHabToLab(cstarab, hab) {
   return [cstarab * Math.cos(hue2PI), cstarab * Math.sin(hue2PI)];
 }
 
+
 class Illuminant {
-  constructor(X, Z) {
+  constructor(X, Z, catMatrixCToThis, catMatrixThisToC) {
     this.X = X;
     this.Z = Z;
+    this.catMatrixCToThis = catMatrixCToThis;
+    this.catMatrixThisToC = catMatrixThisToC;
   }
 }
 
-export const ILLUMINANT_D65 = new Illuminant(0.9504692366968727, 1.0889440678362425);
-export const ILLUMINANT_C = new Illuminant(0.9807171421603395, 1.182248923134197);
+// The data are based on dufy.
+export const ILLUMINANT_D65 =
+  new Illuminant(0.950428061568676,
+                 1.08891545904089,
+                 [[0.9904112147597705,-0.00718628493839008,-0.011587161829988951],
+                  [-0.012395677058354078,1.01560663662526,-0.0029181533414322086],
+                  [-0.003558889496942143,0.006762494889396557,0.9182865019746504]],
+                 [[1.0098158523233767,0.007060316533713093,0.012764537821734395],
+                  [0.012335983421444891,0.9846986027789835,0.003284857773421468],
+                  [0.003822773174044815,-0.007224207660971385,1.0890100329203007]]);
+export const ILLUMINANT_C =
+  new Illuminant(0.9807171421603395,
+                 1.182248923134197,
+                 [[1,0,0],[0,1,0],[0,0,1]],
+                 [[1,0,0],[0,1,0],[0,0,1]]);
 
 const DELTA = 6/29;
-const CONST4 = 3*Math.pow(DELTA, 3);
+const CONST4 = 3*DELTA*DELTA;
 
 export function calcLabToXYZ(lstar, astar, bstar, illuminant = ILLUMINANT_D65) {
   const fy = (lstar + 16) / 116;
@@ -44,9 +64,9 @@ export function calcLabToXYZ(lstar, astar, bstar, illuminant = ILLUMINANT_D65) {
   const fz = fy - bstar * 0.005;
   const Xw = illuminant.X;
   const Zw = illuminant.Z;
-  return [ fx > DELTA ? fx*fx*fx*Xw : (fx - CONST3) * CONST4 * Xw,
-           fy > DELTA ? fy*fy*fy : (fy - CONST3) * CONST4,
-           fz > DELTA ? fz*fz*fz*Zw : (fz - CONST3) * CONST4 * Zw ];  
+  return [ (fx > DELTA) ? (fx*fx*fx*Xw) : ((fx - CONST3) * CONST4 * Xw),
+           (fy > DELTA) ? (fy*fy*fy) : ((fy - CONST3) * CONST4),
+           (fz > DELTA) ? (fz*fz*fz*Zw) : ((fz - CONST3) * CONST4 * Zw) ];  
 }
 
 function genLinearizer(gamma) {
@@ -72,28 +92,6 @@ class RGBSpace {
     this.linearizer = linearizer;
     this.delinearizer = delinearizer;
   }
-}
-
-// Only the following two kinds of multiplication are necessary.
-function multMatrixVector(A, x) {
-  return [[A[0][0]*x[0]+A[0][1]*x[1]+A[0][2]*x[2]],
-          [A[1][0]*x[0]+A[1][1]*x[1]+A[1][2]*x[2]],
-          [A[2][0]*x[0]+A[2][1]*x[1]+A[2][2]*x[2]]];    
-}
-
-function multMatrixMatrix(A, B) {
-  return [[A[0][0]*B[0][0]+A[0][1]*B[1][0]+A[0][2]*B[2][0],
-           A[0][0]*B[0][1]+A[0][1]*B[1][1]+A[0][2]*B[2][1],
-           A[0][0]*B[0][2]+A[0][1]*B[1][2]+A[0][2]*B[2][2]]
-          ,
-          [A[1][0]*B[0][0]+A[1][1]*B[1][0]+A[1][2]*B[2][0],
-           A[1][0]*B[0][1]+A[1][1]*B[1][1]+A[1][2]*B[2][1],
-           A[1][0]*B[0][2]+A[1][1]*B[1][2]+A[1][2]*B[2][2]]
-          ,
-          [A[2][0]*B[0][0]+A[2][1]*B[1][0]+A[2][2]*B[2][0],
-           A[2][0]*B[0][1]+A[2][1]*B[1][1]+A[2][2]*B[2][1],
-           A[2][0]*B[0][2]+A[2][1]*B[1][2]+A[2][2]*B[2][2]]
-         ];
 }
 
 const CONST5 = 0.0031308*12.92;
@@ -142,14 +140,6 @@ export function calcRGBToQuantizedRGB(r, g, b, clamp = true, bitPerChannel = 8) 
   } else {
     return [r, g, b].map((x) => Math.round(x * qmax));
   }
-}
-
-function clamp(x, min, max) {
-  if (x < min)
-    return min;
-  else if (x > max)
-    return max;
-  return x;
 }
 
 export function calcRGBToHex(r, g, b) {

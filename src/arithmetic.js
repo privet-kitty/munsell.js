@@ -19,6 +19,15 @@ export function mod(dividend, divisor) {
   }
 }
 
+export function clamp(x, min, max) {
+  if (x < min)
+    return min;
+  else if (x > max)
+    return max;
+  return x;
+}
+
+
 /**
  * Compares the counterclockwise distances between theta1 and x and
  * between x and theta2, and returns theta1 or theta2 whichever is
@@ -80,4 +89,27 @@ export function circularClamp(x, min, max, perimeter = TWO_PI) {
 export function circularLerp (coef, theta1, theta2, perimeter = TWO_PI) {
   const arcLength = mod(theta2-theta1, perimeter);
   return circularClamp(theta1 + (arcLength * coef), theta1, theta2, perimeter);
+}
+
+
+// Only the following two kinds of multiplication are necessary.
+export function multMatrixVector(A, x) {
+  return [[A[0][0]*x[0]+A[0][1]*x[1]+A[0][2]*x[2]],
+          [A[1][0]*x[0]+A[1][1]*x[1]+A[1][2]*x[2]],
+          [A[2][0]*x[0]+A[2][1]*x[1]+A[2][2]*x[2]]];    
+}
+
+export function multMatrixMatrix(A, B) {
+  return [[A[0][0]*B[0][0]+A[0][1]*B[1][0]+A[0][2]*B[2][0],
+           A[0][0]*B[0][1]+A[0][1]*B[1][1]+A[0][2]*B[2][1],
+           A[0][0]*B[0][2]+A[0][1]*B[1][2]+A[0][2]*B[2][2]]
+          ,
+          [A[1][0]*B[0][0]+A[1][1]*B[1][0]+A[1][2]*B[2][0],
+           A[1][0]*B[0][1]+A[1][1]*B[1][1]+A[1][2]*B[2][1],
+           A[1][0]*B[0][2]+A[1][1]*B[1][2]+A[1][2]*B[2][2]]
+          ,
+          [A[2][0]*B[0][0]+A[2][1]*B[1][0]+A[2][2]*B[2][0],
+           A[2][0]*B[0][1]+A[2][1]*B[1][1]+A[2][2]*B[2][1],
+           A[2][0]*B[0][2]+A[2][1]*B[1][2]+A[2][2]*B[2][2]]
+         ];
 }

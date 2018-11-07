@@ -6,7 +6,10 @@ import {functionF,
         calcLabToXYZ,
         ILLUMINANT_C,
         ILLUMINANT_D65} from './colorspace.js';
-import {mod, circularLerp} from './arithmetic.js';
+import {mod,
+        clamp,
+        circularLerp,
+        multMatrixVector} from './arithmetic.js';
 
 /**
  * This module handles the Munsell Color system. Its main facility is
@@ -154,15 +157,6 @@ function calcMHVCToLCHabGeneralCase(hue40, scaledValue, halfChroma, dark = false
   }
 }
 
-function clamp(x, min, max) {
-  if (x < min)
-    return min;
-  else if (x > max)
-    return max;
-  return x;
-}
-
-
 /**
  * Converts Munsell HVC to LCHab.
  * @param {number} hue100 - is in the circle group R/100Z. Any real
@@ -214,12 +208,17 @@ export function calcMHVCToLab(hue100, value, chroma) {
 }
 
 export function calcMunsellToLab(munsellStr) {
-  return calcMHVCToLab.apply(null, calcMunsellToLCHab(munsellStr));
+  return calcMHVCToLab.apply(null, calcMunsellToMHVC(munsellStr));
 }
 
-export function calcMHVCToXYZ(hue100, value, chroma, illuminant = ILLUMINANT_C) {
+export function calcMHVCToXYZ(hue100, value, chroma, illuminant = ILLUMINANT_D65) {
+  // Uses Bradford transformation
   const [lstar, astar, bstar] = calcMHVCToLab(hue100, value, chroma);
-  return calcLabToXYZ(lstar, astar, bstar, illuminant);
+  return multMatrixVector(illuminant.catMatrixCToThis,
+                          calcLabToXYZ(lstar, astar, bstar, ILLUMINANT_C));
 }
 
-
+export function calcMunsellToXYZ(munsellStr, illuminant = ILLUMINANT_D65) {
+  const [hue100, value, chroma] = calcMunsellToMHVC(munsellStr);
+  return calcMHVCToXYZ(hue100, value, chroma, illuminant);
+}
