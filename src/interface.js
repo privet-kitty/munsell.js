@@ -90,11 +90,11 @@ const randomMHVCAndRGB255 = () => {
     const chroma = getRandomInt(61)/2;
     const randomRGB = calcMHVCToRGB255(hue100, value, chroma, false);
     if (!randomRGB.map((x) => 0 <= x && x <= 255).includes(false)) {
-      return [hue100, value, chroma].concat(randomRGB);
+      return [hue100, value, chroma, ...randomRGB];
       break;
     }
   }
-  return [hue100, value, 0].concat(calcMHVCToRGB255(hue100, value, 0));
+  return [hue100, value, 0, ...calcMHVCToRGB255(hue100, value, 0)];
 }
 
 const setQuestion = () => {
@@ -105,13 +105,14 @@ const setQuestion = () => {
 }
 
 const forward = function* (e) {
+  // Corresponds to the main button.
   while (true) {
     const mhvc = getCurrentMHVC();
     showUsersLabel();
     showSystemLabel();
     console.log(calcMHVCToMunsell.apply(null, mhvc));
     const originalButtonName = e.textContent;
-    e.textContent = "Go to next";
+    e.textContent = "Next color";
     yield;
     setQuestion();
     e.textContent = originalButtonName;
@@ -122,3 +123,4 @@ const forward = function* (e) {
 window.forward = forward(document.getElementById("forward-button"));
 
 window.onload = init;
+

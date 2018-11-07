@@ -285,7 +285,7 @@ export function calcMHVCToMunsell(hue100, value, chroma, digits = 1) {
   const hueNumber = Math.round((hue100 - huePrefix)/10);
   const chromaStr = chroma.toFixed(digits);
   if (parseFloat(chromaStr) === 0) {
-    return "N " + chromaStr;
+    return "N " + value.toFixed(digits);
   } else {
     return huePrefix.toFixed(digits-1) + hueNames[hueNumber]
       + " "
@@ -294,3 +294,4 @@ export function calcMHVCToMunsell(hue100, value, chroma, digits = 1) {
       + chroma.toFixed(digits);
   }
 }
+
