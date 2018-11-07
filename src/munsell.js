@@ -4,8 +4,13 @@ import {functionF,
         calcLCHabToLab,
         calcLabToLCHab,
         calcLabToXYZ,
+        calcXYZToLinearRGB,
+        calcLinearRGBToRGB,
+        calcRGBToRGB255,
+        calcRGBToHex,
         ILLUMINANT_C,
-        ILLUMINANT_D65} from './colorspace.js';
+        ILLUMINANT_D65,
+        RGBSPACE_SRGB} from './colorspace.js';
 import {mod,
         clamp,
         circularLerp,
@@ -222,3 +227,43 @@ export function calcMunsellToXYZ(munsellStr, illuminant = ILLUMINANT_D65) {
   const [hue100, value, chroma] = calcMunsellToMHVC(munsellStr);
   return calcMHVCToXYZ(hue100, value, chroma, illuminant);
 }
+
+export function calcMHVCToLinearRGB(hue100, value, chroma, rgbSpace = RGBSPACE_SRGB) {
+  const [X, Y, Z] = calcMHVCToXYZ(hue100, value, chroma, rgbSpace.illuminant);
+  return calcXYZToLinearRGB(X, Y, Z, rgbSpace);
+}
+
+export function calcMunsellToLinearRGB(munsellStr, rgbSpace = RGBSPACE_SRGB) {
+  const [hue100, value, chroma] = calcMunsellToMHVC(munsellStr);
+  return calcMHVCToLinearRGB(hue100, value, chroma, rgbSpace);
+}
+
+export function calcMHVCToRGB(hue100, value, chroma, rgbSpace = RGBSPACE_SRGB) {
+  const [lr, lg, lb] = calcMHVCToLinearRGB(hue100, value, chroma, rgbSpace);
+  return calcLinearRGBToRGB(lr, lg, lb, rgbSpace);
+}
+
+export function calcMunsellToRGB(munsellStr, rgbSpace = RGBSPACE_SRGB) {
+  const [hue100, value, chroma] = calcMunsellToMHVC(munsellStr);
+  return calcMHVCToRGB(hue100, value, chroma, rgbSpace);
+}
+
+export function calcMHVCToRGB255(hue100, value, chroma, clamp = true, rgbSpace = RGBSPACE_SRGB) {
+  const [r, g, b] = calcMHVCToRGB(hue100, value, chroma, rgbSpace);
+  return calcRGBToRGB255(r, g, b, clamp);
+}
+
+export function calcMunsellToRGB255(munsellStr, clamp = true, rgbSpace = RGBSPACE_SRGB) {
+  const [hue100, value, chroma] = calcMunsellToMHVC(munsellStr);
+  return calcMHVCToRGB255(hue100, value, chroma, clamp, rgbSpace);
+}
+
+export function calcMHVCToHex(hue100, value, chroma, rgbSpace = RGBSPACE_SRGB) {
+  return calcRGBToHex.apply(null, calcMHVCToRGB(hue100, value, chroma, rgbSpace));
+}
+
+export function calcMunsellToHex(munsellStr, rgbSpace = RGBSPACE_SRGB) {
+  const [hue100, value, chroma] = calcMunsellToMHVC(munsellStr);
+  return calcMHVCToHex(hue100, value, chroma, rgbSpace);
+}
+

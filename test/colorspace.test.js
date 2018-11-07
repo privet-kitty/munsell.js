@@ -3,7 +3,7 @@ import {calcLCHabToLab,
         calcLabToXYZ,
         calcXYZToLinearRGB,
         calcLinearRGBToRGB,
-        calcRGBToQuantizedRGB,
+        calcRGBToRGB255,
         calcRGBToHex,
         ILLUMINANT_C} from '../src/colorspace.js';
 import './jest_extension.js';
@@ -44,7 +44,7 @@ describe('linear RGB <-> gamma-corrected RGB', () => {
 
 describe('RGB <-> quantized RGB', () => {
   test('clamp check', () => {
-    expect(calcRGBToQuantizedRGB(0.101, 1.1, -0.3)).toEqual([26, 255, 0]);
+    expect(calcRGBToRGB255(0.101, 1.1, -0.3)).toEqual([26, 255, 0]);
   })
 })
 

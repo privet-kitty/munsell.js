@@ -86,11 +86,13 @@ function genDelinearizer(gamma) {
 
 class RGBSpace {
   constructor(matrixThisToXYZ, matrixXYZFromThis,
-              linearizer = genLinearizer(2.2), delinearizer = genDelinearizer(2.2)) {
+              linearizer = genLinearizer(2.2), delinearizer = genDelinearizer(2.2),
+              illuminant = ILLUMINANT_D65) {
     this.matrixThisToXYZ = matrixThisToXYZ;
     this.matrixXYZFromThis = matrixXYZFromThis;
     this.linearizer = linearizer;
     this.delinearizer = delinearizer;
+    this.illuminant = illuminant;
   }
 }
 
@@ -133,12 +135,11 @@ export function calcLinearRGBToRGB(lr, lg, lb, space = RGBSPACE_SRGB) {
 }
 
 
-export function calcRGBToQuantizedRGB(r, g, b, clamp = true, bitPerChannel = 8) {
-  const qmax = (2 << (bitPerChannel - 1)) - 1;
+export function calcRGBToRGB255(r, g, b, clamp = true) {
   if (clamp) {
-    return [r, g, b].map((x) => Math.max(Math.min(Math.round(x * qmax), qmax), 0));
+    return [r, g, b].map((x) => Math.max(Math.min(Math.round(x * 255), 255), 0));
   } else {
-    return [r, g, b].map((x) => Math.round(x * qmax));
+    return [r, g, b].map((x) => Math.round(x * 255));
   }
 }
 
