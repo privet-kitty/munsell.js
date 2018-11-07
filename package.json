@@ -27,6 +27,7 @@
     "jsdoc": "^3.5.5"
   },
   "dependencies": {
+    "cached-path-relative": "^1.0.2",
     "esm": "^3.0.84"
   }
 }
