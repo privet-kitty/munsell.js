@@ -5,6 +5,7 @@ const CONST2 = 24389/27/116;
 const CONST3 = 16/116;
 
 export function functionF(x) {
+  // used in XYZ -> Lab conversion
   if (x > CONST1) {
     return Math.pow(x, 0.3333333333333333);
   } else {
@@ -32,7 +33,7 @@ class Illuminant {
 }
 
 export const ILLUMINANT_D65 = new Illuminant(0.9504692366968727, 1.0889440678362425);
-export const ILLUMINANT_C = new Illuminant(0.980705971659919, 1.1822494939271255);
+export const ILLUMINANT_C = new Illuminant(0.9807171421603395, 1.182248923134197);
 
 const DELTA = 6/29;
 const CONST4 = 3*Math.pow(DELTA, 3);
@@ -64,10 +65,10 @@ function genDelinearizer(gamma) {
 }
 
 class RGBSpace {
-  constructor(matrixToXYZ, matrixFromXYZ,
+  constructor(matrixThisToXYZ, matrixXYZFromThis,
               linearizer = genLinearizer(2.2), delinearizer = genDelinearizer(2.2)) {
-    this.matrixToXYZ = matrixToXYZ;
-    this.matrixFromXYZ = matrixFromXYZ;
+    this.matrixThisToXYZ = matrixThisToXYZ;
+    this.matrixXYZFromThis = matrixXYZFromThis;
     this.linearizer = linearizer;
     this.delinearizer = delinearizer;
   }
@@ -126,7 +127,7 @@ export const RGBSPACE_SRGB = new RGBSpace(
 );
 
 export function calcXYZToLinearRGB(X, Y, Z, space = RGBSPACE_SRGB) {
-  return multMatrixVector(space.matrixFromXYZ, [X, Y, Z]);
+  return multMatrixVector(space.matrixXYZFromThis, [X, Y, Z]);
 }
 
 export function calcLinearRGBToRGB(lr, lg, lb, space = RGBSPACE_SRGB) {

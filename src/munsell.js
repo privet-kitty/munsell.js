@@ -213,9 +213,13 @@ export function calcMHVCToLab(hue100, value, chroma) {
   return [lstar].concat(calcLCHabToLab(cstarab, hab));
 }
 
+export function calcMunsellToLab(munsellStr) {
+  return calcMHVCToLab.apply(null, calcMunsellToLCHab(munsellStr));
+}
+
 export function calcMHVCToXYZ(hue100, value, chroma, illuminant = ILLUMINANT_C) {
   const [lstar, astar, bstar] = calcMHVCToLab(hue100, value, chroma);
   return calcLabToXYZ(lstar, astar, bstar, illuminant);
 }
 
-console.log(calcMHVCToXYZ(0, 2, 3));
+

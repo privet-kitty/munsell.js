@@ -150,7 +150,8 @@
 
 (defun munsell-value-to-achromatic-xyy (v)
   "Illuminant C."
-  (values 0.31006d0 0.31616d0 (dufy:munsell-value-to-y v)))
+  (multiple-value-bind (x y) (dufy:illuminant-xy dufy:+illum-c+)
+    (values x y (dufy:munsell-value-to-y v))))
 
 (defun get-xyy-from-dat (hue-num value chroma)
   "Illuminant C. Returns a list. 
