@@ -1,6 +1,6 @@
 expect.extend({
-  // Is the fusion of the two built-in methods, toBeCloseTo() and toEqual().
   toNearlyEqual(actual, expected, precision = 2) {
+    // Is the fusion of the two built-in methods, toBeCloseTo() and toEqual().
     if (!Array.isArray(actual) || !Array.isArray(expected)) {
       throw new Error('Cannot use toNearlyEqual with non-array objects. Arguments evaluated to: ' +
                       'expect(' + actual + ').toNearlyEqual(' + expected + ').');

@@ -17,11 +17,11 @@ import {mod,
         multMatrixVector} from './arithmetic.js';
 
 /**
- * This module handles the Munsell Color system. Its main facility is
- * the conversion from the Munsell Color space to other spaces
+ * <p> This module handles the Munsell Color system. The main facility
+ * is the conversion from the Munsell Color space to other spaces
  * (e.g. RGB).
 
- * The data underlying this module is {@link
+ * <p> The data underlying this module is {@link
  * https://www.rit.edu/cos/colorscience/rc_munsell_renotation.php
  * Munsell Renotation Data}. Every converter inter- and extrapolates
  * them using cylindrical coordinates of LCH(ab) space. This algorithm
@@ -29,21 +29,21 @@ import {mod,
  * inversion algorithm for the Munsell renotation", 2011). All of
  * relevant colorimetric data are (indirectly) based on corresponding
  * standards via {@link https://github.com/privet-kitty/dufy dufy}, my
- * color library for Common Lisp.
+ * color library for Common Lisp. See the links for more details.
  *
- * This module handles the Munsell Color in two ways, a string or
+ * <p> This module handles the Munsell Color in two ways, a string or
  * numbers, which can be identified by the name of method. The one is
- * `Munsell', the standard string specification of the Munsell Color:
- * e.g. "4.2RP 3/11", "N 10". The other is `MHVC', or Munsell HVC,
- * which is its 3-number expression composed of [Hue, Value, Chroma]:
- * e.g. [94.2, 3, 11], [0, 10 ,0]. Hue is the circle group R/100Z:
- * i.e. 0R (= 10RP) corresponds to 0 (= 100 = 300 = -2000) and 12YR
- * corresponds to 12 (= -88 = 412). Value is in the interval [0, 10]
- * and the converters will clamp it if a given value exceeds
- * it. Chroma is non-negative and the converters will assume it to be
- * zero if a given chroma is negative. Note that every converter
- * accepts a huge chroma out of the MRD (e.g. 1000000) and returns a
- * extrapolated result.
+ * <dfn>Munsell</dfn>, the standard string specification of the
+ * Munsell Color: e.g. "4.2RP 3/11", "N 10". The other is
+ * <dfn>MHVC</dfn>, or Munsell HVC, its 3-number expression composed
+ * of [Hue, Value, Chroma]: e.g. [94.2, 3, 11], [0, 10 ,0]. Hue is the
+ * circle group R/100Z: i.e. 0R (= 10RP) corresponds to 0 (= 100 = 300
+ * = -2000) and 2YR corresponds to 12 (= -88 = 412). Value is in the
+ * interval [0, 10] and the converters will clamp it if a given value
+ * exceeds it. Chroma is non-negative and the converters will assume
+ * it to be zero if a given chroma is negative. Note that every
+ * converter accepts a huge chroma outside the MRD (e.g. 1000000) and
+ * returns a extrapolated result.
  * @module
  */
 
@@ -54,7 +54,6 @@ export function calcMunsellValueToY(v) {
 export function calcMunsellValueToL(v) {
   return 116 * functionF(calcMunsellValueToY(v)) - 16;
 }
-
 
 // These converters process a dark color (value < 1) separately
 // because the values of the Munsell Renotation Data (all.dat) are not
@@ -166,11 +165,11 @@ function calcMHVCToLCHabGeneralCase(hue40, scaledValue, halfChroma, dark = false
  * Converts Munsell HVC to LCHab.
  * @param {number} hue100 - is in the circle group R/100Z. Any real
  * number is accepted.
- * @param {number} value - should be in [0, 10]. Clamped if it exceeds the
- * interval.
- * @param {number} chroma - should be in [0, +inf). Assumed to be zero
+ * @param {number} value - will be in [0, 10]. Clamped if it exceeds
+ * the interval.
+ * @param {number} chroma - will be in [0, +inf). Assumed to be zero
  * if it is negative.
- * @returns [Array] LCHab
+ * @returns [Array] [L*, C*ab, hab]
  */
 export function calcMHVCToLCHab(hue100, value, chroma) {
   const hue40 = mod(hue100 * 0.4, 40);
@@ -186,6 +185,15 @@ export function calcMHVCToLCHab(hue100, value, chroma) {
 
 const hueNames = ["R", "YR", "Y", "GY", "G", "BG", "B", "PB", "P", "RP", "N"];
 
+/**
+ * Converts Munsell string to Munsell HVC. Munsell string is, e.g.,
+"3GY 2/10" and "N 2.4". This converter accepts various notations of
+numbers; an ugly specification as follows will be also available:
+"2e-02RP .9/0xffffff". However, the capital letters and '/' are
+reserved.
+ * @param {string} munsellStr - is the standard Munsell Color code.
+ * @returns [Array] [hue, value, chroma]
+ */
 export function calcMunsellToMHVC(munsellStr) {
   const nums = munsellStr.split(/[^a-z0-9.\-]+/)
         .filter(Boolean)
@@ -203,6 +211,11 @@ export function calcMunsellToMHVC(munsellStr) {
   }
 }
 
+/**
+ * Converts Munsell string to LCHab.
+ * @param {string} munsellStr - is the standard Munsell Color code.
+ * @returns [Array] [L*, C*ab, hab]
+ */
 export function calcMunsellToLCHab(munsellStr) {
   return calcMHVCToLCHab.apply(null, calcMunsellToMHVC(munsellStr));
 }
@@ -267,3 +280,17 @@ export function calcMunsellToHex(munsellStr, rgbSpace = RGBSPACE_SRGB) {
   return calcMHVCToHex(hue100, value, chroma, rgbSpace);
 }
 
+export function calcMHVCToMunsell(hue100, value, chroma, digits = 1) {
+  const huePrefix = mod(hue100, 10);
+  const hueNumber = Math.round((hue100 - huePrefix)/10);
+  const chromaStr = chroma.toFixed(digits);
+  if (parseFloat(chromaStr) === 0) {
+    return "N " + chromaStr;
+  } else {
+    return huePrefix.toFixed(digits-1) + hueNames[hueNumber]
+      + " "
+      + value.toFixed(digits)
+      + "/"
+      + chroma.toFixed(digits);
+  }
+}

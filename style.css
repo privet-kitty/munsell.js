@@ -1,5 +1,7 @@
 body {
     background: black;
+    margin: auto;
+    font-family: 'Open Sans', sans-serif;
 }
 
 #toolbody {
@@ -10,7 +12,6 @@ body {
 
 
 #toolbody h1 {
-    font-family: 'Open Sans', sans-serif;
     position: absolute;
     display: inline-block;
     left: 50%;
@@ -22,22 +23,53 @@ body {
     font-size: 4em;
 }
 
+#information-area {
+    display: table;
+    table-layout: fixed;
+    width: 100%;
+}
 
-#colorpanel {
-    background: #797979;
-    margin: 6em 0% 1.5em 0%;
-    display: inline;
+#color-panel {
+    display: table-cell;
+    width: 300px;
+}
 
+#color-canvas{
+    background: #262D59;
+    margin-top: 6em;
+    margin-bottom: 1.5em;
+    margin-right: auto;
+    margin-left: auto;
+}
+
+#system-label {
+    display: table-cell;
+    vertical-align: middle;
+    text-align: left;
+    color: black;
+    font-weight: bold;
+    font-size: 2.5em;
+}
+
+#users-label {
+    display: table-cell;
+    vertical-align: middle;
+    text-align: right;
+    color: white;
+    font-weight: bold;
+    font-size: 2.5em;
 }
 
 #input-panels {
     margin: 1em 0 1em 0;
     margin-left: auto;
     margin-right: auto;
+    max-width: 1000px;
     width: 100%;
     color: white;
     font-family: 'Open Sans', sans-serif;
     font-size: 1.5em;
+    clear: both;
 }
 
 table.buttons {
@@ -47,6 +79,7 @@ table.buttons {
 }
 
 table.buttons td {
+    cursor: pointer;
     border: solid 2px white;
     width: 3em;
 }
@@ -96,4 +129,23 @@ td.selected {
     background: black;
     border: 0;
     cursor: pointer;
+}
+
+.centering-wrapper {
+    text-align: center;
+}
+
+#forward-button {
+    font-weight: bold;
+    font-size: 1.5em;
+    border: solid 2px white;
+    padding: 0.1em 0.5em 0.2em 0.5em;
+    cursor: pointer;
+    background: inherit;
+    color: inherit;
+}
+
+#forward-button:active {
+    background: white;
+    color: black;
 }
