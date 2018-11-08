@@ -1,8 +1,6 @@
 import {calcMHVCToMunsell,
         calcMHVCToRGB255} from "./munsell.js";
 
-let currentHuePrefix = 5;
-let currentHueNumber = 0;
 const hueNumberTable = ["R", "YR", "Y", "GY", "G", "BG", "B", "PB", "P", "RP"];
 
 const init = () => {
@@ -11,17 +9,20 @@ const init = () => {
   document.getElementById("current-value-indicator").textContent = document.getElementById("value-slider").value;
   document.getElementById("current-chroma-indicator").textContent = document.getElementById("chroma-slider").value;
   setQuestion();
-  showUsersLabel();
+  updateUsersArea();
 };
+
+let currentHuePrefix = 5;
+let currentHueNumber = 0;
 
 window.selectValue = (e) => {
   document.getElementById("current-value-indicator").textContent = e.value;
-  reflectUsersInput();
+  updateUsersArea();
 };
 
 window.selectChroma = (e) => {
   document.getElementById("current-chroma-indicator").textContent = e.value;
-  reflectUsersInput();
+  updateUsersArea();
 };
 
 window.selectHuePrefix = (e) => {
@@ -32,7 +33,7 @@ window.selectHuePrefix = (e) => {
   huePrefixCollection[oldIndex].className = ""; // unselect the old one
   huePrefixCollection[nextIndex].className = "selected";
   currentHuePrefix = nextValue;
-  reflectUsersInput();
+  updateUsersArea();
 };
 
 window.selectHueNumber = (e) => {
@@ -43,12 +44,8 @@ window.selectHueNumber = (e) => {
   hueNumberCollection[oldIndex].className = ""; // unselect the old one
   hueNumberCollection[nextIndex].className = "selected";
   currentHueNumber = nextIndex;
-  reflectUsersInput();
+  updateUsersArea();
 };
-
-const reflectUsersInput = () => {
-  showUsersLabel();
-}
 
 const getCurrentMHVCObject = () => {
   return { "hue_number": currentHueNumber,
@@ -70,7 +67,7 @@ const getCurrentMunsell = () => {
   calcMHVCToMunsell.apply(null, getCurrentMHVC());
 };
 
-const showUsersLabel = () => {
+const updateUsersArea = () => {
   document.getElementById("users-label").textContent
     = calcMHVCToMunsell.apply(null, getCurrentMHVC());
 }
@@ -82,7 +79,7 @@ const hideUsersLabel = () => {
 
 let correctMHVC = [0, 0, 0];
 
-const showSystemLabel = () => {
+const updateSystemArea = () => {
   document.getElementById("system-area").textContent = "";
   document.getElementById("system-area")
     .insertAdjacentHTML('afterbegin',
@@ -90,7 +87,7 @@ const showSystemLabel = () => {
 <div id="system-label">${calcMHVCToMunsell.apply(null, correctMHVC)}</div>`);
 }
 
-const hideSystemLabel = () => {
+const hideSystemArea = () => {
   document.getElementById("system-area").textContent = "";
 }
 
@@ -116,7 +113,6 @@ const randomMHVCAndRGB255 = () => {
 const setQuestion = () => {
   const [hue100, value, chroma, r, g, b] = randomMHVCAndRGB255();
   document.getElementById("color-canvas").style.background = `rgb(${r}, ${g}, ${b})`;
-  console.log( `rgb(${r}, ${g}, ${b})`);
   correctMHVC = [hue100, value, chroma];
 }
 
@@ -124,13 +120,13 @@ const forward = function* (e) {
   // Corresponds to the main button.
   while (true) {
     const mhvc = getCurrentMHVC();
-    showSystemLabel();
-    console.log(calcMHVCToMunsell.apply(null, mhvc));
+    updateSystemArea();
+    console.log();
     const originalButtonName = e.textContent;
     e.textContent = "Next color";
     yield;
     setQuestion();
-    hideSystemLabel();
+    hideSystemArea();
     e.textContent = originalButtonName;
     yield;
   }

@@ -84,6 +84,9 @@ body {
 }
 
 table.buttons {
+    -ms-user-select: none;
+    -webkit-user-select: none;
+    user-select: none;
     border: solid 2px white;
     border-collapse: collapse;
     text-align: center;
