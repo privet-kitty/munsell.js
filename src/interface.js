@@ -11,6 +11,7 @@ const init = () => {
   document.getElementById("current-value-indicator").textContent = document.getElementById("value-slider").value;
   document.getElementById("current-chroma-indicator").textContent = document.getElementById("chroma-slider").value;
   setQuestion();
+  showUsersLabel();
 };
 
 window.selectValue = (e) => {
@@ -65,17 +66,32 @@ const getCurrentMHVC = () => {
           obj["chroma"]];
 };
 
+const getCurrentMunsell = () => {
+  calcMHVCToMunsell.apply(null, getCurrentMHVC());
+};
+
 const showUsersLabel = () => {
   document.getElementById("users-label").textContent
     = calcMHVCToMunsell.apply(null, getCurrentMHVC());
+}
+
+const hideUsersLabel = () => {
+  document.getElementById("users-label").textContent = "";
 }
 
 
 let correctMHVC = [0, 0, 0];
 
 const showSystemLabel = () => {
-  document.getElementById("system-label").textContent
-    = calcMHVCToMunsell.apply(null, correctMHVC);
+  document.getElementById("system-area").textContent = "";
+  document.getElementById("system-area")
+    .insertAdjacentHTML('afterbegin',
+                        `<div>Answer:</div>
+<div id="system-label">${calcMHVCToMunsell.apply(null, correctMHVC)}</div>`);
+}
+
+const hideSystemLabel = () => {
+  document.getElementById("system-area").textContent = "";
 }
 
 const getRandomInt = (max) => {
@@ -108,13 +124,13 @@ const forward = function* (e) {
   // Corresponds to the main button.
   while (true) {
     const mhvc = getCurrentMHVC();
-    showUsersLabel();
     showSystemLabel();
     console.log(calcMHVCToMunsell.apply(null, mhvc));
     const originalButtonName = e.textContent;
     e.textContent = "Next color";
     yield;
     setQuestion();
+    hideSystemLabel();
     e.textContent = originalButtonName;
     yield;
   }

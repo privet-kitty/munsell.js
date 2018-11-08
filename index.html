@@ -10,38 +10,45 @@
     <div id="north">
       <h1 data-split="Albert">Guess Munsell Code</h1>
       <div id="information-area">
-        <div id="users-label"></div>
+        <div id="users-area">
+          <div>Your choice:</div>
+          <div id="users-label"></div>
+        </div>
         <div id="color-panel">
           <canvas id="color-canvas" width="300" height="300"></canvas>
         </div>
-        <div id="system-label"></div>
+        <div id="system-area">
+
+        </div>
       </div>
     </div>
- 
+
     <div id="input-panels">
-      <dl>
-        <dt>Hue</dt>
-        <dd>
-          <table class="buttons" id="hue-table">
-            <tr><td onclick="selectHueNumber(this)">R</td><td onclick="selectHueNumber(this)">YR</td><td onclick="selectHueNumber(this)">Y</td><td onclick="selectHueNumber(this)">GY</td><td onclick="selectHueNumber(this)">G</td><td onclick="selectHueNumber(this)">BG</td><td onclick="selectHueNumber(this)">B</td><td onclick="selectHueNumber(this)">PB</td><td onclick="selectHueNumber(this)">P</td><td onclick="selectHueNumber(this)">RP</td></tr></table>
-        </dd>
-        <dt>Hue prefix</dt>
-        <dd>
-          <table class="buttons" id="hue-prefix-table">
-            <tr><td onclick="selectHuePrefix(this)">1</td><td onclick="selectHuePrefix(this)">2</td><td onclick="selectHuePrefix(this)">3</td><td onclick="selectHuePrefix(this)">4</td><td onclick="selectHuePrefix(this)">5</td><td onclick="selectHuePrefix(this)">6</td><td onclick="selectHuePrefix(this)">7</td><td onclick="selectHuePrefix(this)">8</td><td onclick="selectHuePrefix(this)">9</td><td onclick="selectHuePrefix(this)">10</td></tr>
-          </table>
-        </dd>
-        <dt>Value</dt>
-        <dd>
-          <input id="value-slider" class="slider" type="range" min="0" max="10" value="5" step="0.1" oninput="selectValue(this)" />
-          <div class="indicator" id="current-value-indicator"></div>
-        </dd>
-        <dt>Chroma</dt>
-        <dd>
-          <input id="chroma-slider" class="slider" type="range" min="0" max="30" value="5" step="0.5" oninput="selectChroma(this)" />
-          <div class="indicator" id="current-chroma-indicator"></div>
-        </dd>
-      </dl>
+        <dl>
+          <dt>Hue</dt>
+          <dd>
+            <table class="buttons" id="hue-table">
+              <tr><td onclick="selectHueNumber(this)">R</td><td onclick="selectHueNumber(this)">YR</td><td onclick="selectHueNumber(this)">Y</td><td onclick="selectHueNumber(this)">GY</td><td onclick="selectHueNumber(this)">G</td><td onclick="selectHueNumber(this)">BG</td><td onclick="selectHueNumber(this)">B</td><td onclick="selectHueNumber(this)">PB</td><td onclick="selectHueNumber(this)">P</td><td onclick="selectHueNumber(this)">RP</td></tr></table>
+          </dd>
+          <dt>Hue prefix</dt>
+          <dd>
+            <table class="buttons" id="hue-prefix-table">
+              <tr><td onclick="selectHuePrefix(this)">1</td><td onclick="selectHuePrefix(this)">2</td><td onclick="selectHuePrefix(this)">3</td><td onclick="selectHuePrefix(this)">4</td><td onclick="selectHuePrefix(this)">5</td><td onclick="selectHuePrefix(this)">6</td><td onclick="selectHuePrefix(this)">7</td><td onclick="selectHuePrefix(this)">8</td><td onclick="selectHuePrefix(this)">9</td><td onclick="selectHuePrefix(this)">10</td></tr>
+            </table>
+          </dd>
+        </dl>
+        <dl>
+          <dt>Value</dt>
+          <dd>
+            <input id="value-slider" class="slider" type="range" min="0" max="10" value="5" step="0.1" oninput="selectValue(this)" />
+            <div class="indicator" id="current-value-indicator"></div>
+          </dd>
+          <dt>Chroma</dt>
+          <dd>
+            <input id="chroma-slider" class="slider" type="range" min="0" max="30" value="5" step="0.5" oninput="selectChroma(this)" />
+            <div class="indicator" id="current-chroma-indicator"></div>
+          </dd>
+        </dl>
       <div class="centering-wrapper">
         <button type="button" id="forward-button" onclick="forward.next()">Answer</button>
       </div>
