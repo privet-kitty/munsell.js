@@ -183,7 +183,7 @@ export function calcMHVCToLCHab(hue100, value, chroma) {
 }
 
 
-const hueNames = ["R", "YR", "Y", "GY", "G", "BG", "B", "PB", "P", "RP", "N"];
+const hueNames = ["R", "YR", "Y", "GY", "G", "BG", "B", "PB", "P", "RP"];
 
 /**
  * Converts Munsell string to Munsell HVC. Munsell string is, e.g.,
@@ -200,7 +200,7 @@ export function calcMunsellToMHVC(munsellStr) {
         .map(str => Number(str));
   const hueName = munsellStr.match(/[A-Z]+/)[0];
   const hueNumber = hueNames.indexOf(hueName);
-  if (hueNumber === 10) {
+  if (hueName === "N") {
     return [0, nums[0], 0];
   } else if (nums.length !== 3) {
     throw new SyntaxError(`Doesn't contain 3 numbers: ${nums}`);
@@ -281,17 +281,19 @@ export function calcMunsellToHex(munsellStr, rgbSpace = RGBSPACE_SRGB) {
 }
 
 export function calcMHVCToMunsell(hue100, value, chroma, digits = 1) {
-  const huePrefix = mod(hue100, 10);
-  const hueNumber = Math.round((hue100 - huePrefix)/10);
+  const canonicalHue100 = mod(hue100, 100);
+  const huePrefix = canonicalHue100 % 10;
+  const hueNumber = Math.round((canonicalHue100 - huePrefix)/10);
+  // If the hue prefix is 0, 10 is instead used with the previous hue name.
+  const hueStr = (huePrefix === 0) ?
+        Number(10).toFixed(Math.max(digits-1, 0)) + hueNames[mod(hueNumber-1, 10)] :
+        huePrefix.toFixed(Math.max(digits-1, 0)) + hueNames[hueNumber];
   const chromaStr = chroma.toFixed(digits);
+  const valueStr = value.toFixed(digits);
   if (parseFloat(chromaStr) === 0) {
-    return "N " + value.toFixed(digits);
+    return `N ${valueStr}`;
   } else {
-    return huePrefix.toFixed(digits-1) + hueNames[hueNumber]
-      + " "
-      + value.toFixed(digits)
-      + "/"
-      + chroma.toFixed(digits);
+    return `${hueStr} ${valueStr}/${chromaStr}`;
   }
 }
 

@@ -4,7 +4,8 @@ import {calcMunsellValueToL,
         calcMunsellToLCHab,
         calcMHVCToXYZ,
         calcMunsellToRGB255,
-        calcMunsellToHex} from '../src/munsell.js';
+        calcMunsellToHex,
+        calcMHVCToMunsell} from '../src/munsell.js';
 import './jest_extension.js';
 
 describe('calcMunsellValueToL()', () => {
@@ -32,6 +33,24 @@ describe('calcMunsellToMHVC()', () => {
   })
   test('negative hue prefix', () => {
     expect(calcMunsellToMHVC("2R 10/2")).toEqual(calcMunsellToMHVC("-18Y 10/2"));
+  })
+})
+
+describe('calcMHVCToMunsell()', () => {
+  test('achromatic', () =>{
+    expect(calcMHVCToMunsell(-238492.33, 2, 0.004, 2)).toBe("N 2.00");
+  });
+  test('number of digits', () => {
+    expect(calcMHVCToMunsell(1.234, 2.1166, 11.2550, 3)).toBe("1.23R 2.117/11.255");
+  })
+  test('not 0 but 10 is used as hue prefix', () => {
+    expect(calcMHVCToMunsell(100, 2, 3)).toBe("10RP 2.0/3.0");
+  })
+  test('hue outside [0, 100]', () => {
+    expect(calcMHVCToMunsell(-1089, 100, 1000)).toBe("1YR 100.0/1000.0");
+  })
+  test('zero digits case', () => {
+    expect(calcMHVCToMunsell(1.23, 4.1, 6.7, 0)).toBe("1R 4/7");
   })
 })
 
