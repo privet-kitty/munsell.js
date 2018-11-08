@@ -1,5 +1,7 @@
 import {calcMHVCToMunsell,
-        calcMHVCToRGB255} from "./munsell.js";
+        calcMHVCToRGB255,
+        calcMHVCToHex,
+        calcMHVCToLab} from "./munsell.js";
 
 const hueNumberTable = ["R", "YR", "Y", "GY", "G", "BG", "B", "PB", "P", "RP"];
 
@@ -9,7 +11,7 @@ const init = () => {
   document.getElementById("current-value-indicator").textContent = document.getElementById("value-slider").value;
   document.getElementById("current-chroma-indicator").textContent = document.getElementById("chroma-slider").value;
   setQuestion();
-  updateUsersArea();
+  reflectUsersInput();
 };
 
 let currentHuePrefix = 5;
@@ -17,12 +19,12 @@ let currentHueNumber = 0;
 
 window.selectValue = (e) => {
   document.getElementById("current-value-indicator").textContent = e.value;
-  updateUsersArea();
+  reflectUsersInput();
 };
 
 window.selectChroma = (e) => {
   document.getElementById("current-chroma-indicator").textContent = e.value;
-  updateUsersArea();
+  reflectUsersInput();
 };
 
 window.selectHuePrefix = (e) => {
@@ -33,7 +35,7 @@ window.selectHuePrefix = (e) => {
   huePrefixCollection[oldIndex].className = ""; // unselect the old one
   huePrefixCollection[nextIndex].className = "selected";
   currentHuePrefix = nextValue;
-  updateUsersArea();
+  reflectUsersInput();
 };
 
 window.selectHueNumber = (e) => {
@@ -44,7 +46,7 @@ window.selectHueNumber = (e) => {
   hueNumberCollection[oldIndex].className = ""; // unselect the old one
   hueNumberCollection[nextIndex].className = "selected";
   currentHueNumber = nextIndex;
-  updateUsersArea();
+  reflectUsersInput();
 };
 
 const getCurrentMHVCObject = () => {
@@ -67,6 +69,12 @@ const getCurrentMunsell = () => {
   calcMHVCToMunsell.apply(null, getCurrentMHVC());
 };
 
+const reflectUsersInput = (phase) => {
+  updateUsersArea();
+  if (phase === 'answer')
+    updateCanvas();
+}
+
 const updateUsersArea = () => {
   document.getElementById("users-label").textContent
     = calcMHVCToMunsell.apply(null, getCurrentMHVC());
@@ -78,13 +86,37 @@ const hideUsersLabel = () => {
 
 
 let correctMHVC = [0, 0, 0];
+let correctRGB = [0, 0, 0];
 
-const updateSystemArea = () => {
+const calcDeltaE = (l1, a1, b1, l2, a2, b2) => {
+  return Math.sqrt(Math.pow(l1-l2, 2)+Math.pow(a1-a2, 2)+Math.pow(b1-b2, 2));
+}
+
+const calcScore = (delta) => {
+  return Math.max((16-Math.max(delta, 1))/2, 0);
+}
+
+const updateSystemArea = (userMHVC, systemMHVC) => {
+  const delta = calcDeltaE.apply(null, [...calcMHVCToLab.apply(null, userMHVC),
+                                        ...calcMHVCToLab.apply(null, systemMHVC)]);
   document.getElementById("system-area").textContent = "";
   document.getElementById("system-area")
     .insertAdjacentHTML('afterbegin',
                         `<div>Answer:</div>
-<div id="system-label">${calcMHVCToMunsell.apply(null, correctMHVC)}</div>`);
+<div id="system-label">${calcMHVCToMunsell.apply(null, systemMHVC)}</div>
+<div>Score:</div>
+<div>${calcScore(delta).toFixed(1)} (&Delta;E=${delta.toFixed(1)})</div>`);
+}
+
+const canvas = document.getElementById("color-canvas");
+const ctx = canvas.getContext('2d');
+const updateCanvas = () => {
+  ctx.fillStyle = `${calcMHVCToHex.apply(null, getCurrentMHVC())}`;
+  ctx.rect(0, 0, canvas.width/2, canvas.height);
+  ctx.fill();
+}
+const restoreCanvas = () => {
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
 }
 
 const hideSystemArea = () => {
@@ -114,19 +146,22 @@ const setQuestion = () => {
   const [hue100, value, chroma, r, g, b] = randomMHVCAndRGB255();
   document.getElementById("color-canvas").style.background = `rgb(${r}, ${g}, ${b})`;
   correctMHVC = [hue100, value, chroma];
+  correctRGB = [r, g, b];
 }
 
 const forward = function* (e) {
   // Corresponds to the main button.
+  const originalButtonName = e.textContent;
   while (true) {
     const mhvc = getCurrentMHVC();
-    updateSystemArea();
+    updateSystemArea(mhvc, correctMHVC);
+    updateCanvas();
     console.log();
-    const originalButtonName = e.textContent;
     e.textContent = "Next color";
     yield;
     setQuestion();
     hideSystemArea();
+    restoreCanvas();
     e.textContent = originalButtonName;
     yield;
   }
