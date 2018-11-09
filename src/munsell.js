@@ -24,33 +24,38 @@ import {mod,
  * <p> The data underlying this module is {@link
  * https://www.rit.edu/cos/colorscience/rc_munsell_renotation.php
  * Munsell Renotation Data}. Every converter inter- and extrapolates
- * them using cylindrical coordinates of LCH(ab) space. This algorithm
- * is similar to the one by Paul Centore. (See "An open‐source
- * inversion algorithm for the Munsell renotation", 2011). All of
- * relevant colorimetric data are (indirectly) based on corresponding
- * standards via {@link https://github.com/privet-kitty/dufy dufy}, my
- * color library for Common Lisp. See the links for more details.
+ * them using cylindrical coordinates of LCH(ab) space. The algorithm
+ * is similar to the one by Paul Centore. (See his thesis "An
+ * open‐source inversion algorithm for the Munsell renotation",
+ * 2011). All of relevant colorimetric data are (indirectly) based on
+ * corresponding standards via {@link
+ * https://github.com/privet-kitty/dufy dufy}, my color library for
+ * Common Lisp. See the links for more details.
  *
- * <p> This module handles the Munsell Color in two ways, a string or
- * numbers, which can be identified by the name of method. The one is
- * <dfn>Munsell</dfn>, the standard string specification of the
- * Munsell Color: e.g. "4.2RP 3/11", "N 10". The other is
- * <dfn>MHVC</dfn>, or Munsell HVC, its 3-number expression composed
- * of [Hue, Value, Chroma]: e.g. [94.2, 3, 11], [0, 10 ,0]. Hue is the
- * circle group R/100Z: i.e. 0R (= 10RP) corresponds to 0 (= 100 = 300
- * = -2000) and 2YR corresponds to 12 (= -88 = 412). Value is in the
- * interval [0, 10] and the converters will clamp it if a given value
- * exceeds it. Chroma is non-negative and the converters will assume
- * it to be zero if a given chroma is negative. Note that every
- * converter accepts a huge chroma outside the MRD (e.g. 1000000) and
- * returns a extrapolated result.
+ * <p> This module handles the Munsell Color in two ways, string or
+ * triplet of numbers, which can be identified by the name of
+ * method. The former is <dfn>Munsell</dfn>, the standard string
+ * specification of the Munsell Color: e.g. "4.2RP 3/11", "N 10". The
+ * latter is <dfn>MHVC</dfn>, or Munsell HVC, its 3-number expression
+ * composed of [Hue, Value, Chroma]: e.g. [94.2, 3, 11], [0, 10
+ * ,0]. Hue is the circle group R/100Z: i.e. 0R (= 10RP) corresponds
+ * to 0 (= 100 = 300 = -2000) and 2YR corresponds to 12 (= -88 =
+ * 412). Value is in the interval [0, 10] and the converters will
+ * clamp it if a given value exceeds it. Chroma is non-negative and
+ * the converters will assume it to be zero if a given chroma is
+ * negative. Note that every converter accepts a huge chroma outside
+ * the MRD (e.g. 1000000) and returns a extrapolated result.
  * @module
  */
 
+/** Converts Munsell value to Y (in XYZ).
+ */
 export function calcMunsellValueToY(v) {
   return v * (1.1914 + v * (-0.22533 + v * (0.23352 + v * (-0.020484 + v * 0.00081939)))) * 0.01;
 }
 
+/** Converts Munsell value to L* (in L*a*b*).
+*/
 export function calcMunsellValueToL(v) {
   return 116 * functionF(calcMunsellValueToY(v)) - 16;
 }
@@ -169,7 +174,7 @@ function calcMHVCToLCHabGeneralCase(hue40, scaledValue, halfChroma, dark = false
  * the interval.
  * @param {number} chroma - will be in [0, +inf). Assumed to be zero
  * if it is negative.
- * @returns [Array] [L*, C*ab, hab]
+ * @returns {Array} [L*, C*ab, hab]
  */
 export function calcMHVCToLCHab(hue100, value, chroma) {
   const hue40 = mod(hue100 * 0.4, 40);
@@ -186,13 +191,12 @@ export function calcMHVCToLCHab(hue100, value, chroma) {
 const hueNames = ["R", "YR", "Y", "GY", "G", "BG", "B", "PB", "P", "RP"];
 
 /**
- * Converts Munsell string to Munsell HVC. Munsell string is, e.g.,
-"3GY 2/10" and "N 2.4". This converter accepts various notations of
-numbers; an ugly specification as follows will be also available:
-"2e-02RP .9/0xffffff". However, the capital letters and '/' are
-reserved.
+ * Converts Munsell string to Munsell HVC. Munsell string is e.g.
+"3GY 2/10" or "N 2.4". This converter accepts various notations of
+numbers; an ugly specification like "2e-02RP .9/0xffffff" will be also
+available. However, the capital letters and '/' are reserved.
  * @param {string} munsellStr - is the standard Munsell Color code.
- * @returns [Array] [hue, value, chroma]
+ * @returns {Array} [hue, value, chroma]
  */
 export function calcMunsellToMHVC(munsellStr) {
   const nums = munsellStr.split(/[^a-z0-9.\-]+/)
@@ -214,21 +218,24 @@ export function calcMunsellToMHVC(munsellStr) {
 /**
  * Converts Munsell string to LCHab.
  * @param {string} munsellStr - is the standard Munsell Color code.
- * @returns [Array] [L*, C*ab, hab]
+ * @returns {Array} [L*, C*ab, hab]
  */
 export function calcMunsellToLCHab(munsellStr) {
   return calcMHVCToLCHab.apply(null, calcMunsellToMHVC(munsellStr));
 }
 
+/** */
 export function calcMHVCToLab(hue100, value, chroma) {
   const [lstar, cstarab, hab] = calcMHVCToLCHab(hue100, value, chroma);
   return [lstar].concat(calcLCHabToLab(cstarab, hab));
 }
 
+/** */
 export function calcMunsellToLab(munsellStr) {
   return calcMHVCToLab.apply(null, calcMunsellToMHVC(munsellStr));
 }
 
+/** */
 export function calcMHVCToXYZ(hue100, value, chroma, illuminant = ILLUMINANT_D65) {
   // Uses Bradford transformation
   const [lstar, astar, bstar] = calcMHVCToLab(hue100, value, chroma);
@@ -236,50 +243,72 @@ export function calcMHVCToXYZ(hue100, value, chroma, illuminant = ILLUMINANT_D65
                           calcLabToXYZ(lstar, astar, bstar, ILLUMINANT_C));
 }
 
+/** */
 export function calcMunsellToXYZ(munsellStr, illuminant = ILLUMINANT_D65) {
   const [hue100, value, chroma] = calcMunsellToMHVC(munsellStr);
   return calcMHVCToXYZ(hue100, value, chroma, illuminant);
 }
 
+/** */
 export function calcMHVCToLinearRGB(hue100, value, chroma, rgbSpace = RGBSPACE_SRGB) {
   const [X, Y, Z] = calcMHVCToXYZ(hue100, value, chroma, rgbSpace.illuminant);
   return calcXYZToLinearRGB(X, Y, Z, rgbSpace);
 }
 
+/** */
 export function calcMunsellToLinearRGB(munsellStr, rgbSpace = RGBSPACE_SRGB) {
   const [hue100, value, chroma] = calcMunsellToMHVC(munsellStr);
   return calcMHVCToLinearRGB(hue100, value, chroma, rgbSpace);
 }
 
+/** */
 export function calcMHVCToRGB(hue100, value, chroma, rgbSpace = RGBSPACE_SRGB) {
   const [lr, lg, lb] = calcMHVCToLinearRGB(hue100, value, chroma, rgbSpace);
   return calcLinearRGBToRGB(lr, lg, lb, rgbSpace);
 }
 
+/** */
 export function calcMunsellToRGB(munsellStr, rgbSpace = RGBSPACE_SRGB) {
   const [hue100, value, chroma] = calcMunsellToMHVC(munsellStr);
   return calcMHVCToRGB(hue100, value, chroma, rgbSpace);
 }
 
+/** */
 export function calcMHVCToRGB255(hue100, value, chroma, clamp = true, rgbSpace = RGBSPACE_SRGB) {
   const [r, g, b] = calcMHVCToRGB(hue100, value, chroma, rgbSpace);
   return calcRGBToRGB255(r, g, b, clamp);
 }
 
+/** */
 export function calcMunsellToRGB255(munsellStr, clamp = true, rgbSpace = RGBSPACE_SRGB) {
   const [hue100, value, chroma] = calcMunsellToMHVC(munsellStr);
   return calcMHVCToRGB255(hue100, value, chroma, clamp, rgbSpace);
 }
 
+/** */
 export function calcMHVCToHex(hue100, value, chroma, rgbSpace = RGBSPACE_SRGB) {
   return calcRGBToHex.apply(null, calcMHVCToRGB(hue100, value, chroma, rgbSpace));
 }
 
+/** */
 export function calcMunsellToHex(munsellStr, rgbSpace = RGBSPACE_SRGB) {
   const [hue100, value, chroma] = calcMunsellToMHVC(munsellStr);
   return calcMHVCToHex(hue100, value, chroma, rgbSpace);
 }
 
+/**
+ * Converts Munsell HVC to string. `N', the code for achromatic
+ * colors, is used when the chroma becomes zero in the specified
+ * number of digits.
+ * @param {number} hue100
+ * @param {number} value
+ * @param {number} chroma
+ * @param {number} [digits = 1] Is the number of digits after the
+ * decimal point. Must be non-negative integer. Note that the units
+ * digit of the hue prefix is assumed to be already after the decimal
+ * point.
+ * @returns {string} Munsell Color code
+ */
 export function calcMHVCToMunsell(hue100, value, chroma, digits = 1) {
   const canonicalHue100 = mod(hue100, 100);
   const huePrefix = canonicalHue100 % 10;

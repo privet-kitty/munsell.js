@@ -32,7 +32,7 @@ describe('calcMunsellToMHVC()', () => {
     expect(calcMunsellToMHVC("N 10")).toEqual([0, 10, 0]);
   })
   test('negative hue prefix', () => {
-    expect(calcMunsellToMHVC("2R 10/2")).toEqual(calcMunsellToMHVC("-18Y 10/2"));
+    expect(calcMunsellToMHVC("-18Y 10/2")).toEqual(calcMunsellToMHVC("2R 10/2"));
   })
 })
 

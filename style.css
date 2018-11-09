@@ -1,6 +1,9 @@
 body {
     background: black;
+    color: white;
     margin: auto;
+    display: flex;
+    flex-direction: column;
     font-family: 'Open Sans', sans-serif;
 }
 
@@ -75,7 +78,8 @@ body {
     font-size: 1.25em;
 }
 
-#input-panels {
+#south {
+    flex: 1;
     margin: 1em 0 1em 0;
     margin-left: auto;
     margin-right: auto;
@@ -107,13 +111,13 @@ td.selected {
     color: black;
 }
 
-#input-panels dl {
+#south dl {
     max-width: 97%;
     margin-right: auto;
     margin-left: auto;
 }
 
-#input-panels dl dt {
+#south dl dt {
     float: left;
     margin-right: 1em;
     width: 10%;
@@ -121,7 +125,7 @@ td.selected {
     font-weight: bold;
 }
 
-#input-panels dl dd {
+#south dl dd {
     width: 90%;
     margin-top: 4px;
     font-weight: bold;
