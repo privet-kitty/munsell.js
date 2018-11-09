@@ -28,24 +28,24 @@
           <dt>Hue</dt>
           <dd>
             <table class="buttons" id="hue-table">
-              <tr><td onclick="selectHueNumber(this)">R</td><td onclick="selectHueNumber(this)">YR</td><td onclick="selectHueNumber(this)">Y</td><td onclick="selectHueNumber(this)">GY</td><td onclick="selectHueNumber(this)">G</td><td onclick="selectHueNumber(this)">BG</td><td onclick="selectHueNumber(this)">B</td><td onclick="selectHueNumber(this)">PB</td><td onclick="selectHueNumber(this)">P</td><td onclick="selectHueNumber(this)">RP</td></tr></table>
+              <tr><td onclick="currentMHVC.readHueNumber(this)">R</td><td onclick="currentMHVC.readHueNumber(this)">YR</td><td onclick="currentMHVC.readHueNumber(this)">Y</td><td onclick="currentMHVC.readHueNumber(this)">GY</td><td onclick="currentMHVC.readHueNumber(this)">G</td><td onclick="currentMHVC.readHueNumber(this)">BG</td><td onclick="currentMHVC.readHueNumber(this)">B</td><td onclick="currentMHVC.readHueNumber(this)">PB</td><td onclick="currentMHVC.readHueNumber(this)">P</td><td onclick="currentMHVC.readHueNumber(this)">RP</td></tr></table>
           </dd>
           <dt>Hue prefix</dt>
           <dd>
             <table class="buttons" id="hue-prefix-table">
-              <tr><td onclick="selectHuePrefix(this)">1</td><td onclick="selectHuePrefix(this)">2</td><td onclick="selectHuePrefix(this)">3</td><td onclick="selectHuePrefix(this)">4</td><td onclick="selectHuePrefix(this)">5</td><td onclick="selectHuePrefix(this)">6</td><td onclick="selectHuePrefix(this)">7</td><td onclick="selectHuePrefix(this)">8</td><td onclick="selectHuePrefix(this)">9</td><td onclick="selectHuePrefix(this)">10</td></tr>
+              <tr><td onclick="currentMHVC.readHuePrefix(this)">1</td><td onclick="currentMHVC.readHuePrefix(this)">2</td><td onclick="currentMHVC.readHuePrefix(this)">3</td><td onclick="currentMHVC.readHuePrefix(this)">4</td><td onclick="currentMHVC.readHuePrefix(this)">5</td><td onclick="currentMHVC.readHuePrefix(this)">6</td><td onclick="currentMHVC.readHuePrefix(this)">7</td><td onclick="currentMHVC.readHuePrefix(this)">8</td><td onclick="currentMHVC.readHuePrefix(this)">9</td><td onclick="currentMHVC.readHuePrefix(this)">10</td></tr>
             </table>
           </dd>
         </dl>
         <dl>
           <dt>Value</dt>
           <dd>
-            <input id="value-slider" class="slider" type="range" min="0" max="10" value="5" step="0.1" oninput="selectValue(this)" />
+            <input id="value-slider" class="slider" type="range" min="0" max="10" value="5" step="0.1" oninput="currentMHVC.readValue(this)" />
             <div class="indicator" id="current-value-indicator"></div>
           </dd>
           <dt>Chroma</dt>
           <dd>
-            <input id="chroma-slider" class="slider" type="range" min="0" max="30" value="5" step="0.5" oninput="selectChroma(this)" />
+            <input id="chroma-slider" class="slider" type="range" min="0" max="30" value="5" step="0.5" oninput="currentMHVC.readChroma(this)" />
             <div class="indicator" id="current-chroma-indicator"></div>
           </dd>
         </dl>
