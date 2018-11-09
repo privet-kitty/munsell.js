@@ -5,7 +5,7 @@ import {calcMHVCToMunsell,
 
 const hueNumberTable = ["R", "YR", "Y", "GY", "G", "BG", "B", "PB", "P", "RP"];
 
-const currentMHVC = {
+const userMHVC = {
   huePrefix: 5,
   hueNumber: 5,
 
@@ -48,10 +48,16 @@ const currentMHVC = {
   },
   getMunsell: function () {
     return calcMHVCToMunsell.apply(null, this.get());
+  },
+  getRGB255: function () {
+    return calcMHVCToRGB255.apply(null, this.get());
+  },
+  getHex: function () {
+    return calcMHVCToHex.apply(null, this.get());
   }
 }
 
-window.currentMHVC = currentMHVC;
+window.userMHVC = userMHVC;
 
 class Score {
   constructor() {
@@ -79,16 +85,16 @@ class Score {
 const currentScore = new Score();
 
 const init = () => {
-  document.getElementById("hue-table").getElementsByTagName("td")[currentMHVC.hueNumber].className = "selected";
-  document.getElementById("hue-prefix-table").getElementsByTagName("td")[currentMHVC.huePrefix-1].className = "selecreflectted";
+  document.getElementById("hue-table").getElementsByTagName("td")[userMHVC.hueNumber].className = "selected";
+  document.getElementById("hue-prefix-table").getElementsByTagName("td")[userMHVC.huePrefix-1].className = "selecreflectted";
   document.getElementById("current-value-indicator").textContent = document.getElementById("value-slider").value;
   document.getElementById("current-chroma-indicator").textContent = document.getElementById("chroma-slider").value;
-  setQuestion();
-  reflectUsersInput(currentMHVC);
+  reflectUsersInput(userMHVC);
 };
 
 const reflectUsersInput = (mhvc) => {
   updateUsersArea(mhvc.getMunsell());
+  updateCanvasBackground(mhvc.getHex());
 }
 
 const updateUsersArea = (str) => {
@@ -110,22 +116,38 @@ const calcDeltaE = (l1, a1, b1, l2, a2, b2) => {
 
 const updateSystemArea = (mhvc, delta, score) => {
   document.getElementById("system-area").textContent = "";
-  document.getElementById("system-area")
-    .insertAdjacentHTML('afterbegin',
-                        `<div>Answer:</div>
+  if (mhvc !== null) {
+    document.getElementById("system-area")
+      .insertAdjacentHTML('afterbegin',
+                          `<div>Answer:</div>
 <div id="system-label">${calcMHVCToMunsell.apply(null, mhvc)}</div>
 <div>Score:</div>
-<div>${score.toFixed(1)} (&Delta;E=${delta.toFixed(1)})</div>`);
+<div>${score.toFixed(1)} <span class="weak">(&Delta;E=${delta.toFixed(1)})</span></div>`);
+  }
 }
 
 const canvas = document.getElementById("color-canvas");
 const ctx = canvas.getContext('2d');
-const updateCanvas = () => {
-  ctx.fillStyle = `${calcMHVCToHex.apply(null, currentMHVC.get())}`;
-  ctx.rect(0, 0, canvas.width/2, canvas.height);
-  ctx.fill();
+window.canvas = canvas;
+window.ctx = ctx;
+const fillHalfCanvas = (hex) => {
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  ctx.fillStyle = hex;
+  ctx.fillRect(canvas.width/2, 0, canvas.width/2, canvas.height);
 }
-const restoreCanvas = () => {
+
+const fillWholeCanvas = (hex) => {
+  console.log("fillcanvas" + hex);
+  ctx.fillStyle = hex;
+  ctx.fillRect(0, 0, canvas.width, canvas.height);
+}
+
+const updateCanvasBackground = (hex) => {
+  console.log("updateCanvasBackground" + hex);
+  canvas.style.backgroundColor = hex;
+}
+
+const clearCanvas = () => {
   ctx.clearRect(0, 0, canvas.width, canvas.height);
 }
 
@@ -154,7 +176,7 @@ const randomMHVCAndRGB255 = () => {
 
 const setQuestion = () => {
   const [hue100, value, chroma, r, g, b] = randomMHVCAndRGB255();
-  document.getElementById("color-canvas").style.background = `rgb(${r}, ${g}, ${b})`;
+  fillWholeCanvas("#" + r.toString(16) + g.toString(16) + b.toString(16));
   correctMHVC = [hue100, value, chroma];
   correctRGB = [r, g, b];
 }
@@ -162,19 +184,29 @@ const setQuestion = () => {
 const forward = function* (e) {
   // Corresponds to the main button.
   const originalButtonName = e.textContent;
-  while (true) {
-    const mhvc = currentMHVC.get();
-    const delta = calcDeltaE.apply(null, [...calcMHVCToLab.apply(null, mhvc),
-                                          ...calcMHVCToLab.apply(null, correctMHVC)]);
-    currentScore.add(Score.calcScore(delta));
-    updateSystemArea(correctMHVC, delta, currentScore.latest);
-    updateCanvas();
-    console.log();
-    e.textContent = "Next color";
-    yield;
-    setQuestion();
-    hideSystemArea();
-    restoreCanvas();
+  while(true) {
+    currentScore.reset();
+    for (let i=0; i<10; i++) {
+      // Question phase
+      clearCanvas();
+      setQuestion();
+      hideSystemArea();
+      e.textContent = `Answer`;
+      yield;
+      // Answer phase
+      const mhvc = userMHVC.get();
+      const delta = calcDeltaE.apply(null, [...calcMHVCToLab.apply(null, mhvc),
+                                            ...calcMHVCToLab.apply(null, correctMHVC)]);
+      currentScore.add(Score.calcScore(delta));
+      updateSystemArea(correctMHVC, delta, currentScore.latest);
+      clearCanvas();
+      updateCanvasBackground(userMHVC.getHex());
+      fillHalfCanvas(calcMHVCToHex.apply(null, correctMHVC));
+      console.log();
+      e.textContent = `Next color (${i}/10)`;
+      yield;
+    }
+    console.log(`Your score is ${currentScore.get()}!`);
     e.textContent = originalButtonName;
     yield;
   }

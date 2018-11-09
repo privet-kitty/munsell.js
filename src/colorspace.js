@@ -149,3 +149,4 @@ export function calcRGBToHex(r, g, b) {
     return hex.length === 1 ? "0" + hex : hex;
   }).join("");
 }
+

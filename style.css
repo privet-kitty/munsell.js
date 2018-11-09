@@ -57,6 +57,10 @@ body {
     font-size: 1.25em;
 }
 
+.weak {
+    color: #d0d0d0;
+}
+
 #users-area {
     display: table-cell;
     vertical-align: middle;
