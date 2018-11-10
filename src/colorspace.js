@@ -98,7 +98,7 @@ class RGBSpace {
 
 const CONST5 = 0.0031308*12.92;
 
-export const RGBSPACE_SRGB = new RGBSpace(
+export const SRGB = new RGBSpace(
   // These data are based on dufy.
   [[0.4124319639872968,0.3575780371782625,0.1804592355313134],
    [0.21266023143094992,0.715156074356525,0.07218369421252536],
@@ -126,11 +126,11 @@ export const RGBSPACE_SRGB = new RGBSpace(
   }
 );
 
-export function calcXYZToLinearRGB(X, Y, Z, space = RGBSPACE_SRGB) {
+export function calcXYZToLinearRGB(X, Y, Z, space = SRGB) {
   return multMatrixVector(space.matrixXYZFromThis, [X, Y, Z]);
 }
 
-export function calcLinearRGBToRGB(lr, lg, lb, space = RGBSPACE_SRGB) {
+export function calcLinearRGBToRGB(lr, lg, lb, space = SRGB) {
   return [lr, lg, lb].map(space.delinearizer);
 }
 

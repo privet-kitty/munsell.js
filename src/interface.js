@@ -160,16 +160,17 @@ const hideSystemArea = () => {
   document.getElementById("system-area").textContent = "";
 }
 
-const getRandomInt = (max) => {
+const getRandomInt = (min, max) => {
+  min = Math.ceil(min);
   max = Math.floor(max);
-  return Math.floor(Math.random() * max);
+  return Math.floor(Math.random() * (max - min)) + min;
 }
 
 const randomMHVCAndRGB255 = () => {
-  const hue100 = getRandomInt(101);
-  const value = getRandomInt(101)/10;
+  const hue100 = getRandomInt(0, 101);
+  const value = getRandomInt(5, 96)/10;
   for(let i=0; i<100; i++) {
-    const chroma = getRandomInt(61)/2;
+    const chroma = getRandomInt(0, 61)/2;
     const randomRGB = calcMHVCToRGB255(hue100, value, chroma, false);
     if (!randomRGB.map((x) => 0 <= x && x <= 255).includes(false)) {
       return [hue100, value, chroma, ...randomRGB];

@@ -1,13 +1,15 @@
 body {
     background: black;
     color: white;
-    margin: auto;
+    margin: 0;
     display: flex;
     flex-direction: column;
     font-family: 'Open Sans', sans-serif;
+    height: 100vh;
 }
 
 #north {
+    flex: 1;
     background: linear-gradient(90deg, black 50%, white 50%);
     width: 100%;
     text-align: center;
@@ -80,7 +82,7 @@ body {
 
 #south {
     flex: 1;
-    margin: 1em 0 1em 0;
+    margin: 0em 0 1em 0;
     margin-left: auto;
     margin-right: auto;
     max-width: 1000px;
@@ -112,6 +114,9 @@ td.selected {
 }
 
 #south dl {
+    -ms-user-select: none;
+    -webkit-user-select: none;
+    user-select: none;
     max-width: 97%;
     margin-right: auto;
     margin-left: auto;
@@ -177,4 +182,16 @@ td.selected {
 #forward-button:active {
     background: white;
     color: black;
+}
+
+footer {
+    flex: 1;
+}
+#progress-canvas {
+    background: grey;
+    /* margin-top: 1em; */
+    height: 20px;
+    bottom: 0;
+    padding-botton: 0;
+    width: 100%;
 }

@@ -10,7 +10,7 @@ import {functionF,
         calcRGBToHex,
         ILLUMINANT_C,
         ILLUMINANT_D65,
-        RGBSPACE_SRGB} from './colorspace.js';
+        SRGB} from './colorspace.js';
 import {mod,
         clamp,
         circularLerp,
@@ -196,7 +196,7 @@ const hueNames = ["R", "YR", "Y", "GY", "G", "BG", "B", "PB", "P", "RP"];
 numbers; an ugly specification like "2e-02RP .9/0xffffff" will be also
 available. However, the capital letters and '/' are reserved.
  * @param {string} munsellStr - is the standard Munsell Color code.
- * @returns {Array} [hue, value, chroma]
+ * @returns {Array} [hue100, value, chroma]
  */
 export function calcMunsellToMHVC(munsellStr) {
   const nums = munsellStr.split(/[^a-z0-9.\-]+/)
@@ -250,48 +250,54 @@ export function calcMunsellToXYZ(munsellStr, illuminant = ILLUMINANT_D65) {
 }
 
 /** */
-export function calcMHVCToLinearRGB(hue100, value, chroma, rgbSpace = RGBSPACE_SRGB) {
+export function calcMHVCToLinearRGB(hue100, value, chroma, rgbSpace = SRGB) {
   const [X, Y, Z] = calcMHVCToXYZ(hue100, value, chroma, rgbSpace.illuminant);
   return calcXYZToLinearRGB(X, Y, Z, rgbSpace);
 }
 
 /** */
-export function calcMunsellToLinearRGB(munsellStr, rgbSpace = RGBSPACE_SRGB) {
+export function calcMunsellToLinearRGB(munsellStr, rgbSpace = SRGB) {
   const [hue100, value, chroma] = calcMunsellToMHVC(munsellStr);
   return calcMHVCToLinearRGB(hue100, value, chroma, rgbSpace);
 }
 
 /** */
-export function calcMHVCToRGB(hue100, value, chroma, rgbSpace = RGBSPACE_SRGB) {
+export function calcMHVCToRGB(hue100, value, chroma, rgbSpace = SRGB) {
   const [lr, lg, lb] = calcMHVCToLinearRGB(hue100, value, chroma, rgbSpace);
   return calcLinearRGBToRGB(lr, lg, lb, rgbSpace);
 }
 
 /** */
-export function calcMunsellToRGB(munsellStr, rgbSpace = RGBSPACE_SRGB) {
+export function calcMunsellToRGB(munsellStr, rgbSpace = SRGB) {
   const [hue100, value, chroma] = calcMunsellToMHVC(munsellStr);
   return calcMHVCToRGB(hue100, value, chroma, rgbSpace);
 }
 
 /** */
-export function calcMHVCToRGB255(hue100, value, chroma, clamp = true, rgbSpace = RGBSPACE_SRGB) {
+export function calcMHVCToRGB255(hue100, value, chroma, clamp = true, rgbSpace = SRGB) {
   const [r, g, b] = calcMHVCToRGB(hue100, value, chroma, rgbSpace);
   return calcRGBToRGB255(r, g, b, clamp);
 }
 
 /** */
-export function calcMunsellToRGB255(munsellStr, clamp = true, rgbSpace = RGBSPACE_SRGB) {
+export function calcMunsellToRGB255(munsellStr, clamp = true, rgbSpace = SRGB) {
   const [hue100, value, chroma] = calcMunsellToMHVC(munsellStr);
   return calcMHVCToRGB255(hue100, value, chroma, clamp, rgbSpace);
 }
 
-/** */
-export function calcMHVCToHex(hue100, value, chroma, rgbSpace = RGBSPACE_SRGB) {
+/**
+ * Converts Munsell HVC to Hex code.
+ * @returns {string} Hex
+ */
+export function calcMHVCToHex(hue100, value, chroma, rgbSpace = SRGB) {
   return calcRGBToHex.apply(null, calcMHVCToRGB(hue100, value, chroma, rgbSpace));
 }
 
-/** */
-export function calcMunsellToHex(munsellStr, rgbSpace = RGBSPACE_SRGB) {
+/**
+ * Converts Munsell string to Hex code.
+ * @returns {string} Hex
+ */
+export function calcMunsellToHex(munsellStr, rgbSpace = SRGB) {
   const [hue100, value, chroma] = calcMunsellToMHVC(munsellStr);
   return calcMHVCToHex(hue100, value, chroma, rgbSpace);
 }
