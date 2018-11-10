@@ -1,15 +1,15 @@
 body {
+    display: flex;
+    flex-direction: column;
     background: black;
     color: white;
     margin: 0;
-    display: flex;
-    flex-direction: column;
     font-family: 'Open Sans', sans-serif;
     height: 100vh;
 }
 
 #north {
-    flex: 1;
+    flex: 5 5 auto;
     background: linear-gradient(90deg, black 50%, white 50%);
     width: 100%;
     text-align: center;
@@ -42,7 +42,7 @@ body {
 #color-canvas{
     background: #262D59;
     margin-top: 6em;
-    margin-bottom: 1.5em;
+    margin-bottom: 1em;
     margin-right: auto;
     margin-left: auto;
 }
@@ -81,8 +81,8 @@ body {
 }
 
 #south {
-    flex: 1;
-    margin: 0em 0 1em 0;
+    flex: 5 5 auto;
+    margin-bottom: 0.5em;
     margin-left: auto;
     margin-right: auto;
     max-width: 1000px;
@@ -108,9 +108,17 @@ table.buttons td {
     width: 3em;
 }
 
+.dull table.buttons td {
+    border-color: #808080;
+}
+
 td.selected {
     background: white;
     color: black;
+}
+
+.dull td.selected {
+    background: #808080;
 }
 
 #south dl {
@@ -120,6 +128,10 @@ td.selected {
     max-width: 97%;
     margin-right: auto;
     margin-left: auto;
+}
+
+#south.dull {
+    color: #808080;
 }
 
 #south dl dt {
@@ -139,16 +151,26 @@ td.selected {
 .slider {
     float: left;
     -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
     width: 70%;
     border-radius: 0;
     margin-left: 0;
-    margin-top: 4px;
+    margin-top: 0.5em;
+    margin-right: 1em;
     background: white;
     outline: none;
 }
 
-.slider::-webkit-slider-thumb {
-    -webkit-appearance: none;
+.dull .slider {
+    background: gray;
+}
+
+.slider::-moz-range-track {
+    height: 0;
+}
+
+.slider::-moz-range-thumb {
     appearance: none;
     width: 25px;
     height: 25px;
@@ -157,7 +179,9 @@ td.selected {
     cursor: pointer;
 }
 
-.slider::-moz-range-thumb {
+.slider::-webkit-slider-thumb, {
+    -webkit-appearance: none;
+    appearance: none;
     width: 25px;
     height: 25px;
     background: black;
@@ -179,19 +203,19 @@ td.selected {
     color: inherit;
 }
 
+
+.dull #forward-button {
+    border-color: #808080;
+}
+
 #forward-button:active {
     background: white;
     color: black;
 }
 
-footer {
-    flex: 1;
-}
 #progress-canvas {
-    background: grey;
-    /* margin-top: 1em; */
+    flex-grow: 0;
+    background: gray;
     height: 20px;
-    bottom: 0;
-    padding-botton: 0;
     width: 100%;
 }

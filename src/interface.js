@@ -1,3 +1,4 @@
+import {clamp} from "./arithmetic.js";
 import {calcMHVCToMunsell,
         calcMHVCToRGB255,
         calcMHVCToHex,
@@ -50,8 +51,8 @@ const userMHVC = {
   getMunsell: function () {
     return calcMHVCToMunsell.apply(null, this.get());
   },
-  getRGB255: function () {
-    return calcMHVCToRGB255.apply(null, this.get());
+  getRGB255: function (clamp = true) {
+    return calcMHVCToRGB255.apply(null, [...this.get(), clamp]);
   },
   getHex: function () {
     return calcMHVCToHex.apply(null, this.get());
@@ -96,9 +97,22 @@ const init = () => {
   reflectUsersInput(userMHVC);
 };
 
+const calcRGB255ToHex = (r, g, b) => {
+  return ["#", ...[r, g, b].map((x) => clamp(x, 0, 255))
+          .map((x) => (x < 16 ? "0" : "")+x.toString(16))].join("");
+}
+
 const reflectUsersInput = (mhvc) => {
+  const [r, g, b] = mhvc.getRGB255(false);
+  const isOutOfGamut = r < 0 || 255 < r || g < 0 || 255 < g || b < 0 || 255 < b;
+  showOutOfGamut(isOutOfGamut);
   updateUsersArea(mhvc.getMunsell());
-  updateCanvasBackground(mhvc.getHex());
+  updateCanvasBackground(calcRGB255ToHex(r, g, b));
+}
+
+const showOutOfGamut = (bool) => {
+  console.log(bool);
+  document.getElementById("south").className = bool ? "dull" : "";
 }
 
 const updateUsersArea = (str) => {
@@ -142,13 +156,12 @@ const fillRightHalfCanvas = (hex) => {
 }
 
 const fillWholeCanvas = (hex) => {
-  console.log("fillcanvas" + hex);
   ctx.fillStyle = hex;
   ctx.fillRect(0, 0, canvas.width, canvas.height);
 }
 
 const updateCanvasBackground = (hex) => {
-  console.log("updateCanvasBackground" + hex);
+  console.log(hex);
   canvas.style.backgroundColor = hex;
 }
 
@@ -182,7 +195,7 @@ const randomMHVCAndRGB255 = () => {
 
 const setQuestion = () => {
   const [hue100, value, chroma, r, g, b] = randomMHVCAndRGB255();
-  fillWholeCanvas(["#", ...[r, g, b].map((x) => (x < 16 ? "0" : "")+x.toString(16))].join(""));
+  fillWholeCanvas(calcRGB255ToHex(r, g, b));
   correctMHVC = [hue100, value, chroma];
   correctRGB = [r, g, b];
 }
