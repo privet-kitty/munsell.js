@@ -228,7 +228,7 @@ td.selected {
 
 #progress-canvas {
     flex-grow: 0;
-    background: gray;
+    /* background: gray; */
     height: 3vh;
     width: 100%;
 }
