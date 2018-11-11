@@ -4,7 +4,7 @@
 ;;; it.
 ;;;
 ;;; Usage:
-;;; $ sbcl --load fetch-mrd.lisp [output file]
+;;; $ sbcl --load fetch-mrd.lisp [output file] [number of digits]
 ;;;
 
 (eval-when (:compile-toplevel :load-toplevel :execute)
@@ -264,8 +264,13 @@ value=0.2."
         (*print-readably* nil))
     (call-next-method)))
 
+(defparameter *float-digits* nil
+  "Specifies the number of digits after the decimal point in WRITE-JS-OBJECT.")
+
 (defmethod write-js-object ((obj float) &key (stream *standard-output*))
-  (format stream "~F" obj))
+  (if *float-digits*
+      (format stream (concatenate 'string "~," (string *float-digits*) "F") obj)
+      (format stream "~F" obj)))
 
 (defmethod write-js-object ((obj array) &key (stream *standard-output*))
   (let* ((dims (array-dimensions obj))
@@ -294,8 +299,9 @@ value=0.2."
   (format stream ";~%"))
 
 ;; Saves the arrays to a .js file.
-(defun main (&optional (obj-filename "MRD.js"))
-  (let ((obj-path (uiop:merge-pathnames* obj-filename this-pathname)))
+(defun main (&optional (obj-filename "MRD.js") (digits nil))
+  (let ((obj-path (uiop:merge-pathnames* obj-filename this-pathname))
+        (*float-digits* digits))
     (with-open-file (out obj-path
 			 :direction :output
 			 :if-exists :supersede)
@@ -311,10 +317,9 @@ value=0.2."
     (format t "Munsell Renotation Data is successfully fetched and converted.~%")
     (format t "The file is saved at ~A.~%" obj-path)))
 
-(let ((args #-swank(uiop:command-line-arguments) #+swank nil))
-  (if args
-      (main (car args))
-      (main)))
+(let ((args #-swank(uiop:command-line-arguments)
+            #+swank nil))
+  (apply #'main args))
 
 #-swank (uiop:quit)
 
