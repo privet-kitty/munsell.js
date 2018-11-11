@@ -222,7 +222,7 @@ const setQuestion = () => {
 
 const showScore = () => {
   const score = currentScore.get();
-  let str = `Total Score: ${score.toFixed(1)}; ${currentScore.evaluate()}.`;  
+  let str = `Total Score: ${score.toFixed(1)} ${currentScore.evaluate()}`;  
   document.getElementById("evaluation").textContent = str;
 }
 
