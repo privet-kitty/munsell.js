@@ -9,16 +9,15 @@ body {
 }
 
 #north {
-    flex: 5 5 auto;
+    flex: 0 1 auto;
     background: linear-gradient(90deg, black 50%, white 50%);
     width: 100%;
-    text-align: center;
 }
 
 
-#north h1 {
+#north h1#header-caption {
+    float: left;
     position: absolute;
-    display: inline-block;
     left: 50%;
     transform: translate(-50%, -50%);
     background: linear-gradient(-90deg, black 50%, white 50%);
@@ -26,6 +25,21 @@ body {
     -webkit-text-fill-color: transparent;
     white-space: nowrap;
     font-size: 4em;
+}
+
+.right-header {
+    float: right;
+    margin: 0;
+}
+
+.right-header a{
+    color: #909090;
+    text-decoration: none;
+}
+
+.right-header a:hover {
+    background: black;
+    color: white;
 }
 
 #information-area {
@@ -135,6 +149,7 @@ td.selected {
 }
 
 #south dl dt {
+    clear: both;
     float: left;
     margin-right: 1em;
     width: 10%;
@@ -152,7 +167,6 @@ td.selected {
     float: left;
     -webkit-appearance: none;
     -moz-appearance: none;
-    appearance: none;
     width: 70%;
     border-radius: 0;
     margin-left: 0;
@@ -179,9 +193,8 @@ td.selected {
     cursor: pointer;
 }
 
-.slider::-webkit-slider-thumb, {
+.slider::-webkit-slider-thumb {
     -webkit-appearance: none;
-    appearance: none;
     width: 25px;
     height: 25px;
     background: black;
@@ -216,6 +229,13 @@ td.selected {
 #progress-canvas {
     flex-grow: 0;
     background: gray;
-    height: 20px;
+    height: 3vh;
     width: 100%;
+}
+
+#evaluation {
+    font-size: 1.5em;
+    font-weight: bold;
+    position: absolute;
+    right: 0;
 }

@@ -8,7 +8,8 @@
   </head>
   <body>
     <div id="north">
-      <h1 data-split="Albert">Guess Munsell Code</h1>
+      <h1 id="header-caption">Guess Munsell Code</h1>
+      <div class="right-header"><a href="https://github.com/privet-kitty/albert/">README</a></div>
       <div id="information-area">
         <div id="users-area">
           <div>Your choice:</div>
@@ -51,6 +52,7 @@
         </dl>
       <div class="centering-wrapper">
         <button type="button" id="forward-button" onclick="forward.next()">Start problem set</button>
+        <div id="evaluation"></div>
       </div>
     </div>
     <canvas id="progress-canvas"></canvas>
