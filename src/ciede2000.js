@@ -2,9 +2,9 @@
 
 import {mod, TWO_PI} from './arithmetic.js';
 
-// function radian2degree(rad) {
-//   return rad / TWO_PI * 360;
-// }
+function radian2degree(rad) {
+  return rad / TWO_PI * 360;
+}
 
 function degree2radian(deg) {
   return deg * TWO_PI / 360;
@@ -77,11 +77,11 @@ export function calcDeltaE00(L1, a1, b1, L2, a2, b2) {
   // console.log("C'1", Cprime1, "C'2", Cprime2);
   // console.log("h'1", radian2degree(hprime1), "h'2", radian2degree(hprime2));
   // console.log("Δhprime", Δhprime);
-  // console.log(radian2degree(Hmeanprime));
-  // console.log(G);
-  // console.log(T);
+  // console.log("H‾'", radian2degree(Hmeanprime));
+  // console.log("G", G);
+  // console.log("T", T);
   // console.log(factorL, factorC, factorH);
-  // console.log(SL, SC, SH, RT);
+  // console.log("SL", SL, "SC", SC, "SH", SH, "RT", RT);
   return Math.sqrt(factorL * factorL
                    + factorC * factorC
                    + factorH * factorH
@@ -90,3 +90,4 @@ export function calcDeltaE00(L1, a1, b1, L2, a2, b2) {
 
 // console.log(calcDeltaE00(50.0000, 2.6772, -79.7751, 50.0000, 0.0000, -82.7485));
 // console.log(calcDeltaE00(6.7747, -0.2908, -2.4247, 5.8714, -0.0985, -2.2286));
+// console.log(calcDeltaE00(50.0000,-0.0010,2.4900,50.0000,0.0011,-2.4900));
