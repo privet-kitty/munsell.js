@@ -138,8 +138,12 @@ class Slider {
   moveTo(value) {
     const currentTime = Date.now();
     const timeUntilStart = Math.max(this.finishTime - currentTime, 0);
-    this.finishTime += this.duration;
+    this.finishTime = Math.max(this.finishTime, currentTime) + this.duration;
 
+    console.log("currentTime", currentTime);
+    console.log("timeUntilStart", timeUntilStart);
+    console.log("finishTime", this.finishTime);
+    
     const oldValue = this.value;
     this.value = value;
     const interval = this.duration / this.frameRate;
@@ -150,8 +154,7 @@ class Slider {
     window.setTimeout(() => {
       if (startWidth < destWidth) {
         const intervalId = window.setInterval(() => {
-          console.log(cnt);
-          this.ctx.fillRect(startWidth, 0, cnt / this.frameRate * delta, this.canvas.height);
+          this.ctx.fillRect(0, 0, startWidth + cnt / this.frameRate * delta, this.canvas.height);
           if (cnt++ > this.frameRate) {
             window.clearInterval(intervalId);
           }
@@ -187,7 +190,6 @@ const reflectUsersInput = (mhvc) => {
 }
 
 const showOutOfGamut = (bool) => {
-  console.log(bool);
   document.getElementById("south").className = bool ? "dull" : "";
 }
 
