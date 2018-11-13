@@ -7,10 +7,26 @@ import {calcDeltaE00} from "./ciede2000.js";
 
 const hueNumberTable = ["R", "YR", "Y", "GY", "G", "BG", "B", "PB", "P", "RP"];
 
+const calcRGB255ToHex = (r, g, b) => {
+  return ["#", ...[r, g, b].map((x) => clamp(x, 0, 255))
+          .map((x) => (x < 16 ? "0" : "")+x.toString(16))].join("");
+}
+
+// Holds user-inputted Munsell HVC.
 const userMHVC = {
   huePrefix: 5,
   hueNumber: 7,
 
+  init: function (e) {
+    document.getElementById("value-slider").value = 1;
+    document.getElementById("chroma-slider").value = 5;
+    document.getElementById("hue-table").getElementsByTagName("td")[userMHVC.hueNumber].className = "selected";
+    document.getElementById("hue-prefix-table").getElementsByTagName("td")[userMHVC.huePrefix-1].className = "selected";
+    document.getElementById("current-value-indicator").textContent = document.getElementById("value-slider").value;
+    document.getElementById("current-chroma-indicator").textContent = document.getElementById("chroma-slider").value;
+    reflectUsersInput(userMHVC);
+  },
+  
   readValue: function (e) {
     document.getElementById("current-value-indicator").textContent = e.value;
     reflectUsersInput(this);
@@ -61,6 +77,7 @@ const userMHVC = {
 
 window.userMHVC = userMHVC;
 
+// Holds current score.
 class Score {
   constructor() {
     this.score = 0;
@@ -105,20 +122,59 @@ class Score {
 
 const currentScore = new Score();
 
-const init = () => {
-  document.getElementById("value-slider").value = 1;
-  document.getElementById("chroma-slider").value = 5;
-  document.getElementById("hue-table").getElementsByTagName("td")[userMHVC.hueNumber].className = "selected";
-  document.getElementById("hue-prefix-table").getElementsByTagName("td")[userMHVC.huePrefix-1].className = "selected";
-  document.getElementById("current-value-indicator").textContent = document.getElementById("value-slider").value;
-  document.getElementById("current-chroma-indicator").textContent = document.getElementById("chroma-slider").value;
-  reflectUsersInput(userMHVC);
-};
+// Displays progress and score at footer
+class Slider {
+  constructor(canvas, max = 100, defaultValue = 0, duration = 500) {
+    this.canvas = canvas;
+    this.ctx = canvas.getContext('2d');
+    this.queue = Promise.resolve(true);
+    this.max = max;
+    this.value = defaultValue;
+    this.duration = duration;
+    this.frameRate = 24;
+    this.finishTime = Date.now();
+  }
 
-const calcRGB255ToHex = (r, g, b) => {
-  return ["#", ...[r, g, b].map((x) => clamp(x, 0, 255))
-          .map((x) => (x < 16 ? "0" : "")+x.toString(16))].join("");
+  moveTo(value) {
+    const currentTime = Date.now();
+    const timeUntilStart = Math.max(this.finishTime - currentTime, 0);
+    this.finishTime += this.duration;
+
+    const oldValue = this.value;
+    this.value = value;
+    const interval = this.duration / this.frameRate;
+    const startWidth = oldValue / this.max * this.canvas.width;
+    const destWidth = value / this.max * this.canvas.width;
+    const delta = destWidth - startWidth;
+    let cnt = 1;
+    window.setTimeout(() => {
+      if (startWidth < destWidth) {
+        const intervalId = window.setInterval(() => {
+          console.log(cnt);
+          this.ctx.fillRect(startWidth, 0, cnt / this.frameRate * delta, this.canvas.height);
+          if (cnt++ > this.frameRate) {
+            window.clearInterval(intervalId);
+          }
+        }, interval);
+      } else {
+        const intervalId = window.setInterval(() => {
+          this.ctx.clearRect(cnt / this.frameRate * delta + startWidth, 0, startWidth, this.canvas.height);
+          if (cnt++ > this.frameRate) {
+            window.clearInterval(intervalId);
+          }
+        }, interval);
+      }
+    }, timeUntilStart);
+  }
 }
+
+const progressSlider = new Slider(document.getElementById('progress-canvas'), 10);
+progressSlider.ctx.fillStyle = '#A0A0A0';
+// window.progressSlider = progressSlider;
+
+const init = () => {
+  userMHVC.init();
+};
 
 const reflectUsersInput = (mhvc) => {
   const [r, g, b] = mhvc.getRGB255(false);
@@ -126,7 +182,7 @@ const reflectUsersInput = (mhvc) => {
   showOutOfGamut(isOutOfGamut);
   updateUsersArea(mhvc.getMunsell());
   if (!isOutOfGamut) {
-    updateCanvasBackground(calcRGB255ToHex(r, g, b));
+    updateCanvasBackground(r, g, b);
   }
 }
 
@@ -180,9 +236,8 @@ const fillWholeCanvas = (hex) => {
   ctx.fillRect(0, 0, canvas.width, canvas.height);
 }
 
-const updateCanvasBackground = (hex) => {
-  console.log(hex);
-  canvas.style.backgroundColor = hex;
+const updateCanvasBackground = (r, g, b) => {
+  canvas.style.backgroundColor = calcRGB255ToHex(r, g, b);
 }
 
 const clearCanvas = () => {
@@ -236,6 +291,7 @@ const forward = function* (e) {
   while(true) {
     hideScore();
     currentScore.reset();
+    progressSlider.moveTo(0);
     for (let i=1; i<=10; i++) {
       // Question phase
       clearCanvas();
@@ -244,13 +300,14 @@ const forward = function* (e) {
       e.textContent = `Answer`;
       yield;
       // Answer phase
+      progressSlider.moveTo(i);
       const mhvc = userMHVC.get();
       const delta = calcDeltaE00.apply(null, [...calcMHVCToLab.apply(null, mhvc),
                                               ...calcMHVCToLab.apply(null, correctMHVC)]);
       currentScore.add(Score.calcScore(delta));
       updateSystemArea(correctMHVC, delta, currentScore.latest);
       clearCanvas();
-      updateCanvasBackground(userMHVC.getHex());
+      updateCanvasBackground.apply(null, userMHVC.getRGB255());
       fillRightHalfCanvas(calcMHVCToHex.apply(null, correctMHVC));
       if (i === 10) {
         break;
