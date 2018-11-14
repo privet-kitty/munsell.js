@@ -4,7 +4,7 @@
  * Some arithmetic in a circle group.
 
  * Note that no functions take `multiple laps' into consideration:
- * i.e. the arc length of the interval [-2pi, 2pi] is not 4pi but 2pi.
+ * i.e. the arc length of the interval [-2pi, 2pi] is not 4pi but 0.
  * @module
  */
 
