@@ -20,7 +20,7 @@ const userMHVC = {
   huePrefix: 5,
   hueNumber: 7,
 
-  init: function (e) {
+  init: function () {
     document.getElementById("value-slider").value = 1;
     document.getElementById("chroma-slider").value = 5;
     document.getElementById("hue-table").getElementsByTagName("td")[userMHVC.hueNumber].className = "selected";
@@ -286,7 +286,6 @@ const randomMHVCAndRGB255 = () => {
     const randomRGB = calcMHVCToRGB255(hue100, value, chroma, false);
     if (!randomRGB.map((x) => 0 <= x && x <= 255).includes(false)) {
       return [hue100, value, chroma, ...randomRGB];
-      break;
     }
   }
   return [hue100, value, 0, ...calcMHVCToRGB255(hue100, value, 0)];
@@ -343,7 +342,6 @@ const forward = function* (e) {
       yield;
     }
     showScore();
-    console.log(`Your score is ${currentScore.get()}!`);
     e.textContent = originalButtonName;
     yield;
   }

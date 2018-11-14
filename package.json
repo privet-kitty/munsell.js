@@ -7,6 +7,7 @@
   "sourceType": "module",
   "scripts": {
     "test": "jest",
+    "lint": "eslint src",
     "doc": "jsdoc -c jsdoc-conf.json",
     "build": "browserify src/interface.js -o lib/interface.js -t babelify"
   },
@@ -22,6 +23,7 @@
     "babel-preset-env": "^1.7.0",
     "babelify": "^8.0.0",
     "browserify": "^16.2.3",
+    "eslint": "^5.9.0",
     "jest": "^23.6.0",
     "jsdoc": "^3.5.5"
   },
