@@ -159,7 +159,7 @@ class Slider {
             window.clearInterval(intervalId);
           }
         }, interval);
-      } else {
+      } else if (startWidth > destWidth) {
         const intervalId = window.setInterval(() => {
           this.ctx.clearRect(cnt / this.frameRate * delta + startWidth, 0, startWidth, this.canvas.height);
           if (cnt++ > this.frameRate) {
@@ -172,8 +172,11 @@ class Slider {
 }
 
 const progressSlider = new Slider(document.getElementById('progress-canvas'), 10);
-progressSlider.ctx.fillStyle = '#A0A0A0';
+progressSlider.ctx.fillStyle = '#303030';
 // window.progressSlider = progressSlider;
+
+const scoreSlider = new Slider(document.getElementById('score-canvas'), 100);
+scoreSlider.ctx.fillStyle = '#505050';
 
 const init = () => {
   userMHVC.init();
@@ -294,6 +297,7 @@ const forward = function* (e) {
     hideScore();
     currentScore.reset();
     progressSlider.moveTo(0);
+    scoreSlider.moveTo(0);
     for (let i=1; i<=10; i++) {
       // Question phase
       clearCanvas();
@@ -302,11 +306,12 @@ const forward = function* (e) {
       e.textContent = `Answer`;
       yield;
       // Answer phase
-      progressSlider.moveTo(i);
       const mhvc = userMHVC.get();
       const delta = calcDeltaE00.apply(null, [...calcMHVCToLab.apply(null, mhvc),
                                               ...calcMHVCToLab.apply(null, correctMHVC)]);
       currentScore.add(Score.calcScore(delta));
+      progressSlider.moveTo(i);
+      scoreSlider.moveTo(currentScore.get());
       updateSystemArea(correctMHVC, delta, currentScore.latest);
       clearCanvas();
       updateCanvasBackground.apply(null, userMHVC.getRGB255());
