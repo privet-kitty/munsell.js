@@ -8,11 +8,14 @@ import {calcDeltaE00} from "./ciede2000.js";
 const hueNumberTable = ["R", "YR", "Y", "GY", "G", "BG", "B", "PB", "P", "RP"];
 
 const calcRGB255ToHex = (r, g, b) => {
-  return ["#", ...[r, g, b].map((x) => clamp(x, 0, 255))
-          .map((x) => (x < 16 ? "0" : "")+x.toString(16))].join("");
+  return "#" +
+    [r, g, b]
+    .map((x) => clamp(x, 0, 255))
+    .map((x) => (x < 16 ? "0" : "")+x.toString(16))
+    .join("");
 }
 
-// Holds user-inputted Munsell HVC.
+// Holds user-input Munsell HVC.
 const userMHVC = {
   huePrefix: 5,
   hueNumber: 7,
@@ -127,41 +130,58 @@ class Slider {
   constructor(canvas, max = 100, defaultValue = 0, duration = 500) {
     this.canvas = canvas;
     this.ctx = canvas.getContext('2d');
-    this.queue = Promise.resolve(true);
     this.max = max;
     this.value = defaultValue;
     this.duration = duration;
     this.frameRate = 24;
     this.finishTime = Date.now();
+    this.warpTo(defaultValue);
   }
 
+  // Immediately moves to the VALUE.
+  warpTo(value) {
+    const currentTime = Date.now();
+    const timeUntilStart = Math.max(this.finishTime - currentTime, 0);
+
+    const oldValue = this.value;
+    this.value = value;
+    const startWidth = oldValue / this.max * this.canvas.width;
+    const destWidth = value / this.max * this.canvas.width;
+    
+    window.setTimeout(() => {
+      if (startWidth < destWidth) {
+        this.ctx.fillRect(0, 0, Math.round(destWidth), this.canvas.height);
+      } else if (startWidth > destWidth) {
+        this.ctx.clearRect(Math.round(destWidth), 0, this.canvas.width, this.canvas.height);
+      }
+    }, timeUntilStart);
+  }
+
+  // Takes DURATION ms to move to the VALUE.
   moveTo(value) {
     const currentTime = Date.now();
     const timeUntilStart = Math.max(this.finishTime - currentTime, 0);
     this.finishTime = Math.max(this.finishTime, currentTime) + this.duration;
 
-    console.log("currentTime", currentTime);
-    console.log("timeUntilStart", timeUntilStart);
-    console.log("finishTime", this.finishTime);
-    
     const oldValue = this.value;
     this.value = value;
     const interval = this.duration / this.frameRate;
     const startWidth = oldValue / this.max * this.canvas.width;
     const destWidth = value / this.max * this.canvas.width;
-    const delta = destWidth - startWidth;
+    const diffWidth = destWidth - startWidth;
+    const delta = diffWidth /this.frameRate;
     let cnt = 1;
     window.setTimeout(() => {
       if (startWidth < destWidth) {
         const intervalId = window.setInterval(() => {
-          this.ctx.fillRect(0, 0, startWidth + cnt / this.frameRate * delta, this.canvas.height);
+          this.ctx.fillRect(0, 0, startWidth + cnt * delta, this.canvas.height);
           if (cnt++ > this.frameRate) {
             window.clearInterval(intervalId);
           }
         }, interval);
       } else if (startWidth > destWidth) {
         const intervalId = window.setInterval(() => {
-          this.ctx.clearRect(cnt / this.frameRate * delta + startWidth, 0, startWidth, this.canvas.height);
+          this.ctx.clearRect(startWidth + cnt * delta, 0, startWidth, this.canvas.height);
           if (cnt++ > this.frameRate) {
             window.clearInterval(intervalId);
           }
@@ -173,7 +193,6 @@ class Slider {
 
 const progressSlider = new Slider(document.getElementById('progress-canvas'), 10);
 progressSlider.ctx.fillStyle = '#303030';
-// window.progressSlider = progressSlider;
 
 const scoreSlider = new Slider(document.getElementById('score-canvas'), 100);
 scoreSlider.ctx.fillStyle = '#505050';
@@ -290,8 +309,8 @@ const hideScore = () => {
   document.getElementById("evaluation").textContent = "";
 }
 
+// Corresponds to the main button.
 const forward = function* (e) {
-  // Corresponds to the main button.
   const originalButtonName = e.textContent;
   while(true) {
     hideScore();
