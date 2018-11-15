@@ -12,7 +12,7 @@ The underlying data of this tool is the [Munsell Renotation Data](https://www.ri
 The score of your guess is computed based on CIEDE2000.
 
 ## Supported browsers
-Tested on Firefox and Chrome.
+Tested on Firefox, Chrome, and Edge.
 
 ## Copyright
 Copyright (c) 2018 Hugo I.
