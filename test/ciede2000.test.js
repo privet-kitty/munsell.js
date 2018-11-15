@@ -2,7 +2,7 @@ import {calcDeltaE00} from '../src/ciede2000.js';
 import fs from 'fs';
 
 // Reads and parses the .csv file into testSet.
-const wholeStr = fs.readFileSync('./test/ciede2000_test_data.csv', {encoding: 'ascii'})
+const wholeStr = fs.readFileSync('./test/ciede2000-test-data.csv', {encoding: 'ascii'})
       .split('\n')
       .filter((s) => s.length !== 0); // Deletes the last empty row
 const size = wholeStr.length;

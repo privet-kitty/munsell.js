@@ -6,7 +6,7 @@ import {calcLCHabToLab,
         calcRGBToRGB255,
         calcRGBToHex,
         ILLUMINANT_C} from '../src/colorspace.js';
-import './jest_extension.js';
+import './jest-extension.js';
 
 describe('Lab <-> LCHab', () => {
   test('boundary case', () => {

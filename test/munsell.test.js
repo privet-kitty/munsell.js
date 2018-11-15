@@ -6,7 +6,7 @@ import {calcMunsellValueToL,
         calcMunsellToRGB255,
         calcMunsellToHex,
         calcMHVCToMunsell} from '../src/munsell.js';
-import './jest_extension.js';
+import './jest-extension.js';
 
 describe('calcMunsellValueToL()', () => {
   test('boundary case', () => {

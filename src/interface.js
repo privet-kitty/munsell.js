@@ -176,6 +176,7 @@ class Slider {
         const intervalId = window.setInterval(() => {
           this.ctx.fillRect(0, 0, startWidth + cnt * delta, this.canvas.height);
           if (cnt++ > this.frameRate) {
+            // this.ctx.fillRect(0, 0, Math.round(destWidth), this.canvas.height);
             window.clearInterval(intervalId);
           }
         }, interval);
@@ -183,6 +184,7 @@ class Slider {
         const intervalId = window.setInterval(() => {
           this.ctx.clearRect(startWidth + cnt * delta, 0, startWidth, this.canvas.height);
           if (cnt++ > this.frameRate) {
+            // this.ctx.clearRect(destWidth, 0, Math.round(startWidth - destWidth), this.canvas.height);
             window.clearInterval(intervalId);
           }
         }, interval);
