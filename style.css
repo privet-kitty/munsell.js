@@ -165,6 +165,7 @@ td.selected {
     width: 10%;
     min-width: 5.5em;
     font-weight: bold;
+    white-space: nowrap;
 }
 
 #south dl dd {
