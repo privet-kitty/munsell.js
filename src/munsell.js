@@ -35,27 +35,35 @@ import {mod,
  * <p> This module handles the Munsell Color in two ways, string or
  * triplet of numbers, which can be identified by the name of
  * method. The former is <dfn>Munsell</dfn>, the standard string
- * specification of the Munsell Color: e.g. "4.2RP 3/11", "N 10". The
- * latter is <dfn>MHVC</dfn>, or Munsell HVC, its 3-number expression
- * composed of [Hue, Value, Chroma]: e.g. [94.2, 3, 11], [0, 10
- * ,0]. Hue is the circle group R/100Z: i.e. 0R (= 10RP) corresponds
- * to 0 (= 100 = 300 = -2000) and 2YR corresponds to 12 (= -88 =
- * 412). Value is in the interval [0, 10] and the converters will
- * clamp it if a given value exceeds it. Chroma is non-negative and
- * the converters will assume it to be zero if a given chroma is
- * negative. Note that every converter accepts a huge chroma outside
- * the MRD (e.g. 1000000) and returns a extrapolated result.
+ * specification of the Munsell Color: e.g. <code>"4.2RP 3/11"</code>,
+ * <code>"N 10"</code>. The latter is <dfn>MHVC</dfn>, or Munsell HVC,
+ * its 3-number expression composed of [Hue, Value, Chroma]:
+ * e.g. <code>[94.2, 3, 11]</code>, <code>[0, 10 ,0]</code>. Hue is
+ * the circle group R/100Z: i.e. 0R (= 10RP) corresponds to 0 (= 100 =
+ * 300 = -2000) and 2YR corresponds to 12 (= -88 = 412). Value is in
+ * the interval [0, 10] and the converters will clamp it if a given
+ * value exceeds it. Chroma is non-negative and the converters will
+ * assume it to be zero if a given chroma is negative. Note that every
+ * converter accepts a huge chroma outside the MRD (e.g. 1000000) and
+ * returns a extrapolated result.
  * @module
  */
 
-/** Converts Munsell value to Y (in XYZ).
+/** 
+ * Converts Munsell value to Y (in XYZ).
+ * @param {number} value - will be in [0, 10]. Clamped if it exceeds
+ * the interval.
+ * @return {number} Y
  */
 export function calcMunsellValueToY(v) {
   return v * (1.1914 + v * (-0.22533 + v * (0.23352 + v * (-0.020484 + v * 0.00081939)))) * 0.01;
 }
 
-/** Converts Munsell value to L* (in L*a*b*).
-*/
+/** Converts Munsell value to L* (in CIELAB).
+ * @param {number} value - will be in [0, 10]. Clamped if it exceeds
+ * the interval.
+ * @return {number} L*
+ */
 export function calcMunsellValueToL(v) {
   return 116 * functionF(calcMunsellValueToY(v)) - 16;
 }
@@ -167,7 +175,8 @@ function calcMHVCToLCHabGeneralCase(hue40, scaledValue, halfChroma, dark = false
 }
 
 /**
- * Converts Munsell HVC to LCHab.
+ * Converts Munsell HVC to LCHab. Note that the returned value is
+ * under <strong>Illuminant C</strong>.
  * @param {number} hue100 - is in the circle group R/100Z. Any real
  * number is accepted.
  * @param {number} value - will be in [0, 10]. Clamped if it exceeds
@@ -216,7 +225,8 @@ export function calcMunsellToMHVC(munsellStr) {
 }
 
 /**
- * Converts Munsell string to LCHab.
+ * Converts Munsell string to LCHab. Note that the returned value is
+ * under <strong>Illuminant C</strong>.
  * @param {string} munsellStr - is the standard Munsell Color code.
  * @returns {Array} [L*, C*ab, hab]
  */
@@ -224,18 +234,41 @@ export function calcMunsellToLCHab(munsellStr) {
   return calcMHVCToLCHab.apply(null, calcMunsellToMHVC(munsellStr));
 }
 
-/** */
+/** Converts Munsell HVC to CIELAB. Note that the returned value is
+ * under <strong>Illuminant C</strong>.
+ * @param {number} hue100 - is in the circle group R/100Z. Any real
+ * number is accepted.
+ * @param {number} value - will be in [0, 10]. Clamped if it exceeds
+ * the interval.
+ * @param {number} chroma - will be in [0, +inf). Assumed to be zero
+ * if it is negative.
+ * @returns {Array} [L*, a*, b*]
+ */
 export function calcMHVCToLab(hue100, value, chroma) {
   const [lstar, cstarab, hab] = calcMHVCToLCHab(hue100, value, chroma);
   return [lstar].concat(calcLCHabToLab(cstarab, hab));
 }
 
-/** */
+
+/** Converts Munsell string to CIELAB. Note that the returned value is
+ * under <strong>Illuminant C</strong>.
+ * @param {string} munsellStr
+ * @returns {Array} [L*, a*, b*]
+ */
 export function calcMunsellToLab(munsellStr) {
   return calcMHVCToLab.apply(null, calcMunsellToMHVC(munsellStr));
 }
 
-/** */
+/** Converts Munsell HVC to XYZ.
+ * @param {number} hue100 - is in the circle group R/100Z. Any real
+ * number is accepted.
+ * @param {number} value - will be in [0, 10]. Clamped if it exceeds
+ * the interval.
+ * @param {number} chroma - will be in [0, +inf). Assumed to be zero
+ * if it is negative.
+ * @param {illuminant} [illuminant = ILLUMINANT_D65]
+ * @returns {Array} [L*, C*ab, hab]
+ */
 export function calcMHVCToXYZ(hue100, value, chroma, illuminant = ILLUMINANT_D65) {
   // Uses Bradford transformation
   const [lstar, astar, bstar] = calcMHVCToLab(hue100, value, chroma);
@@ -304,7 +337,7 @@ export function calcMunsellToHex(munsellStr, rgbSpace = SRGB) {
 
 /**
  * Converts Munsell HVC to string. `N', the code for achromatic
- * colors, is used when the chroma becomes zero in the specified
+ * colors, is used when the chroma becomes zero w.r.t. the specified
  * number of digits.
  * @param {number} hue100
  * @param {number} value
