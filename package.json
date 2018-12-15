@@ -1,9 +1,10 @@
 {
-  "name": "albert",
-  "version": "0.1.0",
-  "description": "Training tool for colorimetry",
-  "private": true,
-  "main": "interface.js",
+  "name": "munselljs",
+  "version": "0.0.1",
+  "description": "Library for Munsell Color System",
+  "private": false,
+  "main": "src/index.js",
+  "module": "src/main.js",
   "sourceType": "module",
   "scripts": {
     "test": "jest",
