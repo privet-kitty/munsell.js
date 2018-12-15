@@ -11,7 +11,7 @@ describe('mod()', () => {
 })
 
 describe('circularNearer()', () => {
-    test('basics', () => {
+    test('basic behaviours', () => {
         expect(circularNearer(6.2, 4.2, 1)).toBe(1);
         expect(circularNearer(-0.5, 358, 10, 360)).toBe(358);
     })
@@ -19,10 +19,10 @@ describe('circularNearer()', () => {
          
 
 describe('circularClamp()', () => {
-    test('zero perimeter', () => {
+    test('zero perimeter case', () => {
         expect(circularClamp(2, 1, 3, 0)).toBeNaN();
     })
-    test('basics', () => {
+    test('basic behaviours', () => {
         expect(circularClamp(50, 0, 0)).toBe(0);
         expect(circularClamp(-3, 350, 10, 360)).toBe(-3);
         expect(circularClamp(-11, 350, 10, 360)).toBe(350);
@@ -31,7 +31,7 @@ describe('circularClamp()', () => {
 })
          
 describe('circularLerp()', () => {
-    test('basics', () => {
+    test('basic behaviours', () => {
         expect(circularLerp(1, 0.2, 1)).toBe(1);
         expect(circularLerp(0.4, 350, 10, 360)).toBeCloseTo(358);
     })

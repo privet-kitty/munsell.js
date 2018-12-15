@@ -9,7 +9,7 @@ const CONST2 = 24389/27/116;
 const CONST3 = 16/116;
 
 export function functionF(x) {
-  // used in XYZ -> Lab conversion
+  // Called in XYZ -> Lab conversion
   if (x > CONST1) {
     return Math.pow(x, 0.3333333333333333);
   } else {
@@ -17,16 +17,16 @@ export function functionF(x) {
   }
 }
 
-export function calcLabToLCHab(astar, bstar) {
+export function labToLchab(astar, bstar) {
   // Omits L*.
   return [Math.sqrt((astar*astar) + (bstar*bstar)),
           mod((Math.atan2(bstar, astar) / TWO_PI) * 360, 360)];
 }
 
-export function calcLCHabToLab(cstarab, hab) {
+export function lchabToLab(Cstarab, hab) {
   // Omits L*.
   const hue2PI = (hab / 360) * TWO_PI;
-  return [cstarab * Math.cos(hue2PI), cstarab * Math.sin(hue2PI)];
+  return [Cstarab * Math.cos(hue2PI), Cstarab * Math.sin(hue2PI)];
 }
 
 
@@ -39,7 +39,7 @@ class Illuminant {
   }
 }
 
-// The data are based on dufy.
+// The following data are based on dufy. CAT is Bradford transformation.
 export const ILLUMINANT_D65 =
   new Illuminant(0.950428061568676,
                  1.08891545904089,
@@ -58,7 +58,7 @@ export const ILLUMINANT_C =
 const DELTA = 6/29;
 const CONST4 = 3*DELTA*DELTA;
 
-export function calcLabToXYZ(lstar, astar, bstar, illuminant = ILLUMINANT_D65) {
+export function labToXyz(lstar, astar, bstar, illuminant = ILLUMINANT_D65) {
   const fy = (lstar + 16) / 116;
   const fx = fy + astar * 0.002;
   const fz = fy - bstar * 0.005;
@@ -67,6 +67,13 @@ export function calcLabToXYZ(lstar, astar, bstar, illuminant = ILLUMINANT_D65) {
   return [ (fx > DELTA) ? (fx*fx*fx*Xw) : ((fx - CONST3) * CONST4 * Xw),
            (fy > DELTA) ? (fy*fy*fy) : ((fy - CONST3) * CONST4),
            (fz > DELTA) ? (fz*fz*fz*Zw) : ((fz - CONST3) * CONST4 * Zw) ];  
+}
+
+export function xyzToLab(X, Y, Z, illuminant = ILLUMINANT_D65) {
+  const [fX, fY, fZ] = [X / illuminant.X, Y, Z / illuminant.Z].map(functionF);
+  return [116 * fY - 16,
+          500 * (fX - fY),
+          200 * (fY - fZ)];
 }
 
 function genLinearizer(gamma) {
@@ -85,11 +92,11 @@ function genDelinearizer(gamma) {
 }
 
 class RGBSpace {
-  constructor(matrixThisToXYZ, matrixXYZFromThis,
+  constructor(matrixThisToXyz, matrixXyzToThis,
               linearizer = genLinearizer(2.2), delinearizer = genDelinearizer(2.2),
               illuminant = ILLUMINANT_D65) {
-    this.matrixThisToXYZ = matrixThisToXYZ;
-    this.matrixXYZFromThis = matrixXYZFromThis;
+    this.matrixThisToXyz = matrixThisToXyz;
+    this.matrixXyzToThis = matrixXyzToThis;
     this.linearizer = linearizer;
     this.delinearizer = delinearizer;
     this.illuminant = illuminant;
@@ -98,8 +105,8 @@ class RGBSpace {
 
 const CONST5 = 0.0031308*12.92;
 
+// The following data are based on dufy.
 export const SRGB = new RGBSpace(
-  // These data are based on dufy.
   [[0.4124319639872968,0.3575780371782625,0.1804592355313134],
    [0.21266023143094992,0.715156074356525,0.07218369421252536],
    [0.01933274831190452,0.11919267905942081,0.9504186404649174]],
@@ -110,7 +117,7 @@ export const SRGB = new RGBSpace(
     if (x > CONST5) {
       return Math.pow ((0.055 + x) / 1.055, 2.4);
     } else if (x < -CONST5) {
-      return - Math.pow ((0.055 - 1) / 1.055, 2.4);
+      return - Math.pow ((0.055 - x) / 1.055, 2.4);
     } else {
       return x / 12.92;
     }
@@ -126,16 +133,31 @@ export const SRGB = new RGBSpace(
   }
 );
 
-export function calcXYZToLinearRGB(X, Y, Z, space = SRGB) {
-  return multMatrixVector(space.matrixXYZFromThis, [X, Y, Z]);
+export const ADOBE_RGB = new RGBSpace (
+  [[0.5766645233146432, 0.18556215235063508, 0.18820138590339738],
+   [0.29734264483411293, 0.6273768008045281, 0.07528055436135896],
+   [0.027031149530373878, 0.07069034375262295, 0.991193965757893]],
+  [[2.0416039047109305,-0.5650114025085637,-0.3447340526026908],
+   [-0.969223190031607,1.8759279278672774,0.04155418080089159],
+   [0.01344622799042258,-0.11837953662156253,1.015322039041507]],
+  genDelinearizer(563/256),
+  genLinearizer(563/256)
+);
+
+export function xyzToLinearRgb(X, Y, Z, space = SRGB) {
+  return multMatrixVector(space.matrixXyzToThis, [X, Y, Z]);
 }
 
-export function calcLinearRGBToRGB(lr, lg, lb, space = SRGB) {
+export function linearRgbToXyz(lr, lg, lb, space = SRGB) {
+  return multMatrixVector(space.matrixThisToXyz, [lr, lg, lb]);
+}
+
+export function linearRgbToRgb(lr, lg, lb, space = SRGB) {
   return [lr, lg, lb].map(space.delinearizer);
 }
 
 
-export function calcRGBToRGB255(r, g, b, clamp = true) {
+export function rgbToRgb255(r, g, b, clamp = true) {
   if (clamp) {
     return [r, g, b].map((x) => Math.max(Math.min(Math.round(x * 255), 255), 0));
   } else {
@@ -143,10 +165,26 @@ export function calcRGBToRGB255(r, g, b, clamp = true) {
   }
 }
 
-export function calcRGBToHex(r, g, b) {
+export function rgb255ToRgb(r255, g255, b255) {
+  return [r255 / 255, g255 / 255, b255 /255];
+}
+
+export function rgbToHex(r, g, b) {
   return "#" + [r, g, b].map((x) => {
     const hex = clamp(Math.round(x * 255), 0, 255).toString(16);
     return hex.length === 1 ? "0" + hex : hex;
   }).join("");
 }
 
+export function hexToRgb(hex) {
+  const num = parseInt(hex.slice(1), 16);
+  const length = hex.length;
+  switch (length) {
+  case 7:
+    return [num >> 16, num >> 8, num].map((x) => (x & 0xff) / 255);
+  case 4:
+    return [num >> 8, num >> 4, num].map((x) => (x & 0xf) / 16);
+  default:
+    throw SyntaxError(`The length of hex is neither 7 nor 4: ${hex}`);
+  }
+}

@@ -16,9 +16,9 @@ for(let i = 0; i < size; i += 2) {
 
 describe('calcDeltaE00()', () => {
   for(let i in testSet) {
-    const r = testSet[i];
-    test('Sharma-Wu-Dalal test case ' + i, () => {
-      expect(calcDeltaE00.apply(null, r.slice(0, 6))).toBeCloseTo(r[6], 4);
+    const row = testSet[i];
+    test(`Sharma-Wu-Dalal test case ${i}`, () => {
+      expect(calcDeltaE00.apply(null, row.slice(0, 6))).toBeCloseTo(row[6], 4);
     })
   }
 })

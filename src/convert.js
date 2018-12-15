@@ -1,13 +1,13 @@
 // -*- encoding: utf-8 -*-
 import * as MRD from './MRD.js';
 import {functionF,
-        calcLCHabToLab,
-        calcLabToLCHab,
-        calcLabToXYZ,
-        calcXYZToLinearRGB,
-        calcLinearRGBToRGB,
-        calcRGBToRGB255,
-        calcRGBToHex,
+        lchabToLab,
+        labToLchab,
+        labToXyz,
+        xyzToLinearRgb,
+        linearRgbToRgb,
+        rgbToRgb255,
+        rgbToHex,
         ILLUMINANT_C,
         ILLUMINANT_D65,
         SRGB} from './colorspace.js';
@@ -17,35 +17,32 @@ import {mod,
         multMatrixVector} from './arithmetic.js';
 
 /**
- * <p> This module handles the Munsell Color system. The main facility
- * is the conversion from the Munsell Color space to other spaces
+ * <p> munsell.js handles the Munsell Color System. The main facility of this
+ * module is the conversion from the Munsell Color space to other spaces
  * (e.g. RGB).
 
  * <p> The data underlying this module is {@link
- * https://www.rit.edu/cos/colorscience/rc_munsell_renotation.php
- * Munsell Renotation Data}. Every converter inter- and extrapolates
- * them using cylindrical coordinates of LCH(ab) space. The algorithm
- * is similar to the one by Paul Centore. (See his thesis "An
- * open‐source inversion algorithm for the Munsell renotation",
- * 2011). All of relevant colorimetric data are (indirectly) based on
- * corresponding standards via {@link
- * https://github.com/privet-kitty/dufy dufy}, my color library for
- * Common Lisp. See the links for more details.
+ * https://www.rit.edu/cos/colorscience/rc_munsell_renotation.php Munsell
+ * Renotation Data}. Every converter inter- and extrapolates them using
+ * cylindrical coordinates of LCH(ab) space. The algorithm is similar to the one
+ * by Paul Centore. (See his thesis "An open‐source inversion algorithm for the
+ * Munsell renotation", 2011). All of relevant colorimetric data are
+ * (indirectly) based on corresponding standards via {@link
+ * https://github.com/privet-kitty/dufy dufy}, my color library for Common
+ * Lisp. See the links for more details.
  *
- * <p> This module handles the Munsell Color in two ways, string or
- * triplet of numbers, which can be identified by the name of
- * method. The former is <dfn>Munsell</dfn>, the standard string
- * specification of the Munsell Color: e.g. <code>"4.2RP 3/11"</code>,
- * <code>"N 10"</code>. The latter is <dfn>MHVC</dfn>, or Munsell HVC,
- * its 3-number expression composed of [Hue, Value, Chroma]:
- * e.g. <code>[94.2, 3, 11]</code>, <code>[0, 10 ,0]</code>. Hue is
- * the circle group R/100Z: i.e. 0R (= 10RP) corresponds to 0 (= 100 =
- * 300 = -2000) and 2YR corresponds to 12 (= -88 = 412). Value is in
- * the interval [0, 10] and the converters will clamp it if a given
- * value exceeds it. Chroma is non-negative and the converters will
- * assume it to be zero if a given chroma is negative. Note that every
- * converter accepts a huge chroma outside the MRD (e.g. 1000000) and
- * returns a extrapolated result.
+ * <p> This module expresses the Munsell Color in two ways, a string or triplet
+ * of numbers, which can be identified by the name of method. The former is
+ * <dfn>Munsell</dfn>, the standard string specification of the Munsell Color:
+ * e.g. <code>"4.2RP 3/11"</code>, <code>"N 10"</code>. The latter is
+ * <dfn>MHVC</dfn>, or Munsell HVC, its 3-number expression composed of [Hue,
+ * Value, Chroma]: e.g. <code>[94.2, 3, 11]</code>, <code>[0, 10
+ * ,0]</code>. Here Hue is the circle group R/100Z: i.e. 0R (= 10RP) corresponds
+ * to 0 (= 100 = 300 = -2000) and 2YR corresponds to 12 (= -88 = 412). Value is
+ * in the interval [0, 10] and the converters will clamp it if a given value
+ * exceeds it. Chroma is non-negative and the converters will assume it to be
+ * zero if a given chroma is negative. Note that every converter accepts a huge
+ * chroma outside the MRD (e.g. 1000000) and returns a extrapolated result.
  * @module
  */
 
@@ -55,7 +52,7 @@ import {mod,
  * the interval.
  * @return {number} Y
  */
-export function calcMunsellValueToY(v) {
+export function munsellValueToY(v) {
   return v * (1.1914 + v * (-0.22533 + v * (0.23352 + v * (-0.020484 + v * 0.00081939)))) * 0.01;
 }
 
@@ -64,18 +61,18 @@ export function calcMunsellValueToY(v) {
  * the interval.
  * @return {number} L*
  */
-export function calcMunsellValueToL(v) {
-  return 116 * functionF(calcMunsellValueToY(v)) - 16;
+export function munsellValueToL(v) {
+  return 116 * functionF(munsellValueToY(v)) - 16;
 }
 
-// These converters process a dark color (value < 1) separately
-// because the values of the Munsell Renotation Data (all.dat) are not
-// evenly distributed: [0, 0.2, 0.4, 0.6, 0.8, 1, 2, 3, ..., 10].
+// These converters process a dark color (value < 1) separately because the
+// values of the Munsell Renotation Data (all.dat) are not evenly distributed:
+// [0, 0.2, 0.4, 0.6, 0.8, 1, 2, 3, ..., 10].
 
-// In the following functions, the real value equals scaledValue/5 if
-// dark is true; the real chroma equals to halfChroma*2.
+// In the following functions, the actual value equals scaledValue/5 if dark is
+// true; the actual chroma equals to halfChroma*2.
 
-function calcMHVCToLCHabAllIntegerCase(hue40, scaledValue, halfChroma, dark = false) {
+function mhvcToLchabAllIntegerCase(hue40, scaledValue, halfChroma, dark = false) {
   // Handles the case HVC are all integer. If chroma is larger than
   // 50, C*ab is linearly extrapolated.
 
@@ -111,14 +108,14 @@ function calcMHVCToLCHabAllIntegerCase(hue40, scaledValue, halfChroma, dark = fa
 }
 
 // Handles the case V and C are integer.
-function calcMHVCToLCHabValueChromaIntegerCase(hue40, scaledValue, halfChroma, dark = false) {
+function mhvcToLchabValueChromaIntegerCase(hue40, scaledValue, halfChroma, dark = false) {
   const hue1 = Math.floor(hue40);
   const hue2 = mod(Math.ceil(hue40), 40);
-  const [lstar, cstarab1, hab1] = calcMHVCToLCHabAllIntegerCase(hue1, scaledValue, halfChroma, dark);
+  const [lstar, cstarab1, hab1] = mhvcToLchabAllIntegerCase(hue1, scaledValue, halfChroma, dark);
   if (hue1 === hue2) {
     return [lstar, cstarab1, hab1];
   } else {
-    const [ , cstarab2, hab2] = calcMHVCToLCHabAllIntegerCase(hue2, scaledValue, halfChroma, dark);
+    const [ , cstarab2, hab2] = mhvcToLchabAllIntegerCase(hue2, scaledValue, halfChroma, dark);
     if ((hab1 === hab2) ||
         (mod(hab2 - hab1, 360) >= 180)) { // workaround for the rare case hab1 exceeds hab2
       return [lstar, cstarab1, hab1];
@@ -132,45 +129,45 @@ function calcMHVCToLCHabValueChromaIntegerCase(hue40, scaledValue, halfChroma, d
 }
 
 // Handles the case V is integer.
-function calcMHVCToLCHabValueIntegerCase(hue40, scaledValue, halfChroma, dark = false) {
+function mhvcToLchabValueIntegerCase(hue40, scaledValue, halfChroma, dark = false) {
   const halfChroma1 = Math.floor(halfChroma);
   const halfChroma2 = Math.ceil(halfChroma);
   if (halfChroma1 === halfChroma2) {
-    return calcMHVCToLCHabValueChromaIntegerCase(hue40, scaledValue, halfChroma, dark);
+    return mhvcToLchabValueChromaIntegerCase(hue40, scaledValue, halfChroma, dark);
   } else {
-    const [lstar, cstarab1, hab1] = calcMHVCToLCHabValueChromaIntegerCase(hue40, scaledValue, halfChroma1, dark);
-    const [, cstarab2, hab2] = calcMHVCToLCHabValueChromaIntegerCase(hue40, scaledValue, halfChroma2, dark);
-    const [astar1, bstar1] = calcLCHabToLab(cstarab1, hab1);
-    const [astar2, bstar2] = calcLCHabToLab(cstarab2, hab2);
+    const [lstar, cstarab1, hab1] = mhvcToLchabValueChromaIntegerCase(hue40, scaledValue, halfChroma1, dark);
+    const [, cstarab2, hab2] = mhvcToLchabValueChromaIntegerCase(hue40, scaledValue, halfChroma2, dark);
+    const [astar1, bstar1] = lchabToLab(cstarab1, hab1);
+    const [astar2, bstar2] = lchabToLab(cstarab2, hab2);
     const astar = astar1 * (halfChroma2 - halfChroma) + astar2 * (halfChroma - halfChroma1);
     const bstar = bstar1 * (halfChroma2 - halfChroma) + bstar2 * (halfChroma - halfChroma1);
-    return [lstar].concat(calcLabToLCHab(astar, bstar));
+    return [lstar].concat(labToLchab(astar, bstar));
   }
 }
 
-function calcMHVCToLCHabGeneralCase(hue40, scaledValue, halfChroma, dark = false) {
+function mhvcToLchabGeneralCase(hue40, scaledValue, halfChroma, dark = false) {
   const realValue = dark ? scaledValue*0.2 : scaledValue;
   const scaledValue1 = Math.floor(scaledValue);
   const scaledValue2 = Math.ceil(scaledValue);
-  const lstar = calcMunsellValueToL(realValue);
+  const lstar = munsellValueToL(realValue);
   if (scaledValue1 === scaledValue2) {
-    return calcMHVCToLCHabValueIntegerCase(hue40, scaledValue1, halfChroma, dark);
+    return mhvcToLchabValueIntegerCase(hue40, scaledValue1, halfChroma, dark);
   } else if (scaledValue1 === 0) {
     // If the given color is so dark (V < 0.2) that it is out of MRD,
     // we use the fact that the chroma and hue of LCHab corresponds
     // roughly to that of Munsell.
-    const [, cstarab, hab] = calcMHVCToLCHabValueIntegerCase(hue40, 1, halfChroma, dark);
+    const [, cstarab, hab] = mhvcToLchabValueIntegerCase(hue40, 1, halfChroma, dark);
     return [lstar, cstarab, hab];
   } else {
-    const [lstar1, cstarab1, hab1] = calcMHVCToLCHabValueIntegerCase(hue40, scaledValue1, halfChroma, dark);
-    const [lstar2, cstarab2, hab2] = calcMHVCToLCHabValueIntegerCase(hue40, scaledValue2, halfChroma, dark);
-    const [astar1, bstar1] = calcLCHabToLab(cstarab1, hab1);
-    const [astar2, bstar2] = calcLCHabToLab(cstarab2, hab2);
+    const [lstar1, cstarab1, hab1] = mhvcToLchabValueIntegerCase(hue40, scaledValue1, halfChroma, dark);
+    const [lstar2, cstarab2, hab2] = mhvcToLchabValueIntegerCase(hue40, scaledValue2, halfChroma, dark);
+    const [astar1, bstar1] = lchabToLab(cstarab1, hab1);
+    const [astar2, bstar2] = lchabToLab(cstarab2, hab2);
     const astar = astar1 * (lstar2 - lstar) / (lstar2 - lstar1) +
           astar2 * (lstar - lstar1) / (lstar2 - lstar1);
     const bstar = bstar1 * (lstar2 - lstar) / (lstar2 - lstar1) +
           bstar2 * (lstar - lstar1) / (lstar2 - lstar1);
-    return [lstar].concat(calcLabToLCHab(astar, bstar));
+    return [lstar].concat(labToLchab(astar, bstar));
   }
 }
 
@@ -185,14 +182,14 @@ function calcMHVCToLCHabGeneralCase(hue40, scaledValue, halfChroma, dark = false
  * if it is negative.
  * @returns {Array} [L*, C*ab, hab]
  */
-export function calcMHVCToLCHab(hue100, value, chroma) {
+export function mhvcToLchab(hue100, value, chroma) {
   const hue40 = mod(hue100 * 0.4, 40);
   const value10 = clamp(value, 0, 10);
   const halfChroma = Math.max(0, chroma) * 0.5;
   if (value >= 1) {
-    return calcMHVCToLCHabGeneralCase(hue40, value10, halfChroma, false);
+    return mhvcToLchabGeneralCase(hue40, value10, halfChroma, false);
   } else {
-    return calcMHVCToLCHabGeneralCase(hue40, value10 * 5, halfChroma, true);
+    return mhvcToLchabGeneralCase(hue40, value10 * 5, halfChroma, true);
   }
 }
 
@@ -207,7 +204,7 @@ available. However, the capital letters and '/' are reserved.
  * @param {string} munsellStr - is the standard Munsell Color code.
  * @returns {Array} [hue100, value, chroma]
  */
-export function calcMunsellToMHVC(munsellStr) {
+export function munsellToMhvc(munsellStr) {
   const nums = munsellStr.split(/[^a-z0-9.\-]+/)
         .filter(Boolean)
         .map(str => Number(str));
@@ -230,8 +227,8 @@ export function calcMunsellToMHVC(munsellStr) {
  * @param {string} munsellStr - is the standard Munsell Color code.
  * @returns {Array} [L*, C*ab, hab]
  */
-export function calcMunsellToLCHab(munsellStr) {
-  return calcMHVCToLCHab.apply(null, calcMunsellToMHVC(munsellStr));
+export function munsellToLchab(munsellStr) {
+  return mhvcToLchab.apply(null, munsellToMhvc(munsellStr));
 }
 
 /** Converts Munsell HVC to CIELAB. Note that the returned value is
@@ -244,9 +241,9 @@ export function calcMunsellToLCHab(munsellStr) {
  * if it is negative.
  * @returns {Array} [L*, a*, b*]
  */
-export function calcMHVCToLab(hue100, value, chroma) {
-  const [lstar, cstarab, hab] = calcMHVCToLCHab(hue100, value, chroma);
-  return [lstar].concat(calcLCHabToLab(cstarab, hab));
+export function mhvcToLab(hue100, value, chroma) {
+  const [lstar, cstarab, hab] = mhvcToLchab(hue100, value, chroma);
+  return [lstar].concat(lchabToLab(cstarab, hab));
 }
 
 
@@ -255,8 +252,8 @@ export function calcMHVCToLab(hue100, value, chroma) {
  * @param {string} munsellStr
  * @returns {Array} [L*, a*, b*]
  */
-export function calcMunsellToLab(munsellStr) {
-  return calcMHVCToLab.apply(null, calcMunsellToMHVC(munsellStr));
+export function munsellToLab(munsellStr) {
+  return mhvcToLab.apply(null, munsellToMhvc(munsellStr));
 }
 
 /** Converts Munsell HVC to XYZ.
@@ -269,70 +266,72 @@ export function calcMunsellToLab(munsellStr) {
  * @param {illuminant} [illuminant = ILLUMINANT_D65]
  * @returns {Array} [L*, C*ab, hab]
  */
-export function calcMHVCToXYZ(hue100, value, chroma, illuminant = ILLUMINANT_D65) {
+export function mhvcToXyz(hue100, value, chroma, illuminant = ILLUMINANT_D65) {
   // Uses Bradford transformation
-  const [lstar, astar, bstar] = calcMHVCToLab(hue100, value, chroma);
+  const [lstar, astar, bstar] = mhvcToLab(hue100, value, chroma);
   return multMatrixVector(illuminant.catMatrixCToThis,
-                          calcLabToXYZ(lstar, astar, bstar, ILLUMINANT_C));
+                          labToXyz(lstar, astar, bstar, ILLUMINANT_C));
 }
 
 /** */
-export function calcMunsellToXYZ(munsellStr, illuminant = ILLUMINANT_D65) {
-  const [hue100, value, chroma] = calcMunsellToMHVC(munsellStr);
-  return calcMHVCToXYZ(hue100, value, chroma, illuminant);
+export function munsellToXyz(munsellStr, illuminant = ILLUMINANT_D65) {
+  const [hue100, value, chroma] = munsellToMhvc(munsellStr);
+  return mhvcToXyz(hue100, value, chroma, illuminant);
+}
+
+/** Converts Munsell HVC to linear RGB.
+ */
+export function mhvcToLinearRgb(hue100, value, chroma, rgbSpace = SRGB) {
+  const [X, Y, Z] = mhvcToXyz(hue100, value, chroma, rgbSpace.illuminant);
+  return xyzToLinearRgb(X, Y, Z, rgbSpace);
+}
+
+/** Converts Munsell string to linear RGB.
+ */
+export function munsesllToLinearRgb(munsellStr, rgbSpace = SRGB) {
+  const [hue100, value, chroma] = munsellToMhvc(munsellStr);
+  return mhvcToLinearRgb(hue100, value, chroma, rgbSpace);
 }
 
 /** */
-export function calcMHVCToLinearRGB(hue100, value, chroma, rgbSpace = SRGB) {
-  const [X, Y, Z] = calcMHVCToXYZ(hue100, value, chroma, rgbSpace.illuminant);
-  return calcXYZToLinearRGB(X, Y, Z, rgbSpace);
+export function mhvcToRgb(hue100, value, chroma, rgbSpace = SRGB) {
+  const [lr, lg, lb] = mhvcToLinearRgb(hue100, value, chroma, rgbSpace);
+  return linearRgbToRgb(lr, lg, lb, rgbSpace);
 }
 
 /** */
-export function calcMunsellToLinearRGB(munsellStr, rgbSpace = SRGB) {
-  const [hue100, value, chroma] = calcMunsellToMHVC(munsellStr);
-  return calcMHVCToLinearRGB(hue100, value, chroma, rgbSpace);
+export function munsellToRgb(munsellStr, rgbSpace = SRGB) {
+  const [hue100, value, chroma] = munsellToMhvc(munsellStr);
+  return mhvcToRgb(hue100, value, chroma, rgbSpace);
 }
 
 /** */
-export function calcMHVCToRGB(hue100, value, chroma, rgbSpace = SRGB) {
-  const [lr, lg, lb] = calcMHVCToLinearRGB(hue100, value, chroma, rgbSpace);
-  return calcLinearRGBToRGB(lr, lg, lb, rgbSpace);
+export function mhvcToRgb255(hue100, value, chroma, clamp = true, rgbSpace = SRGB) {
+  const [r, g, b] = mhvcToRgb(hue100, value, chroma, rgbSpace);
+  return rgbToRgb255(r, g, b, clamp);
 }
 
 /** */
-export function calcMunsellToRGB(munsellStr, rgbSpace = SRGB) {
-  const [hue100, value, chroma] = calcMunsellToMHVC(munsellStr);
-  return calcMHVCToRGB(hue100, value, chroma, rgbSpace);
-}
-
-/** */
-export function calcMHVCToRGB255(hue100, value, chroma, clamp = true, rgbSpace = SRGB) {
-  const [r, g, b] = calcMHVCToRGB(hue100, value, chroma, rgbSpace);
-  return calcRGBToRGB255(r, g, b, clamp);
-}
-
-/** */
-export function calcMunsellToRGB255(munsellStr, clamp = true, rgbSpace = SRGB) {
-  const [hue100, value, chroma] = calcMunsellToMHVC(munsellStr);
-  return calcMHVCToRGB255(hue100, value, chroma, clamp, rgbSpace);
+export function munsellToRgb255(munsellStr, clamp = true, rgbSpace = SRGB) {
+  const [hue100, value, chroma] = munsellToMhvc(munsellStr);
+  return mhvcToRgb255(hue100, value, chroma, clamp, rgbSpace);
 }
 
 /**
  * Converts Munsell HVC to Hex code.
  * @returns {string} Hex
  */
-export function calcMHVCToHex(hue100, value, chroma, rgbSpace = SRGB) {
-  return calcRGBToHex.apply(null, calcMHVCToRGB(hue100, value, chroma, rgbSpace));
+export function mhvcToHex(hue100, value, chroma, rgbSpace = SRGB) {
+  return rgbToHex.apply(null, mhvcToRgb(hue100, value, chroma, rgbSpace));
 }
 
 /**
  * Converts Munsell string to Hex code.
  * @returns {string} Hex
  */
-export function calcMunsellToHex(munsellStr, rgbSpace = SRGB) {
-  const [hue100, value, chroma] = calcMunsellToMHVC(munsellStr);
-  return calcMHVCToHex(hue100, value, chroma, rgbSpace);
+export function munsellToHex(munsellStr, rgbSpace = SRGB) {
+  const [hue100, value, chroma] = munsellToMhvc(munsellStr);
+  return mhvcToHex(hue100, value, chroma, rgbSpace);
 }
 
 /**
@@ -348,7 +347,7 @@ export function calcMunsellToHex(munsellStr, rgbSpace = SRGB) {
  * point.
  * @returns {string} Munsell Color code
  */
-export function calcMHVCToMunsell(hue100, value, chroma, digits = 1) {
+export function mhvcToMunsell(hue100, value, chroma, digits = 1) {
   const canonicalHue100 = mod(hue100, 100);
   const huePrefix = canonicalHue100 % 10;
   const hueNumber = Math.round((canonicalHue100 - huePrefix)/10);
