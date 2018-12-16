@@ -2,12 +2,15 @@ import {munsellValueToL,
         mhvcToLchab,
         munsellToMhvc,
         munsellToLchab,
+        munsellToLab,
         mhvcToXyz,
         munsellToXyz,
+        munsellToLinearRgb,
+        munsellToRgb,
         munsellToRgb255,
         munsellToHex,
         mhvcToMunsell} from '../src/convert.js';
-import {ILLUMINANT_C} from '../src/colorspace.js';
+import {ILLUMINANT_C, SRGB, ADOBE_RGB} from '../src/colorspace.js';
 import './jest-extension.js';
 
 describe('munsellValueToL()', () => {
@@ -65,6 +68,14 @@ describe('munsellToLchab()', () => {
   })
 })
 
+
+describe('munsellToLab()', () => {
+  test('boundary case', () => {
+    expect(munsellToLab("N 10")).toNearlyEqual([100, 0, 0], 8);
+    expect(munsellToLab("N 0")).toNearlyEqual([0, 0, 0], 8);
+  })
+})
+
 describe('mhvcToXyz()', () => {
   test('consistency with dufy (Illuminant D65)', () => {
     expect(mhvcToXyz(0, 2.18, 3.1)).toNearlyEqual([0.04407256823883116, 0.03510249845936815, 0.038100157923138124], 6);
@@ -77,10 +88,24 @@ describe('munsellToXyz()', () => {
   })
 })
 
+describe('munsellToLinearRgb()', () => {
+  test('boundary case', () => {
+    expect(munsellToLinearRgb("N 10", ADOBE_RGB)).toNearlyEqual([1, 1, 1], 10);
+    expect(munsellToLinearRgb("N 0", SRGB)).toNearlyEqual([0, 0, 0], 10);
+  })
+})
+
+describe('munsellToRgb()', () => {
+  test('boundary case', () => {
+    expect(munsellToRgb("N 10", ADOBE_RGB)).toNearlyEqual([1, 1, 1], 10);
+    expect(munsellToRgb("N 0", SRGB)).toNearlyEqual([0, 0, 0], 10);
+  })
+})
+
 describe('munsellToRgb255()', () => {
   test('boundary case', () => {
     expect(munsellToRgb255("N 0", false)).toEqual([0, 0, 0]);
-    expect(munsellToRgb255("N 10", false)).toEqual([255, 255, 255]);
+    expect(munsellToRgb255("N 10", false, ADOBE_RGB)).toEqual([255, 255, 255]);
   })
   test('consistency with dufy (sRGB)', () => {
     expect(munsellToRgb255("3.1GY 2.5/4.9")).toEqual([55, 64, 11]);
@@ -96,7 +121,7 @@ describe('munsellToRgb255()', () => {
 
 describe('munsellToHex()', () => {
   test('boundary case', () => {
-    expect(munsellToHex("N 0")).toEqual("#000000");
+    expect(munsellToHex("N 0", ADOBE_RGB)).toEqual("#000000");
     expect(munsellToHex("N 10")).toEqual("#ffffff");
   })
   test('consistency with dufy (sRGB)', () => {
