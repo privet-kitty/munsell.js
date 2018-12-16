@@ -1,10 +1,10 @@
 // -*- coding: utf-8 -*-
 
 /**
- * Some arithmetic in a circle group.
-
- * Note that no functions take `multiple laps' into consideration:
- * i.e. the arc length of the interval [-2pi, 2pi] is not 4pi but 0.
+ * Some arithmetic (mainly in a circle group) called only internally.
+ *
+ * Note that no functions take `multiple laps' into consideration: i.e. the arc
+ * length of the interval [-2pi, 2pi] is not 4pi but 0.
  * @module
  */
 
@@ -91,6 +91,21 @@ export function circularLerp (coef, theta1, theta2, perimeter = TWO_PI) {
   return circularClamp(theta1 + (arcLength * coef), theta1, theta2, perimeter);
 }
 
+/**
+ * Returns the 'difference' of two values in a circle group. The returned value
+ * Δ fulfills theta1 + Δ ≡ theta2 and -perimeter/2 <= Δ <= perimeter/2.
+ * @param {number} theta1
+ * @param {number} theta2
+ * @param {number} [perimter = TWO_PI]
+ */
+export function circularDelta(theta1, theta2, perimeter = TWO_PI) {
+  const d = mod(theta1 - theta2, perimeter);
+  if (d <= perimeter/2) {
+    return d;
+  } else {
+    return d - perimeter;
+  }
+}
 
 // Only the following two kinds of multiplication are necessary.
 export function multMatrixVector(A, x) {

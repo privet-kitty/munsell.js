@@ -1,20 +1,18 @@
-# Albert - simple training tool for colorimetry
+# munsell.js - library for handling Munsell Color System
 
-[![Build Status](https://api.travis-ci.org/privet-kitty/dufy.svg?branch=master)](https://travis-ci.org/privet-kitty/albert)
+**This library is still in a alpha stage.**
 
-This is a simple training tool to guess the Munsell Color code of a given color. Currently it is supposed that your screen is calibrated to sRGB.
+munsell.js is a library for JavaScript and Node.js. The main facility of this library is converting Munsell Color to/from other color spaces (e.g. RGB).
 
-https://privet-kitty.github.io/albert/
-
-![screenshot](https://github.com/privet-kitty/albert/blob/master/screenshot.png)
+## Compatibility
+munsell.js is completely written in ES6. You can `require` it from CommonJS without being conscious of that, however, as this library uses [`esm` loader](https://www.npmjs.com/package/esm).
 
 ## Mechanism
-The underlying data of this tool is the [Munsell Renotation Data](https://www.rit.edu/cos/colorscience/rc_munsell_renotation.php). Since this data assume the illuminant to be the Standard Illuminant C, Bradford transformation is used as chromatic adaptation to D65. The method of inter- and extrapolation is in common with [dufy](https://github.com/privet-kitty/dufy), my color library for Common Lisp. See the links for more details.
+The underlying data of this library is the [Munsell Renotation Data](https://www.rit.edu/cos/colorscience/rc_munsell_renotation.php). Since this data assume the illuminant to be the Standard Illuminant C, munsell.js uses the Bradford transformation as CAT to other illumnants (e.g. D65).
 
-The score of your guess is computed based on CIEDE2000.
+The method of inter- and extrapolation is in common with [dufy](https://github.com/privet-kitty/dufy), my color library for Common Lisp, which is substantially based on the Paul Centore's method. See the links and articles for more details.
 
-## Supported browsers
-Tested on Firefox, Chrome, and Edge.
+- Centore, Paul. (2012). An open-source inversion algorithm for the Munsell renotation. Color Research & Application. 37. 10.1002/col.20715. 
 
 ## Copyright
 Copyright (c) 2018 Hugo I.
