@@ -8,11 +8,11 @@
 ;;;
 
 (eval-when (:compile-toplevel :load-toplevel :execute)
-  (ql:quickload '(:drakma :babel :dufy/core :alexandria)))
+  (ql:quickload '(:drakma :babel :dufy/core/* :alexandria)))
 
 (use-package :dufy/internal)
 
-(defparameter *this-pathname* (load-time-value (or #.*compile-file-pathname* *load-pathname* )))
+(defparameter *this-pathname* (uiop:current-lisp-file-pathname))
 
 ;; Downloads all.dat.
 (defparameter *dat-url* "http://www.rit-mcsl.org/MunsellRenotation/all.dat")
@@ -48,7 +48,7 @@
 ;;; Parse and process the Munsell Renotation Data
 ;;;
 
-(defparameter munsell-renotation-data nil)
+(defvar munsell-renotation-data)
 
 ;; Reads the Munsell Renotation Data to a list. Y values in the MRD
 ;; are substituted by #'munsell-value-to-y (that conforms to the
@@ -166,38 +166,29 @@ Note: The data at value = 0 are substituted with the data at value =
   (cond ((= chroma 0)
          (multiple-value-list (munsell-value-to-achromatic-xyy value)))
         ((= value 0)
-         (funcall #'(lambda (lst)
-                      (if (null lst)
-                          nil
-                          (append (subseq lst 3 5) '(0d0))))
-                  (find-if #'(lambda (row)
-                               (and (= (mod (first row) 40) (mod hue-num 40))
-                                    (nearly= 0.001d0 (second row) 0.2d0)
-                                    (= (third row) chroma)))
-                           munsell-renotation-data)))
-        (t
-         (funcall #'(lambda (lst)
-                      (if (null lst)
-                          nil
-                          (subseq lst 3 6)))
-                  (find-if #'(lambda (row)
-                               (and (= (mod (first row) 40) (mod hue-num 40))
-                                    (nearly= 0.001d0 (second row) value)
-                                    (= (third row) chroma)))
-                           munsell-renotation-data)))))
-
-
-(defmacro awhen (test-form &body body)
-  `(let ((it ,test-form))
-     (when it ,@body)))
+         ((lambda (lst)
+            (if (null lst)
+                nil
+                (append (subseq lst 3 5) '(0d0))))
+          (find-if #'(lambda (row)
+                       (and (= (mod (first row) 40) (mod hue-num 40))
+                            (nearly= 1d-3 (second row) 0.2d0)
+                            (= (third row) chroma)))
+                   munsell-renotation-data)))
+        (t ((lambda (lst) (if (null lst) nil (subseq lst 3 6)))
+            (find-if #'(lambda (row)
+                         (and (= (mod (first row) 40) (mod hue-num 40))
+                              (nearly= 1d-3 (second row) value)
+                              (= (third row) chroma)))
+                     munsell-renotation-data)))))
 
 (defun get-lchab-from-dat (hue-num value chroma)
-  (awhen (get-xyy-from-dat hue-num value chroma)
+  (uiop:if-let ((xyy (get-xyy-from-dat hue-num value chroma)))
     (multiple-value-list
-     (apply #'xyy-to-lchab it))))
+     (apply #'xyy-to-lchab xyy))))
 
 (defun get-extrapolated-lchab-from-dat (hue-num value chroma)
-  "CHROMA must be even."
+  (assert (evenp chroma))
   (or (get-lchab-from-dat hue-num value chroma)
       (let* ((max-chroma (max-chroma-in-mrd hue-num value)))
         (destructuring-bind (lstar cstarab hab)
@@ -279,11 +270,9 @@ Note: The data at value = 0 are substituted with the data at value =
           (setf (aref mrd-table-ch-dark hue value-idx half-chroma 0) cstarab)
           (setf (aref mrd-table-ch-dark hue value-idx half-chroma 1) hab))))))
 
-
-
-;;
-;; Output
-;;
+;;;
+;;; Output
+;;;
 
 (defgeneric write-js-object (obj &key stream))
 
