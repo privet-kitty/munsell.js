@@ -33,7 +33,7 @@ export function lToMunsellValue(lstar) {
   return yToMunsellValue(lToY(lstar));
 }
 
-function invertMhvcToLchab (lstar, cstarab, hab, initHue100, initChroma, maxIteration = 200, ifReachMax = "error", factor = 0.5, threshold = 1e-6) {
+function invertMhvcToLchab (lstar, cstarab, hab, initHue100, initChroma, threshold = 1e-6, maxIteration = 200, ifReachMax = "error", factor = 0.5) {
   const value = lToMunsellValue(lstar);
   if (value <= threshold || initChroma <= threshold) {
     return [initHue100, value, initChroma];
@@ -54,10 +54,10 @@ function invertMhvcToLchab (lstar, cstarab, hab, initHue100, initChroma, maxIter
       chroma = Math.max(0, chroma + factor * d_chroma);
     }
   }
-  // If loop finishes without achieving required accuracy:
+  // If loop finished without achieving the required accuracy:
   switch (ifReachMax) {
   case "error":
-    throw new Error("invertMhvcToLchab reached maxIteration without achieving the required accuracy.");
+    throw new Error("invertMhvcToLchab() reached maxIteration without achieving the required accuracy.");
   case "init":
     return [initHue100, value, initChroma];
   case "as-is":
@@ -68,12 +68,12 @@ function invertMhvcToLchab (lstar, cstarab, hab, initHue100, initChroma, maxIter
 }
 
 /** */
-export function lchabToMhvc(lstar, cstarab, hab, maxIteration = 200, ifReachMax = "error", factor = 0.5, threshold = 1e-6) {
+export function lchabToMhvc(lstar, cstarab, hab, threshold = 1e-6, maxIteration = 200, ifReachMax = "error", factor = 0.5) {
   return invertMhvcToLchab(lstar, cstarab, hab,
                            hab * 0.277777777778,
                            cstarab * 0.181818181818,
+                           threshold,
                            maxIteration,
                            ifReachMax,
-                           factor,
-                           threshold);
+                           factor);
 }

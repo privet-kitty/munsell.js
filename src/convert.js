@@ -194,7 +194,6 @@ export function mhvcToLchab(hue100, value, chroma) {
   }
 }
 
-
 const hueNames = ["R", "YR", "Y", "GY", "G", "BG", "B", "PB", "P", "RP"];
 
 /**
