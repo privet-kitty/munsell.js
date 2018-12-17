@@ -29,7 +29,7 @@ yToMunsellValueTable[partitions] = 10;
 
 fs.writeFileSync("y-to-value-table.js",
                  `export const yToMunsellValueTable =
-${JSON.stringify(yToMunsellValueTable, function(key, val) {
+${JSON.stringify(yToMunsellValueTable, (key, val) => {
     return val.toFixed ? Number(val.toFixed(6)) : val;
 })};
 `)

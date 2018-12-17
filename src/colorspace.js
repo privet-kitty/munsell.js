@@ -175,10 +175,12 @@ export function rgb255ToRgb(r255, g255, b255) {
 }
 
 export function rgbToHex(r, g, b) {
-  return "#" + [r, g, b].map((x) => {
-    const hex = clamp(Math.round(x * 255), 0, 255).toString(16);
-    return hex.length === 1 ? "0" + hex : hex;
-  }).join("");
+  return "#".concat([r, g, b]
+                    .map((x) => {
+                      const hex = clamp(Math.round(x * 255), 0, 255).toString(16);
+                      return hex.length === 1 ? `0${hex}` : hex;
+                    })
+                    .join(""));
 }
 
 export function hexToRgb(hex) {

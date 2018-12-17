@@ -207,7 +207,7 @@ const hueNames = ["R", "YR", "Y", "GY", "G", "BG", "B", "PB", "P", "RP"];
 export function munsellToMhvc(munsellStr) {
   const nums = munsellStr.split(/[^a-z0-9.\-]+/)
         .filter(Boolean)
-        .map(str => Number(str));
+        .map((str) => Number(str));
   const hueName = munsellStr.match(/[A-Z]+/)[0];
   const hueNumber = hueNames.indexOf(hueName);
   if (hueName === "N") {
