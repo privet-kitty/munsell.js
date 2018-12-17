@@ -19,7 +19,7 @@ import {mod,
 
 /**
  * <p> munsell.js handles the Munsell Color System. The main facility of this
- * module is the conversion from the Munsell Color space to other spaces
+ * module is the conversion between the Munsell Color space and other spaces
  * (e.g. RGB).
 
  * <p> The data underlying this module is {@link

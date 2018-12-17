@@ -1,6 +1,10 @@
 {
   "source": {
-    "include": "./src/"
+    "include": [
+      "./src/convert.js",
+      "./src/invert.js",
+      "./README.md"
+    ]
   },
   "opts": {
     "destination": "./doc/"

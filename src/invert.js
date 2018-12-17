@@ -1,3 +1,4 @@
+// -*- coding: utf-8 -*-
 import {clamp,
         mod,
         circularDelta} from './arithmetic.js';
@@ -5,6 +6,10 @@ import {yToMunsellValueTable} from './y-to-value-table.js';
 import {lToY} from './colorspace.js';
 import {mhvcToLchab,
         mhvcToMunsell} from './convert.js';
+
+/**
+ * @module
+ */
 
 /**
  * Converts Y of XYZ to Munsell value. The round-trip error, abs(Y -
@@ -68,7 +73,39 @@ function invertMhvcToLchab (lstar, cstarab, hab, initHue100, initChroma, thresho
   }
 }
 
-/** */
+/**
+ * Converts LCHab to Munsell HVC by inverting mhvcToLchab() with a simple
+ * iteration algorithm, which is almost the same as the one in "An Open-Source
+ * Inversion Algorithm for the Munsell Renotation" by Paul Centore, 2011:
+
+ * <ul>
+ * <li>V := lToMunsellValue(L*);</li>
+ * <li>C<sub>0</sub> := C*<sub>ab</sub> / 5.5;</li>
+ * <li>H<sub>0</sub> := h<sub>ab</sub> / 9;</li>
+ * <li>C<sub>n+1</sub> := C<sub>n</sub> + factor * ΔC<sub>n</sub>;</li>
+ * <li>H<sub>n+1</sub> :=  H<sub>n</sub> + factor * ΔH<sub>n</sub>.</li>
+ * </ul>
+
+ * <p>ΔH<sub>n</sub> and ΔC<sub>n</sub> are internally calculated at every
+ * step. This function returns Munsell HVC values if C<sub>0</sub> ≦ threshold
+ * or if V ≦ threshold or when max(ΔH<sub>n</sub>, ΔC<sub>n</sub>) falls
+ * below threshold.
+
+ * <p> <var>ifReachMax</var> specifies the action to be taken if the loop
+ * reaches the maxIteration as follows:
+ * <ul>
+ * <li>"error": Throws Error;</li>
+ * <li>"init": Returns the initial rough approximation.</li>
+ * <li>"as-is": Returns the last </li>
+ * </ul>
+ * @param {number} lstar
+ * @param {number} cstarab
+ * @param {number} hab
+ * @param {number} [threshold = 1e-6]
+ * @param {number} [maxIteration = 200]
+ * @param {String} [ifReachMax = "error"]
+ * @param {number} [factor = 0.5]
+ */
 export function lchabToMhvc(lstar, cstarab, hab, threshold = 1e-6, maxIteration = 200, ifReachMax = "error", factor = 0.5) {
   return invertMhvcToLchab(lstar, cstarab, hab,
                            hab * 0.277777777778,
