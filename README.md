@@ -1,11 +1,11 @@
 # munsell.js - library for handling Munsell Color System
 
-**This library is still in a pre-alpha stage.**
+**This library is not completely implemented yet.**
 
-munsell.js is a library for JavaScript and Node.js. The main facility of this library is converting Munsell Color to/from other color spaces (e.g. RGB).
+munsell.js is a library for JavaScript and Node.js, whose main facility is converting Munsell Color to/from other color spaces (e.g. RGB).
 
 ## Compatibility
-munsell.js is completely written in ES6. You can `require` it from CommonJS without being conscious of that, however, as this library uses [`esm` loader](https://www.npmjs.com/package/esm).
+munsell.js is completely written in ES6. You can `require` it from CommonJS without being conscious of that as this library uses [`esm` loader](https://www.npmjs.com/package/esm).
 
 ## Mechanism
 The underlying data of this library is the [Munsell Renotation Data](https://www.rit.edu/cos/colorscience/rc_munsell_renotation.php). Since this data assume the illuminant to be the Standard Illuminant C, munsell.js uses the Bradford transformation as CAT to other illumnants (e.g. D65).

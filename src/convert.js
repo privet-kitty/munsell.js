@@ -26,7 +26,7 @@ import {mod,
  * Renotation Data}. Every converter inter- and extrapolates them using
  * cylindrical coordinates of LCH(ab) space. The algorithm is similar to the one
  * by Paul Centore. (See his thesis "An open‐source inversion algorithm for the
- * Munsell renotation", 2011). All of relevant colorimetric data are
+ * Munsell renotation", 2011). All of the relevant colorimetric data are
  * (indirectly) based on corresponding standards via {@link
  * https://github.com/privet-kitty/dufy dufy}, my color library for Common
  * Lisp. See the links for more details.
@@ -37,12 +37,13 @@ import {mod,
  * e.g. <code>"4.2RP 3/11"</code>, <code>"N 10"</code>. The latter is
  * <dfn>MHVC</dfn>, or Munsell HVC, its 3-number expression composed of [Hue,
  * Value, Chroma]: e.g. <code>[94.2, 3, 11]</code>, <code>[0, 10
- * ,0]</code>. Here Hue is the circle group R/100Z: i.e. 0R (= 10RP) corresponds
- * to 0 (= 100 = 300 = -2000) and 2YR corresponds to 12 (= -88 = 412). Value is
- * in the interval [0, 10] and the converters will clamp it if a given value
- * exceeds it. Chroma is non-negative and the converters will assume it to be
- * zero if a given chroma is negative. Note that every converter accepts a huge
- * chroma outside the MRD (e.g. 1000000) and returns a extrapolated result.
+ * ,0]</code>. Here Hue is in the circle group R/100Z: i.e. 0R (= 10RP)
+ * corresponds to 0 (= 100 = 300 = -2000) and 2YR corresponds to 12 (= -88 =
+ * 412). Value is in the interval [0, 10] and the converters will clamp it if a
+ * given value exceeds it. Chroma is non-negative and the converters will assume
+ * it to be zero if a given chroma is negative. Note that every converter
+ * accepts a huge chroma outside the MRD (e.g. 1000000) and returns a
+ * extrapolated result.
  * @module
  */
 
