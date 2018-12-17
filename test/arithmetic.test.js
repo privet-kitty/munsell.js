@@ -1,4 +1,8 @@
-import {mod, circularNearer, circularClamp, circularLerp} from '../src/arithmetic.js';
+import {mod,
+        TWO_PI,
+        cartesianToPolar, polarToCartesian,
+        circularNearer, circularClamp, circularLerp} from '../src/arithmetic.js';
+import './jest-extension.js';
 
 describe('mod()', () => {    
     test('zero case', () => {
@@ -10,13 +14,25 @@ describe('mod()', () => {
     })
 })
 
+describe('cartesian <-> polar', () => {
+  test('boundary case', () => {
+    expect(polarToCartesian(1, TWO_PI)).toNearlyEqual([1, 0], 10);
+    expect(polarToCartesian(2, -90, 360)).toNearlyEqual([0, -2], 10);
+    expect(cartesianToPolar(1, 0)).toNearlyEqual([1, 0], 10);
+  })
+  test('round-trip', () => {
+    for (let ab of [[-3, 4], [3.9e10, 3.9e-10], [0, 0]]) {
+      expect(polarToCartesian(...cartesianToPolar(...ab, 100), 100)).toNearlyEqual(ab, 10);
+    }
+  })
+})
+
 describe('circularNearer()', () => {
     test('basic behaviours', () => {
         expect(circularNearer(6.2, 4.2, 1)).toBe(1);
         expect(circularNearer(-0.5, 358, 10, 360)).toBe(358);
     })
 })
-         
 
 describe('circularClamp()', () => {
     test('zero perimeter case', () => {

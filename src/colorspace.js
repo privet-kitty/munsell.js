@@ -1,5 +1,7 @@
 import {TWO_PI,
         mod,
+        polarToCartesian,
+        cartesianToPolar,
         multMatrixVector,
         clamp} from './arithmetic.js';
 
@@ -16,16 +18,12 @@ export function functionF(x) {
   }
 }
 
-export function labToLchab(astar, bstar) {
-  // Omits L*.
-  return [Math.sqrt((astar*astar) + (bstar*bstar)),
-          mod((Math.atan2(bstar, astar) / TWO_PI) * 360, 360)];
+export function labToLchab(lstar, astar, bstar) {
+  return [lstar, ...cartesianToPolar(astar, bstar, 360)];
 }
 
-export function lchabToLab(Cstarab, hab) {
-  // Omits L*.
-  const hue2PI = (hab / 360) * TWO_PI;
-  return [Cstarab * Math.cos(hue2PI), Cstarab * Math.sin(hue2PI)];
+export function lchabToLab(lstar, Cstarab, hab) {
+  return [lstar, ...polarToCartesian(Cstarab, hab, 360)];
 }
 
 

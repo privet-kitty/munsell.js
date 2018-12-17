@@ -9,6 +9,8 @@
  */
 
 export const TWO_PI = Math.PI + Math.PI;
+export const FACTOR_DEGREE_TO_RADIAN = TWO_PI / 360;
+export const FACTOR_RADIAN_TO_DEGREE = 360 / TWO_PI;
 
 export function mod(dividend, divisor) {
   const x = dividend % divisor;
@@ -27,6 +29,17 @@ export function clamp(x, min, max) {
   return x;
 }
 
+export function cartesianToPolar(x, y, perimeter = TWO_PI) {
+  const factor = perimeter / TWO_PI;
+  return [Math.sqrt((x*x) + (y*y)),
+          mod(Math.atan2(y, x) * factor, 360)];
+}
+
+export function polarToCartesian(r, theta, perimeter = TWO_PI) {
+  const factor = TWO_PI / perimeter;
+  const hueRad = theta * factor;
+  return [r * Math.cos(hueRad), r * Math.sin(hueRad)];
+}
 
 /**
  * Compares the counterclockwise distances between theta1 and x and

@@ -13,6 +13,7 @@ import {functionF,
         SRGB} from './colorspace.js';
 import {mod,
         clamp,
+        polarToCartesian,
         circularLerp,
         multMatrixVector} from './arithmetic.js';
 
@@ -138,19 +139,19 @@ function mhvcToLchabValueIntegerCase(hue40, scaledValue, halfChroma, dark = fals
   } else {
     const [lstar, cstarab1, hab1] = mhvcToLchabValueChromaIntegerCase(hue40, scaledValue, halfChroma1, dark);
     const [, cstarab2, hab2] = mhvcToLchabValueChromaIntegerCase(hue40, scaledValue, halfChroma2, dark);
-    const [astar1, bstar1] = lchabToLab(cstarab1, hab1);
-    const [astar2, bstar2] = lchabToLab(cstarab2, hab2);
+    const [astar1, bstar1] = polarToCartesian(cstarab1, hab1, 360);
+    const [astar2, bstar2] = polarToCartesian(cstarab2, hab2, 360);
     const astar = astar1 * (halfChroma2 - halfChroma) + astar2 * (halfChroma - halfChroma1);
     const bstar = bstar1 * (halfChroma2 - halfChroma) + bstar2 * (halfChroma - halfChroma1);
-    return [lstar].concat(labToLchab(astar, bstar));
+    return labToLchab(lstar, astar, bstar);
   }
 }
 
 function mhvcToLchabGeneralCase(hue40, scaledValue, halfChroma, dark = false) {
-  const realValue = dark ? scaledValue*0.2 : scaledValue;
+  const actualValue = dark ? scaledValue*0.2 : scaledValue;
   const scaledValue1 = Math.floor(scaledValue);
   const scaledValue2 = Math.ceil(scaledValue);
-  const lstar = munsellValueToL(realValue);
+  const lstar = munsellValueToL(actualValue);
   if (scaledValue1 === scaledValue2) {
     return mhvcToLchabValueIntegerCase(hue40, scaledValue1, halfChroma, dark);
   } else if (scaledValue1 === 0) {
@@ -162,13 +163,13 @@ function mhvcToLchabGeneralCase(hue40, scaledValue, halfChroma, dark = false) {
   } else {
     const [lstar1, cstarab1, hab1] = mhvcToLchabValueIntegerCase(hue40, scaledValue1, halfChroma, dark);
     const [lstar2, cstarab2, hab2] = mhvcToLchabValueIntegerCase(hue40, scaledValue2, halfChroma, dark);
-    const [astar1, bstar1] = lchabToLab(cstarab1, hab1);
-    const [astar2, bstar2] = lchabToLab(cstarab2, hab2);
+    const [astar1, bstar1] = polarToCartesian(cstarab1, hab1, 360);
+    const [astar2, bstar2] = polarToCartesian(cstarab2, hab2, 360);
     const astar = astar1 * (lstar2 - lstar) / (lstar2 - lstar1) +
           astar2 * (lstar - lstar1) / (lstar2 - lstar1);
     const bstar = bstar1 * (lstar2 - lstar) / (lstar2 - lstar1) +
           bstar2 * (lstar - lstar1) / (lstar2 - lstar1);
-    return [lstar].concat(labToLchab(astar, bstar));
+    return labToLchab(lstar, astar, bstar);
   }
 }
 
@@ -242,8 +243,7 @@ export function munsellToLchab(munsellStr) {
  * @returns {Array} [L*, a*, b*]
  */
 export function mhvcToLab(hue100, value, chroma) {
-  const [lstar, cstarab, hab] = mhvcToLchab(hue100, value, chroma);
-  return [lstar].concat(lchabToLab(cstarab, hab));
+  return lchabToLab(...mhvcToLchab(hue100, value, chroma));
 }
 
 

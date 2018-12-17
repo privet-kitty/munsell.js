@@ -3,7 +3,8 @@ import {clamp,
         circularDelta} from './arithmetic.js';
 import {yToMunsellValueTable} from './y-to-value-table.js';
 import {lToY} from './colorspace.js';
-import {mhvcToLchab} from './convert.js';
+import {mhvcToLchab,
+        mhvcToMunsell} from './convert.js';
 
 /**
  * Converts Y of XYZ to Munsell value. The round-trip error, abs(Y -
@@ -76,4 +77,9 @@ export function lchabToMhvc(lstar, cstarab, hab, threshold = 1e-6, maxIteration 
                            maxIteration,
                            ifReachMax,
                            factor);
+}
+
+/** */
+export function lchabToMunsell(lstar, cstarab, hab, threshold = 1e-6, maxIteration = 200, ifReachMax = "error", factor = 0.5) {
+  return mhvcToMunsell(...lchabToMhvc(lstar, cstarab, hab, threshold, maxIteration, ifReachMax, factor));
 }

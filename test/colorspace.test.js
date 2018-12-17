@@ -16,19 +16,6 @@ import {lchabToLab,
 import {multMatrixMatrix} from '../src/arithmetic.js';
 import './jest-extension.js';
 
-describe('Lab <-> LCHab', () => {
-  test('boundary case', () => {
-    expect(lchabToLab(1, 360)).toNearlyEqual([1, 0], 10);
-    expect(lchabToLab(2, -90)).toNearlyEqual([0, -2], 10);
-    expect(labToLchab(1, 0)).toNearlyEqual([1, 0], 10);
-  })
-  test('round-trip', () => {
-    for (let ab of [[-3, 4], [3.9e10, 3.9e-10], [0, 0]]) {
-      expect(lchabToLab(...labToLchab(...ab))).toNearlyEqual(ab, 10);
-    }
-  })
-})
-
 describe('Lab <-> XYZ', () => {
   test('boundary case', () => {
     expect(labToXyz(100, 0, 0, ILLUMINANT_C)).toNearlyEqual([ILLUMINANT_C.X, 1, ILLUMINANT_C.Z], 5);
