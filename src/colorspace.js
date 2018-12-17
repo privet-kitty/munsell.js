@@ -1,6 +1,4 @@
-import {TWO_PI,
-        mod,
-        polarToCartesian,
+import {polarToCartesian,
         cartesianToPolar,
         multMatrixVector,
         clamp} from './arithmetic.js';
