@@ -41,11 +41,11 @@ describe('lToMunsellValue()', () => {
 describe('LCHab <-> Munsell HVC()', () => {
   test('round-trip', () => {
     for (let mhvc of [[80, 40, 20], [33.3333, 291.6667, 31.2778], [91.3, 85.1, 331.6]]) {
-      expect(mhvcToLchab.apply(null, lchabToMhvc.apply(null, mhvc))).toNearlyEqual(mhvc, 3);
+      expect(mhvcToLchab(...lchabToMhvc(...mhvc))).toNearlyEqual(mhvc, 3);
     }
   })
   test('round-trip (for negative hab)', () => {
-    expect(mhvcToLchab.apply(null, lchabToMhvc(50.1, 50.1, -50.1))).toNearlyEqual([50.1, 50.1, 309.9], 3);
+    expect(mhvcToLchab(...lchabToMhvc(50.1, 50.1, -50.1))).toNearlyEqual([50.1, 50.1, 309.9], 3);
   })
 })
 

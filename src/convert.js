@@ -228,7 +228,7 @@ export function munsellToMhvc(munsellStr) {
  * @returns {Array} [L*, C*ab, hab]
  */
 export function munsellToLchab(munsellStr) {
-  return mhvcToLchab.apply(null, munsellToMhvc(munsellStr));
+  return mhvcToLchab(...munsellToMhvc(munsellStr));
 }
 
 /** Converts Munsell HVC to CIELAB. Note that the returned value is under
@@ -253,7 +253,7 @@ export function mhvcToLab(hue100, value, chroma) {
  * @returns {Array} [L*, a*, b*]
  */
 export function munsellToLab(munsellStr) {
-  return mhvcToLab.apply(null, munsellToMhvc(munsellStr));
+  return mhvcToLab(...munsellToMhvc(munsellStr));
 }
 
 /** Converts Munsell HVC to XYZ.
@@ -350,7 +350,7 @@ export function munsellToRgb255(munsellStr, clamp = true, rgbSpace = SRGB) {
  * @returns {string} Hex
  */
 export function mhvcToHex(hue100, value, chroma, rgbSpace = SRGB) {
-  return rgbToHex.apply(null, mhvcToRgb(hue100, value, chroma, rgbSpace));
+  return rgbToHex(...mhvcToRgb(hue100, value, chroma, rgbSpace));
 }
 
 /**

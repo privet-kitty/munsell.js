@@ -24,7 +24,7 @@ describe('Lab <-> LCHab', () => {
   })
   test('round-trip', () => {
     for (let ab of [[-3, 4], [3.9e10, 3.9e-10], [0, 0]]) {
-      expect(lchabToLab.apply(null, labToLchab.apply(null, ab))).toNearlyEqual(ab, 10);
+      expect(lchabToLab(...labToLchab(...ab))).toNearlyEqual(ab, 10);
     }
   })
 })
@@ -40,7 +40,7 @@ describe('Lab <-> XYZ', () => {
   })
   test('round-trip', () => {
     for (let XYZ of [[0, 0, 0], [0.1, 0.2, 0.3], [1, 0.5, 0.00001]]) {
-      expect(labToXyz.apply(null, xyzToLab.apply(null, XYZ))).toNearlyEqual(XYZ, 10);
+      expect(labToXyz(...xyzToLab(...XYZ))).toNearlyEqual(XYZ, 10);
     }
   })
 })
@@ -60,7 +60,7 @@ describe('XYZ <-> liner RGB', () => {
   })
   test('round-trip', () => {
     for (let XYZ of [[0, 0, 0], [0.1, 0.2, 0.3], [1, 0.5, -0.00001]]) {
-      expect(linearRgbToXyz.apply(null, xyzToLinearRgb.apply(null, XYZ))).toNearlyEqual(XYZ, 10);
+      expect(linearRgbToXyz(...xyzToLinearRgb(...XYZ))).toNearlyEqual(XYZ, 10);
     }
   })
 })
@@ -76,7 +76,7 @@ describe('gamma-corrected RGB <-> quantized RGB', () => {
     expect(rgbToRgb255(0.101, 1.1, -0.3)).toEqual([26, 255, 0]);
   })
   test('round-trip', () => {
-    expect(rgbToRgb255.apply(null, rgb255ToRgb(200, -18, 300))).toEqual([200, 0, 255]);
+    expect(rgbToRgb255(...rgb255ToRgb(200, -18, 300))).toEqual([200, 0, 255]);
   })
 })
 
@@ -86,7 +86,7 @@ describe('gamma-corrected RGB <-> Hex code', () => {
   })
   test('round-trip', () => {
     for(let hex of ["#FEDCBA", "#000000"]) {
-      expect(rgbToHex.apply(null, hexToRgb(hex)).toUpperCase()).toEqual(hex);
+      expect(rgbToHex(...hexToRgb(hex)).toUpperCase()).toEqual(hex);
     }
   })
   test('12-bit hex', () => {

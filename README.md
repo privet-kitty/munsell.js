@@ -11,7 +11,7 @@ munsell.js is a library for JavaScript and Node.js, whose main facility is conve
 ## API reference
 
 ## Compatibility
-munsell.js is completely written in ES6. You can `require` it from CommonJS without being conscious of that as this library uses [`esm` loader](https://www.npmjs.com/package/esm).
+munsell.js is completely written in the ES module format. You can `require` it from CommonJS without being conscious of that as this library uses [`esm` loader](https://www.npmjs.com/package/esm).
 
 ## Mechanism
 The underlying data of this library is the [Munsell Renotation Data](https://www.rit.edu/cos/colorscience/rc_munsell_renotation.php). Since this data assume the illuminant to be the Standard Illuminant C, munsell.js uses the Bradford transformation as CAT to other illumnants (e.g. D65).
