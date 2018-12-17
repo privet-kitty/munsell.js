@@ -1,12 +1,8 @@
 /* 
    Usage: node -r esm gen-y-to-value-table.js
 */
-
+import {munsellValueToY} from './convert.js';
 import fs from 'fs';
-
-function munsellValueToY (v) {
-  return v * (1.1914 + v * (-0.22533 + v * (0.23352 + v * (-0.020484 + v * 0.00081939)))) * 0.01;
-}
 
 function findRoot (func, rhs, min, max, threshold) {
   // bisection method
