@@ -1,7 +1,6 @@
 import {TWO_PI,
         mod,
         multMatrixVector,
-        multMatrixMatrix,
         clamp} from './arithmetic.js';
 
 const CONST1 = 216/24389;

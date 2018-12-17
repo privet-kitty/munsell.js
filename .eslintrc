@@ -7,8 +7,7 @@
     "sourceType": "module"
   },
   "rules": {
-    "no-unused-vars": "warn",
-    "no-useless-escape": "warn",
+    "no-useless-escape": "off",
     "arrow-parens": "error",
     "arrow-spacing": "error",
     "generator-star-spacing": "error",
