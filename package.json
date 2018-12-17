@@ -1,5 +1,5 @@
 {
-  "name": "munselljs",
+  "name": "munsell",
   "version": "0.0.1",
   "description": "Library for Munsell Color System",
   "private": false,
@@ -17,7 +17,12 @@
     "url": "git://github.com/privet-kitty/munsell.js.git"
   },
   "jest": {
-    "verbose": true
+    "verbose": true,
+    "collectCoverageFrom": [
+      "src/**/*.js",
+      "!**/gen-*.js",
+      "!**/index.js"
+    ] 
   },
   "author": "Hugo I.",
   "license": "MPL-2.0",
