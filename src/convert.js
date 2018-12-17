@@ -48,8 +48,8 @@ import {mod,
 
 /** 
  * Converts Munsell value to Y (in XYZ).
- * @param {number} value - will be in [0, 10]. Clamped if it exceeds
- * the interval.
+ * @param {number} value - will be in [0, 10]. Clamped if it exceeds the
+ * interval.
  * @return {number} Y
  */
 export function munsellValueToY(v) {
@@ -73,13 +73,12 @@ export function munsellValueToL(v) {
 // true; the actual chroma equals to halfChroma*2.
 
 function mhvcToLchabAllIntegerCase(hue40, scaledValue, halfChroma, dark = false) {
-  // Handles the case HVC are all integer. If chroma is larger than
-  // 50, C*ab is linearly extrapolated.
+  // Handles the case HVC are all integer. If chroma is larger than 50, C*ab is
+  // linearly extrapolated.
 
-  // This function does no range checks: hue40 must be in {0, 1,
-  // ..., 39}; scaledValue must be in {0, 1, ..., 10} if dark is
-  // false, and {0, 1, ..., 6} if dark is true; halfChroma must be
-  // a non-negative integer.
+  // This function does no range checks: hue40 must be in {0, 1, ..., 39};
+  // scaledValue must be in {0, 1, ..., 10} if dark is false, and {0, 1, ..., 6}
+  // if dark is true; halfChroma must be a non-negative integer.
   if (dark) { // Value is in {0, 0.2, 0.4, 0.6, 0.8, 1}.
     if (halfChroma <= 25) {
       return [MRD.mrdLTableDark[scaledValue],
@@ -117,7 +116,8 @@ function mhvcToLchabValueChromaIntegerCase(hue40, scaledValue, halfChroma, dark 
   } else {
     const [ , cstarab2, hab2] = mhvcToLchabAllIntegerCase(hue2, scaledValue, halfChroma, dark);
     if ((hab1 === hab2) ||
-        (mod(hab2 - hab1, 360) >= 180)) { // workaround for the rare case hab1 exceeds hab2
+        (mod(hab2 - hab1, 360) >= 180)) { // FIXME: was workaround for the rare
+      // case hab1 exceeds hab2, which will be removed after some test.
       return [lstar, cstarab1, hab1];
     } else {
       const hab = circularLerp(hue40 - hue1, hab1, hab2, 360);
@@ -153,9 +153,9 @@ function mhvcToLchabGeneralCase(hue40, scaledValue, halfChroma, dark = false) {
   if (scaledValue1 === scaledValue2) {
     return mhvcToLchabValueIntegerCase(hue40, scaledValue1, halfChroma, dark);
   } else if (scaledValue1 === 0) {
-    // If the given color is so dark (V < 0.2) that it is out of MRD,
-    // we use the fact that the chroma and hue of LCHab corresponds
-    // roughly to that of Munsell.
+    // If the given color is so dark (V < 0.2) that it is out of MRD, we use the
+    // fact that the chroma and hue of LCHab corresponds roughly to that of
+    // Munsell.
     const [, cstarab, hab] = mhvcToLchabValueIntegerCase(hue40, 1, halfChroma, dark);
     return [lstar, cstarab, hab];
   } else {
@@ -172,14 +172,14 @@ function mhvcToLchabGeneralCase(hue40, scaledValue, halfChroma, dark = false) {
 }
 
 /**
- * Converts Munsell HVC to LCHab. Note that the returned value is
- * under <strong>Illuminant C</strong>.
- * @param {number} hue100 - is in the circle group R/100Z. Any real
- * number is accepted.
- * @param {number} value - will be in [0, 10]. Clamped if it exceeds
- * the interval.
- * @param {number} chroma - will be in [0, +inf). Assumed to be zero
- * if it is negative.
+ * Converts Munsell HVC to LCHab. Note that the returned value is under
+ * <strong>Illuminant C</strong>.
+ * @param {number} hue100 - is in the circle group R/100Z. Any real number is
+ * accepted.
+ * @param {number} value - will be in [0, 10]. Clamped if it exceeds the
+ * interval.
+ * @param {number} chroma - will be in [0, +inf). Assumed to be zero if it is
+ * negative.
  * @returns {Array} [L*, C*ab, hab]
  */
 export function mhvcToLchab(hue100, value, chroma) {
@@ -197,10 +197,10 @@ export function mhvcToLchab(hue100, value, chroma) {
 const hueNames = ["R", "YR", "Y", "GY", "G", "BG", "B", "PB", "P", "RP"];
 
 /**
- * Converts Munsell string to Munsell HVC. Munsell string is e.g.
-"3GY 2/10" or "N 2.4". This converter accepts various notations of
-numbers; an ugly specification like "2e-02RP .9/0xffffff" will be also
-available. However, the capital letters and '/' are reserved.
+ * Converts Munsell string to Munsell HVC. Munsell string is e.g.  "3GY 2/10" or
+ "N 2.4". This converter accepts various notations of numbers; an ugly
+ specification like "2e-02RP .9/0xffffff" will be also available. However, the
+ capital letters and '/' are reserved.
  * @param {string} munsellStr - is the standard Munsell Color code.
  * @returns {Array} [hue100, value, chroma]
  */
@@ -222,8 +222,8 @@ export function munsellToMhvc(munsellStr) {
 }
 
 /**
- * Converts Munsell string to LCHab. Note that the returned value is
- * under <strong>Illuminant C</strong>.
+ * Converts Munsell string to LCHab. Note that the returned value is under
+ * <strong>Illuminant C</strong>.
  * @param {string} munsellStr - is the standard Munsell Color code.
  * @returns {Array} [L*, C*ab, hab]
  */
@@ -231,14 +231,14 @@ export function munsellToLchab(munsellStr) {
   return mhvcToLchab.apply(null, munsellToMhvc(munsellStr));
 }
 
-/** Converts Munsell HVC to CIELAB. Note that the returned value is
- * under <strong>Illuminant C</strong>.
- * @param {number} hue100 - is in the circle group R/100Z. Any real
- * number is accepted.
- * @param {number} value - will be in [0, 10]. Clamped if it exceeds
- * the interval.
- * @param {number} chroma - will be in [0, +inf). Assumed to be zero
- * if it is negative.
+/** Converts Munsell HVC to CIELAB. Note that the returned value is under
+ * <strong>Illuminant C</strong>.
+ * @param {number} hue100 - is in the circle group R/100Z. Any real number is
+ * accepted.
+ * @param {number} value - will be in [0, 10]. Clamped if it exceeds the
+ * interval.
+ * @param {number} chroma - will be in [0, +inf). Assumed to be zero if it is
+ * negative.
  * @returns {Array} [L*, a*, b*]
  */
 export function mhvcToLab(hue100, value, chroma) {
@@ -247,8 +247,8 @@ export function mhvcToLab(hue100, value, chroma) {
 }
 
 
-/** Converts Munsell string to CIELAB. Note that the returned value is
- * under <strong>Illuminant C</strong>.
+/** Converts Munsell string to CIELAB. Note that the returned value is under
+ * <strong>Illuminant C</strong>.
  * @param {string} munsellStr
  * @returns {Array} [L*, a*, b*]
  */
@@ -257,12 +257,12 @@ export function munsellToLab(munsellStr) {
 }
 
 /** Converts Munsell HVC to XYZ.
- * @param {number} hue100 - is in the circle group R/100Z. Any real
- * number is accepted.
- * @param {number} value - will be in [0, 10]. Clamped if it exceeds
- * the interval.
- * @param {number} chroma - will be in [0, +inf). Assumed to be zero
- * if it is negative.
+ * @param {number} hue100 - is in the circle group R/100Z. Any real number is
+ * accepted.
+ * @param {number} value - will be in [0, 10]. Clamped if it exceeds the
+ * interval.
+ * @param {number} chroma - will be in [0, +inf). Assumed to be zero if it is
+ * negative.
  * @param {illuminant} [illuminant = ILLUMINANT_D65]
  * @returns {Array} [L*, C*ab, hab]
  */
@@ -305,12 +305,12 @@ export function munsellToLinearRgb(munsellStr, rgbSpace = SRGB) {
 }
 
 /** Converts Munsell HVC to gamma-corrected RGB.
- * @param {number} hue100 - is in the circle group R/100Z. Any real
- * number is accepted.
- * @param {number} value - will be in [0, 10]. Clamped if it exceeds
- * the interval.
- * @param {number} chroma - will be in [0, +inf). Assumed to be zero
- * if it is negative.
+ * @param {number} hue100 - is in the circle group R/100Z. Any real number is
+ * accepted.
+ * @param {number} value - will be in [0, 10]. Clamped if it exceeds the
+ * interval.
+ * @param {number} chroma - will be in [0, +inf). Assumed to be zero if it is
+ * negative.
  * @param {RGBSpace} [rgbSpace = SRGB]
  * @returns {Array} [R, G, B]
  */
@@ -363,16 +363,14 @@ export function munsellToHex(munsellStr, rgbSpace = SRGB) {
 }
 
 /**
- * Converts Munsell HVC to string. `N', the code for achromatic
- * colors, is used when the chroma becomes zero w.r.t. the specified
- * number of digits.
+ * Converts Munsell HVC to string. `N', the code for achromatic colors, is used
+ * when the chroma becomes zero w.r.t. the specified number of digits.
  * @param {number} hue100
  * @param {number} value
  * @param {number} chroma
- * @param {number} [digits = 1] Is the number of digits after the
- * decimal point. Must be non-negative integer. Note that the units
- * digit of the hue prefix is assumed to be already after the decimal
- * point.
+ * @param {number} [digits = 1] Is the number of digits after the decimal
+ * point. Must be non-negative integer. Note that the units digit of the hue
+ * prefix is assumed to be already after the decimal point.
  * @returns {string} Munsell Color code
  */
 export function mhvcToMunsell(hue100, value, chroma, digits = 1) {
