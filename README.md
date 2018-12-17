@@ -1,5 +1,6 @@
 # munsell.js - library for handling Munsell Color System
 
+[![Build Status](https://api.travis-ci.org/privet-kitty/munsell.js.svg?branch=master)](https://travis-ci.org/privet-kitty/munsell.js)
 **This library is not completely implemented yet.**
 
 munsell.js is a library for JavaScript and Node.js, whose main facility is converting Munsell Color to/from other color spaces (e.g. RGB).
