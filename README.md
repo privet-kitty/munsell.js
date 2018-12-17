@@ -6,6 +6,10 @@
 
 munsell.js is a library for JavaScript and Node.js, whose main facility is converting Munsell Color to/from other color spaces (e.g. RGB).
 
+## Basic usage
+
+## API reference
+
 ## Compatibility
 munsell.js is completely written in ES6. You can `require` it from CommonJS without being conscious of that as this library uses [`esm` loader](https://www.npmjs.com/package/esm).
 

@@ -58,6 +58,11 @@ export const ILLUMINANT_C =
 const DELTA = 6/29;
 const CONST4 = 3*DELTA*DELTA;
 
+export function lToY(lstar) {
+  const fy = (lstar + 16) / 116;
+  return (fy > DELTA) ? (fy*fy*fy) : ((fy - CONST3) * CONST4);
+}
+
 export function labToXyz(lstar, astar, bstar, illuminant = ILLUMINANT_D65) {
   const fy = (lstar + 16) / 116;
   const fx = fy + astar * 0.002;

@@ -20,11 +20,16 @@ function findRoot (func, rhs, min, max, threshold) {
   return mid;
 }
 
-const yToMunsellValueTable = Array(1001).fill().map((_, i) => {
-  return findRoot(munsellValueToY, i * 1e-3, 0, 10, 1e-9);
+const partitions = 2000;
+const yToMunsellValueTable = Array(1+partitions).fill().map((_, i) => {
+  return findRoot(munsellValueToY, i / partitions, 0, 10, 1e-8);
 });
 yToMunsellValueTable[0] = 0;
-yToMunsellValueTable[1000] = 10;
+yToMunsellValueTable[partitions] = 10;
 
 fs.writeFileSync("y-to-value-table.js",
-                 `export const yToMunsellValueTable = ${JSON.stringify(yToMunsellValueTable)};\n`);
+                 `export const yToMunsellValueTable =
+${JSON.stringify(yToMunsellValueTable, function(key, val) {
+    return val.toFixed ? Number(val.toFixed(6)) : val;
+})};
+`)
