@@ -10,7 +10,7 @@
     "test": "jest",
     "lint": "eslint src",
     "doc": "jsdoc -c jsdoc-conf.json",
-    "build": "browserify src/interface.js -o lib/interface.js -t babelify"
+    "coveralls": "jest --coverage && cat ./coverage/lcov.info | coveralls"
   },
   "jest": {
     "verbose": true
@@ -24,6 +24,7 @@
     "babel-preset-env": "^1.7.0",
     "babelify": "^8.0.0",
     "browserify": "^16.2.3",
+    "coveralls": "^3.0.2",
     "eslint": "^5.9.0",
     "jest": "^23.6.0",
     "jsdoc": "^3.5.5"
