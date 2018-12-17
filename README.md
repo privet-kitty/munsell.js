@@ -1,6 +1,6 @@
 # munsell.js - library for handling Munsell Color System
 
-**This library is still in a alpha stage.**
+**This library is still in a pre-alpha stage.**
 
 munsell.js is a library for JavaScript and Node.js. The main facility of this library is converting Munsell Color to/from other color spaces (e.g. RGB).
 

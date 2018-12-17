@@ -57,8 +57,8 @@ export function munsellValueToY(v) {
 }
 
 /** Converts Munsell value to L* (in CIELAB).
- * @param {number} value - will be in [0, 10]. Clamped if it exceeds
- * the interval.
+ * @param {number} value - will be in [0, 10]. Clamped if it exceeds the
+ * interval.
  * @return {number} L*
  */
 export function munsellValueToL(v) {
