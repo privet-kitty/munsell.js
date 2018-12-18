@@ -1,7 +1,12 @@
 {
   "name": "munsell",
-  "version": "0.0.1",
+  "version": "0.1.0",
+  "author": "Hugo I.",
+  "license": "MPL-2.0",
+  "homepage": "https://github.com/privet-kitty/munsell.js",
+  "bugs": "https://github.com/privet-kitty/munsell.js/issues",
   "description": "Library for Munsell Color System",
+  "keywords": ["color", "Munsell", "colorimetry"],
   "private": false,
   "main": "src/index.js",
   "module": "src/main.js",
@@ -24,8 +29,6 @@
       "!**/index.js"
     ] 
   },
-  "author": "Hugo I.",
-  "license": "MPL-2.0",
   "devDependencies": {
     "babel-cli": "^6.26.0",
     "babel-core": "^6.26.3",
