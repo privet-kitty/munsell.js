@@ -75,7 +75,7 @@ function invertMhvcToLchab (lstar, cstarab, hab, initHue100, initChroma, thresho
     throw new Error("invertMhvcToLchab() reached maxIteration without achieving the required accuracy.");
   case "init":
     return [initHue100, value, initChroma];
-  case "as-is":
+  case "last":
     return [hue100, value, chroma];
   default:
     throw new SyntaxError(`Unknown ifReachMax specifier: ${ifReachMax}`);
@@ -105,7 +105,7 @@ function invertMhvcToLchab (lstar, cstarab, hab, initHue100, initChroma, thresho
  * <ul>
  * <li>"error": Throws Error;</li>
  * <li>"init": Returns the initial rough approximation.</li>
- * <li>"as-is": Returns the last </li>
+ * <li>"last": Returns the last approximation.</li>
  * </ul>
 
  * Note that the given values are assumed to be under <strong>Illuminant

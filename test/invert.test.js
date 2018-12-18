@@ -79,8 +79,8 @@ describe('lchabToMhvc()', () => {
     expect(lchabToMhvc(20, 30, 40, 1e-9, 1, "init")).toEqual(roughLchabToMhvc(20, 30, 40));
   })
   test('ifReachMax: return value as is', () => {
-    expect(lchabToMhvc(20, 30, 40, 1e-9, 0, "as-is")).toEqual(roughLchabToMhvc(20, 30, 40));
-    expect(lchabToMhvc(20, 30, 40, 1e-9, 1, "as-is")).not.toEqual(roughLchabToMhvc(20, 30, 40));
+    expect(lchabToMhvc(20, 30, 40, 1e-9, 0, "last")).toEqual(roughLchabToMhvc(20, 30, 40));
+    expect(lchabToMhvc(20, 30, 40, 1e-9, 1, "last")).not.toEqual(roughLchabToMhvc(20, 30, 40));
   })
   test('invalid ifReachMax case', () => {
     expect(() => lchabToMhvc(20, 30, 40, 1e-9, 0, "no such keyword")).toThrow(SyntaxError);
