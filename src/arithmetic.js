@@ -122,9 +122,9 @@ export function circularDelta(theta1, theta2, perimeter = TWO_PI) {
 
 // Only the following two kinds of multiplication are necessary.
 export function multMatrixVector(A, x) {
-  return [[A[0][0]*x[0]+A[0][1]*x[1]+A[0][2]*x[2]],
-          [A[1][0]*x[0]+A[1][1]*x[1]+A[1][2]*x[2]],
-          [A[2][0]*x[0]+A[2][1]*x[1]+A[2][2]*x[2]]];    
+  return [A[0][0]*x[0]+A[0][1]*x[1]+A[0][2]*x[2],
+          A[1][0]*x[0]+A[1][1]*x[1]+A[1][2]*x[2],
+          A[2][0]*x[0]+A[2][1]*x[1]+A[2][2]*x[2]];    
 }
 
 export function multMatrixMatrix(A, B) {

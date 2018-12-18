@@ -162,6 +162,10 @@ export function linearRgbToRgb(lr, lg, lb, rgbSpace = SRGB) {
   return [lr, lg, lb].map(rgbSpace.delinearizer);
 }
 
+export function rgbToLinearRgb(r, g, b, rgbSpace = SRGB) {
+  return [r, g, b].map(rgbSpace.linearizer);
+}
+
 
 export function rgbToRgb255(r, g, b, clamp = true) {
   if (clamp) {

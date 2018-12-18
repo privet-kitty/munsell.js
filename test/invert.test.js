@@ -1,10 +1,17 @@
 import {yToMunsellValue,
         lToMunsellValue,
-        lchabToMhvc} from '../src/invert.js';
+        lchabToMhvc,
+        rgb255ToMhvc,
+        rgb255ToMunsell,
+        hexToMhvc,
+        hexToMunsell} from '../src/invert.js';
 import {munsellValueToY,
         munsellValueToL,
-        mhvcToLchab} from '../src/convert.js';
-import './jest-extension.js'
+        mhvcToLchab,
+        mhvcToHex,
+        munsellToHex} from '../src/convert.js';
+import {SRGB, ADOBE_RGB, ILLUMINANT_C, ILLUMINANT_D65} from '../src/colorspace.js';
+import './jest-extension.js';
 
 describe('yToMunsellValue()', () => {
   test('clamp', () => {
@@ -76,3 +83,18 @@ describe('lchabToMhvc()', () => {
   })
 })
     
+describe('rgb255ToMunsell()', () => {
+  test('achromatic', () => {
+    expect(rgb255ToMunsell(0, 0, 0, SRGB, 1)).toEqual("N 0.0");
+    expect(rgb255ToMunsell(255, 255, 255, ADOBE_RGB, 1)).toEqual("N 10.0");
+  })
+})
+
+describe('hex <-> Munsell HVC', () => {
+  test('round-trip', () => {
+    expect(mhvcToHex(...hexToMhvc("#FEDCBA")).toUpperCase()).toEqual("#FEDCBA");
+    expect(mhvcToHex(...hexToMhvc("#012345", ADOBE_RGB), ADOBE_RGB).toUpperCase()).toEqual("#012345");
+    expect(mhvcToHex(...hexToMhvc("#000000")).toUpperCase()).toEqual("#000000");
+    expect(mhvcToHex(...hexToMhvc("#FFFFFF")).toUpperCase()).toEqual("#FFFFFF");
+  })
+})

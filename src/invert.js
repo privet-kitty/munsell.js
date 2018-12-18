@@ -1,7 +1,8 @@
 // -*- coding: utf-8 -*-
 import {clamp,
         mod,
-        circularDelta} from './arithmetic.js';
+        circularDelta,
+        multMatrixVector} from './arithmetic.js';
 import {yToMunsellValueTable} from './y-to-value-table.js';
 import {lToY,
         labToLchab,
@@ -10,6 +11,7 @@ import {lToY,
         rgbToLinearRgb,
         rgb255ToRgb,
         hexToRgb,
+        ILLUMINANT_C,
         ILLUMINANT_D65,
         SRGB} from './colorspace.js';
 import {mhvcToLchab,
@@ -152,15 +154,22 @@ export function labToMunsell(lstar, astar, bstar, digits = 1, threshold = 1e-6, 
 }
 
 /**
- * Converts XYZ to Munsell HVC.
+ * Converts XYZ to Munsell HVC, where Bradford transformation is used as CAT.
  * @see lchabToMhvc
  */
 export function xyzToMhvc(X, Y, Z, illuminant = ILLUMINANT_D65, threshold = 1e-6, maxIteration = 200, ifReachMax = "error", factor = 0.5) {
-  return labToMhvc(...xyzToLab(X, Y, Z, illuminant), threshold, maxIteration, ifReachMax, factor);
+  return labToMhvc(...xyzToLab(...multMatrixVector(illuminant.catMatrixThisToC,
+                                                   [X, Y, Z]),
+                               ILLUMINANT_C),
+                   threshold,
+                   maxIteration,
+                   ifReachMax,
+                   factor);
 }
 
 /**
- * Converts XYZ to Munsell Color string.
+ * Converts XYZ to Munsell Color string, where Bradford transformation is used
+ * as CAT.
  * @see lchabToMhvc
  */
 export function xyzToMunsell(X, Y, Z, illuminant = ILLUMINANT_D65, digits = 1, threshold = 1e-6, maxIteration = 200, ifReachMax = "error", factor = 0.5) {
