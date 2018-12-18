@@ -271,6 +271,16 @@ export function rgbToMunsell(r, g, b, rgbSpace = SRGB, digits = 1, threshold = 1
 
 /**
  * Converts quantized RGB to Munsell HVC.
+ * @param {number} r255 - will be in {0, 1, ..., 255} though any integer is
+ * accepted and properly processed as out-of-gamut color.
+ * @param {number} g255 - -
+ * @param {number} b255 - -
+ * @param {RGBSpace} [rgbSpace = SRGB]
+ * @param {number} [threshold = 1e-6]
+ * @param {number} [maxIteration = 200]
+ * @param {string} [ifReachMax = "error"]
+ * @param {number} [factor = 0.5]
+ * @returns {Array} [Hue, Value, Chroma]
  * @see lchabToMhvc
  */
 export function rgb255ToMhvc(r255, g255, b255, rgbSpace = SRGB, threshold = 1e-6, maxIteration = 200, ifReachMax = "error", factor = 0.5) {
@@ -279,6 +289,19 @@ export function rgb255ToMhvc(r255, g255, b255, rgbSpace = SRGB, threshold = 1e-6
 
 /**
  * Converts quantized RGB to Munsell Color string.
+ * @param {number} r255 - will be in {0, 1, ..., 255} though any integer is
+ * accepted and properly processed as out-of-gamut color.
+ * @param {number} g255 - -
+ * @param {number} b255 - -
+ * @param {RGBSpace} [rgbSpace = SRGB]
+ * @param {number} [digits = 1] is the number of digits after the decimal
+ * point. Must be non-negative integer. Note that the units digit of the hue
+ * prefix is assumed to be already after the decimal point.
+ * @param {number} [threshold = 1e-6]
+ * @param {number} [maxIteration = 200]
+ * @param {string} [ifReachMax = "error"]
+ * @param {number} [factor = 0.5]
+ * @returns {string} Munsell Color code
  * @see lchabToMhvc
  */
 export function rgb255ToMunsell(r255, g255, b255, rgbSpace = SRGB, digits = 1, threshold = 1e-6, maxIteration = 200, ifReachMax = "error", factor = 0.5) {
@@ -327,13 +350,13 @@ export function hexToMunsell(hex, rgbSpace = SRGB, digits = 1, threshold = 1e-6,
 </div>
 
 <nav>
-    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#ADOBE_RGB">ADOBE_RGB</a></li><li><a href="global.html#hexToMhvc">hexToMhvc</a></li><li><a href="global.html#hexToMunsell">hexToMunsell</a></li><li><a href="global.html#ILLUMINANT_C">ILLUMINANT_C</a></li><li><a href="global.html#ILLUMINANT_D65">ILLUMINANT_D65</a></li><li><a href="global.html#labToMhvc">labToMhvc</a></li><li><a href="global.html#labToMunsell">labToMunsell</a></li><li><a href="global.html#lchabToMhvc">lchabToMhvc</a></li><li><a href="global.html#lchabToMunsell">lchabToMunsell</a></li><li><a href="global.html#linearRgbToMhvc">linearRgbToMhvc</a></li><li><a href="global.html#linearRgbToMunsell">linearRgbToMunsell</a></li><li><a href="global.html#lToMunsellValue">lToMunsellValue</a></li><li><a href="global.html#mhvcToHex">mhvcToHex</a></li><li><a href="global.html#mhvcToLab">mhvcToLab</a></li><li><a href="global.html#mhvcToLchab">mhvcToLchab</a></li><li><a href="global.html#mhvcToLinearRgb">mhvcToLinearRgb</a></li><li><a href="global.html#mhvcToMunsell">mhvcToMunsell</a></li><li><a href="global.html#mhvcToRgb">mhvcToRgb</a></li><li><a href="global.html#mhvcToRgb255">mhvcToRgb255</a></li><li><a href="global.html#mhvcToXyz">mhvcToXyz</a></li><li><a href="global.html#munsellToHex">munsellToHex</a></li><li><a href="global.html#munsellToLab">munsellToLab</a></li><li><a href="global.html#munsellToLchab">munsellToLchab</a></li><li><a href="global.html#munsellToLinearRgb">munsellToLinearRgb</a></li><li><a href="global.html#munsellToMhvc">munsellToMhvc</a></li><li><a href="global.html#munsellToRgb">munsellToRgb</a></li><li><a href="global.html#munsellToRgb255">munsellToRgb255</a></li><li><a href="global.html#munsellToXyz">munsellToXyz</a></li><li><a href="global.html#munsellValueToL">munsellValueToL</a></li><li><a href="global.html#munsellValueToY">munsellValueToY</a></li><li><a href="global.html#rgb255ToMhvc">rgb255ToMhvc</a></li><li><a href="global.html#rgb255ToMunsell">rgb255ToMunsell</a></li><li><a href="global.html#rgbToMhvc">rgbToMhvc</a></li><li><a href="global.html#rgbToMunsell">rgbToMunsell</a></li><li><a href="global.html#SRGB">SRGB</a></li><li><a href="global.html#xyzToMhvc">xyzToMhvc</a></li><li><a href="global.html#xyzToMunsell">xyzToMunsell</a></li><li><a href="global.html#yToMunsellValue">yToMunsellValue</a></li></ul>
+    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#ADOBE_RGB">ADOBE_RGB</a></li><li><a href="global.html#hexToMhvc">hexToMhvc</a></li><li><a href="global.html#hexToMunsell">hexToMunsell</a></li><li><a href="global.html#ILLUMINANT_C">ILLUMINANT_C</a></li><li><a href="global.html#ILLUMINANT_D65">ILLUMINANT_D65</a></li><li><a href="global.html#labToMhvc">labToMhvc</a></li><li><a href="global.html#labToMunsell">labToMunsell</a></li><li><a href="global.html#lchabToMhvc">lchabToMhvc</a></li><li><a href="global.html#lchabToMunsell">lchabToMunsell</a></li><li><a href="global.html#linearRgbToMhvc">linearRgbToMhvc</a></li><li><a href="global.html#linearRgbToMunsell">linearRgbToMunsell</a></li><li><a href="global.html#lToMunsellValue">lToMunsellValue</a></li><li><a href="global.html#mhvc">mhvc</a></li><li><a href="global.html#mhvcToHex">mhvcToHex</a></li><li><a href="global.html#mhvcToLab">mhvcToLab</a></li><li><a href="global.html#mhvcToLchab">mhvcToLchab</a></li><li><a href="global.html#mhvcToLinearRgb">mhvcToLinearRgb</a></li><li><a href="global.html#mhvcToMunsell">mhvcToMunsell</a></li><li><a href="global.html#mhvcToRgb">mhvcToRgb</a></li><li><a href="global.html#mhvcToRgb255">mhvcToRgb255</a></li><li><a href="global.html#mhvcToXyz">mhvcToXyz</a></li><li><a href="global.html#munsell">munsell</a></li><li><a href="global.html#munsellToHex">munsellToHex</a></li><li><a href="global.html#munsellToLab">munsellToLab</a></li><li><a href="global.html#munsellToLchab">munsellToLchab</a></li><li><a href="global.html#munsellToLinearRgb">munsellToLinearRgb</a></li><li><a href="global.html#munsellToMhvc">munsellToMhvc</a></li><li><a href="global.html#munsellToRgb">munsellToRgb</a></li><li><a href="global.html#munsellToRgb255">munsellToRgb255</a></li><li><a href="global.html#munsellToXyz">munsellToXyz</a></li><li><a href="global.html#munsellValueToL">munsellValueToL</a></li><li><a href="global.html#munsellValueToY">munsellValueToY</a></li><li><a href="global.html#rgb255ToMhvc">rgb255ToMhvc</a></li><li><a href="global.html#rgb255ToMunsell">rgb255ToMunsell</a></li><li><a href="global.html#rgbToMhvc">rgbToMhvc</a></li><li><a href="global.html#rgbToMunsell">rgbToMunsell</a></li><li><a href="global.html#SRGB">SRGB</a></li><li><a href="global.html#xyzToMhvc">xyzToMhvc</a></li><li><a href="global.html#xyzToMunsell">xyzToMunsell</a></li><li><a href="global.html#yToMunsellValue">yToMunsellValue</a></li></ul>
 </nav>
 
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Tue Dec 18 2018 22:27:42 GMT+0000 (Coordinated Universal Time)
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Tue Dec 18 2018 22:54:24 GMT+0000 (Coordinated Universal Time)
 </footer>
 
 <script> prettyPrint(); </script>

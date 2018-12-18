@@ -45,6 +45,31 @@ import {mod,
         circularLerp,
         multMatrixVector} from './arithmetic.js';
 
+/**
+ * @name mhvc
+ * @global
+ * @desc MHVC, or Munsell HVC, is a 3-number expression of Munsell Color
+ * composed of [Hue, Value, Chroma]: e.g. &lt;code>[94.2, 3.5, 11]&lt;/code>,
+ * &lt;code>[0, 10 ,0]&lt;/code>. Here Hue is in the circle group R/100Z: i.e. 0R (=
+ * 10RP) corresponds to 0 (= 100 = 300 = -2000) and 2YR corresponds to 12 (= -88
+ * = 412). Value is in the interval [0, 10] and the converters will clamp it if
+ * a given value exceeds it. Chroma is non-negative and the converters will
+ * assume it to be zero if a given chroma is negative. Note that every converter
+ * accepts a huge chroma outside the Munsell Renotation Data (e.g. 1000000) and
+ * returns a extrapolated result.
+ */
+
+/**
+ * @name munsell
+ * @global
+ * @desc &lt;code>munsell&lt;/code> is the standard string specification of the
+ * Munsell Color: e.g. &lt;code>"4.2RP 3.5/11"&lt;/code>, &lt;code>"N 10"&lt;/code>. Here
+ * various notations of numbers are accepted; an ugly specification like
+ * &lt;code>"2e-02RP .9/0xf"&lt;/code> (equivalent to &lt;code>"0.02RP 0.9/15"&lt;/code>)
+ * will be also available. However, the capital letters A-Z and the slash '/'
+ * are reserved.
+ */
+
 /** 
  * Converts Munsell value to Y (of XYZ) based on the formula in the ASTM
  * D1535-18e1.
@@ -425,13 +450,13 @@ export function mhvcToMunsell(hue100, value, chroma, digits = 1) {
 </div>
 
 <nav>
-    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#ADOBE_RGB">ADOBE_RGB</a></li><li><a href="global.html#hexToMhvc">hexToMhvc</a></li><li><a href="global.html#hexToMunsell">hexToMunsell</a></li><li><a href="global.html#ILLUMINANT_C">ILLUMINANT_C</a></li><li><a href="global.html#ILLUMINANT_D65">ILLUMINANT_D65</a></li><li><a href="global.html#labToMhvc">labToMhvc</a></li><li><a href="global.html#labToMunsell">labToMunsell</a></li><li><a href="global.html#lchabToMhvc">lchabToMhvc</a></li><li><a href="global.html#lchabToMunsell">lchabToMunsell</a></li><li><a href="global.html#linearRgbToMhvc">linearRgbToMhvc</a></li><li><a href="global.html#linearRgbToMunsell">linearRgbToMunsell</a></li><li><a href="global.html#lToMunsellValue">lToMunsellValue</a></li><li><a href="global.html#mhvcToHex">mhvcToHex</a></li><li><a href="global.html#mhvcToLab">mhvcToLab</a></li><li><a href="global.html#mhvcToLchab">mhvcToLchab</a></li><li><a href="global.html#mhvcToLinearRgb">mhvcToLinearRgb</a></li><li><a href="global.html#mhvcToMunsell">mhvcToMunsell</a></li><li><a href="global.html#mhvcToRgb">mhvcToRgb</a></li><li><a href="global.html#mhvcToRgb255">mhvcToRgb255</a></li><li><a href="global.html#mhvcToXyz">mhvcToXyz</a></li><li><a href="global.html#munsellToHex">munsellToHex</a></li><li><a href="global.html#munsellToLab">munsellToLab</a></li><li><a href="global.html#munsellToLchab">munsellToLchab</a></li><li><a href="global.html#munsellToLinearRgb">munsellToLinearRgb</a></li><li><a href="global.html#munsellToMhvc">munsellToMhvc</a></li><li><a href="global.html#munsellToRgb">munsellToRgb</a></li><li><a href="global.html#munsellToRgb255">munsellToRgb255</a></li><li><a href="global.html#munsellToXyz">munsellToXyz</a></li><li><a href="global.html#munsellValueToL">munsellValueToL</a></li><li><a href="global.html#munsellValueToY">munsellValueToY</a></li><li><a href="global.html#rgb255ToMhvc">rgb255ToMhvc</a></li><li><a href="global.html#rgb255ToMunsell">rgb255ToMunsell</a></li><li><a href="global.html#rgbToMhvc">rgbToMhvc</a></li><li><a href="global.html#rgbToMunsell">rgbToMunsell</a></li><li><a href="global.html#SRGB">SRGB</a></li><li><a href="global.html#xyzToMhvc">xyzToMhvc</a></li><li><a href="global.html#xyzToMunsell">xyzToMunsell</a></li><li><a href="global.html#yToMunsellValue">yToMunsellValue</a></li></ul>
+    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#ADOBE_RGB">ADOBE_RGB</a></li><li><a href="global.html#hexToMhvc">hexToMhvc</a></li><li><a href="global.html#hexToMunsell">hexToMunsell</a></li><li><a href="global.html#ILLUMINANT_C">ILLUMINANT_C</a></li><li><a href="global.html#ILLUMINANT_D65">ILLUMINANT_D65</a></li><li><a href="global.html#labToMhvc">labToMhvc</a></li><li><a href="global.html#labToMunsell">labToMunsell</a></li><li><a href="global.html#lchabToMhvc">lchabToMhvc</a></li><li><a href="global.html#lchabToMunsell">lchabToMunsell</a></li><li><a href="global.html#linearRgbToMhvc">linearRgbToMhvc</a></li><li><a href="global.html#linearRgbToMunsell">linearRgbToMunsell</a></li><li><a href="global.html#lToMunsellValue">lToMunsellValue</a></li><li><a href="global.html#mhvc">mhvc</a></li><li><a href="global.html#mhvcToHex">mhvcToHex</a></li><li><a href="global.html#mhvcToLab">mhvcToLab</a></li><li><a href="global.html#mhvcToLchab">mhvcToLchab</a></li><li><a href="global.html#mhvcToLinearRgb">mhvcToLinearRgb</a></li><li><a href="global.html#mhvcToMunsell">mhvcToMunsell</a></li><li><a href="global.html#mhvcToRgb">mhvcToRgb</a></li><li><a href="global.html#mhvcToRgb255">mhvcToRgb255</a></li><li><a href="global.html#mhvcToXyz">mhvcToXyz</a></li><li><a href="global.html#munsell">munsell</a></li><li><a href="global.html#munsellToHex">munsellToHex</a></li><li><a href="global.html#munsellToLab">munsellToLab</a></li><li><a href="global.html#munsellToLchab">munsellToLchab</a></li><li><a href="global.html#munsellToLinearRgb">munsellToLinearRgb</a></li><li><a href="global.html#munsellToMhvc">munsellToMhvc</a></li><li><a href="global.html#munsellToRgb">munsellToRgb</a></li><li><a href="global.html#munsellToRgb255">munsellToRgb255</a></li><li><a href="global.html#munsellToXyz">munsellToXyz</a></li><li><a href="global.html#munsellValueToL">munsellValueToL</a></li><li><a href="global.html#munsellValueToY">munsellValueToY</a></li><li><a href="global.html#rgb255ToMhvc">rgb255ToMhvc</a></li><li><a href="global.html#rgb255ToMunsell">rgb255ToMunsell</a></li><li><a href="global.html#rgbToMhvc">rgbToMhvc</a></li><li><a href="global.html#rgbToMunsell">rgbToMunsell</a></li><li><a href="global.html#SRGB">SRGB</a></li><li><a href="global.html#xyzToMhvc">xyzToMhvc</a></li><li><a href="global.html#xyzToMunsell">xyzToMunsell</a></li><li><a href="global.html#yToMunsellValue">yToMunsellValue</a></li></ul>
 </nav>
 
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Tue Dec 18 2018 22:27:42 GMT+0000 (Coordinated Universal Time)
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Tue Dec 18 2018 22:54:24 GMT+0000 (Coordinated Universal Time)
 </footer>
 
 <script> prettyPrint(); </script>

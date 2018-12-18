@@ -302,6 +302,143 @@
 
         
             
+<h4 class="name" id="mhvc"><span class="type-signature"></span>mhvc<span class="type-signature"></span></h4>
+
+
+
+
+<div class="description">
+    MHVC, or Munsell HVC, is a 3-number expression of Munsell Color
+composed of [Hue, Value, Chroma]: e.g. <code>[94.2, 3.5, 11]</code>,
+<code>[0, 10 ,0]</code>. Here Hue is in the circle group R/100Z: i.e. 0R (=
+10RP) corresponds to 0 (= 100 = 300 = -2000) and 2YR corresponds to 12 (= -88
+= 412). Value is in the interval [0, 10] and the converters will clamp it if
+a given value exceeds it. Chroma is non-negative and the converters will
+assume it to be zero if a given chroma is negative. Note that every converter
+accepts a huge chroma outside the Munsell Renotation Data (e.g. 1000000) and
+returns a extrapolated result.
+</div>
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="convert.js.html">convert.js</a>, <a href="convert.js.html#line20">line 20</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+        
+            
+<h4 class="name" id="munsell"><span class="type-signature"></span>munsell<span class="type-signature"></span></h4>
+
+
+
+
+<div class="description">
+    <code>munsell</code> is the standard string specification of the
+Munsell Color: e.g. <code>"4.2RP 3.5/11"</code>, <code>"N 10"</code>. Here
+various notations of numbers are accepted; an ugly specification like
+<code>"2e-02RP .9/0xf"</code> (equivalent to <code>"0.02RP 0.9/15"</code>)
+will be also available. However, the capital letters A-Z and the slash '/'
+are reserved.
+</div>
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="convert.js.html">convert.js</a>, <a href="convert.js.html#line34">line 34</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+        
+            
 <h4 class="name" id="SRGB"><span class="type-signature">(constant) </span>SRGB<span class="type-signature"> :RGBSpace</span></h4>
 
 
@@ -692,7 +829,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="invert.js.html">invert.js</a>, <a href="invert.js.html#line271">line 271</a>
+        <a href="invert.js.html">invert.js</a>, <a href="invert.js.html#line294">line 294</a>
     </li></ul></dd>
     
 
@@ -1108,7 +1245,7 @@ prefix is assumed to be already after the decimal point.</td>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="invert.js.html">invert.js</a>, <a href="invert.js.html#line289">line 289</a>
+        <a href="invert.js.html">invert.js</a>, <a href="invert.js.html#line312">line 312</a>
     </li></ul></dd>
     
 
@@ -3470,7 +3607,7 @@ negative.</td>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="convert.js.html">convert.js</a>, <a href="convert.js.html#line347">line 347</a>
+        <a href="convert.js.html">convert.js</a>, <a href="convert.js.html#line372">line 372</a>
     </li></ul></dd>
     
 
@@ -3677,7 +3814,7 @@ negative.</td>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="convert.js.html">convert.js</a>, <a href="convert.js.html#line216">line 216</a>
+        <a href="convert.js.html">convert.js</a>, <a href="convert.js.html#line241">line 241</a>
     </li></ul></dd>
     
 
@@ -3884,7 +4021,7 @@ negative.</td>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="convert.js.html">convert.js</a>, <a href="convert.js.html#line157">line 157</a>
+        <a href="convert.js.html">convert.js</a>, <a href="convert.js.html#line182">line 182</a>
     </li></ul></dd>
     
 
@@ -4169,7 +4306,7 @@ if it is negative.</td>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="convert.js.html">convert.js</a>, <a href="convert.js.html#line267">line 267</a>
+        <a href="convert.js.html">convert.js</a>, <a href="convert.js.html#line292">line 292</a>
     </li></ul></dd>
     
 
@@ -4454,7 +4591,7 @@ prefix is assumed to be already after the decimal point.</td>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="convert.js.html">convert.js</a>, <a href="convert.js.html#line373">line 373</a>
+        <a href="convert.js.html">convert.js</a>, <a href="convert.js.html#line398">line 398</a>
     </li></ul></dd>
     
 
@@ -4739,7 +4876,7 @@ negative.</td>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="convert.js.html">convert.js</a>, <a href="convert.js.html#line292">line 292</a>
+        <a href="convert.js.html">convert.js</a>, <a href="convert.js.html#line317">line 317</a>
     </li></ul></dd>
     
 
@@ -5064,7 +5201,7 @@ to the range [0, 255].</td>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="convert.js.html">convert.js</a>, <a href="convert.js.html#line319">line 319</a>
+        <a href="convert.js.html">convert.js</a>, <a href="convert.js.html#line344">line 344</a>
     </li></ul></dd>
     
 
@@ -5349,7 +5486,7 @@ negative.</td>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="convert.js.html">convert.js</a>, <a href="convert.js.html#line240">line 240</a>
+        <a href="convert.js.html">convert.js</a>, <a href="convert.js.html#line265">line 265</a>
     </li></ul></dd>
     
 
@@ -5561,7 +5698,7 @@ negative.</td>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="convert.js.html">convert.js</a>, <a href="convert.js.html#line357">line 357</a>
+        <a href="convert.js.html">convert.js</a>, <a href="convert.js.html#line382">line 382</a>
     </li></ul></dd>
     
 
@@ -5719,7 +5856,7 @@ negative.</td>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="convert.js.html">convert.js</a>, <a href="convert.js.html#line226">line 226</a>
+        <a href="convert.js.html">convert.js</a>, <a href="convert.js.html#line251">line 251</a>
     </li></ul></dd>
     
 
@@ -5877,7 +6014,7 @@ negative.</td>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="convert.js.html">convert.js</a>, <a href="convert.js.html#line202">line 202</a>
+        <a href="convert.js.html">convert.js</a>, <a href="convert.js.html#line227">line 227</a>
     </li></ul></dd>
     
 
@@ -6089,7 +6226,7 @@ negative.</td>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="convert.js.html">convert.js</a>, <a href="convert.js.html#line277">line 277</a>
+        <a href="convert.js.html">convert.js</a>, <a href="convert.js.html#line302">line 302</a>
     </li></ul></dd>
     
 
@@ -6250,7 +6387,7 @@ various notations of numbers; an ugly specification like <code>"2e-02RP
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="convert.js.html">convert.js</a>, <a href="convert.js.html#line179">line 179</a>
+        <a href="convert.js.html">convert.js</a>, <a href="convert.js.html#line204">line 204</a>
     </li></ul></dd>
     
 
@@ -6462,7 +6599,7 @@ various notations of numbers; an ugly specification like <code>"2e-02RP
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="convert.js.html">convert.js</a>, <a href="convert.js.html#line302">line 302</a>
+        <a href="convert.js.html">convert.js</a>, <a href="convert.js.html#line327">line 327</a>
     </li></ul></dd>
     
 
@@ -6714,7 +6851,7 @@ to the range [0, 255].</td>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="convert.js.html">convert.js</a>, <a href="convert.js.html#line331">line 331</a>
+        <a href="convert.js.html">convert.js</a>, <a href="convert.js.html#line356">line 356</a>
     </li></ul></dd>
     
 
@@ -6926,7 +7063,7 @@ to the range [0, 255].</td>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="convert.js.html">convert.js</a>, <a href="convert.js.html#line252">line 252</a>
+        <a href="convert.js.html">convert.js</a>, <a href="convert.js.html#line277">line 277</a>
     </li></ul></dd>
     
 
@@ -7084,7 +7221,7 @@ interval.</td>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="convert.js.html">convert.js</a>, <a href="convert.js.html#line36">line 36</a>
+        <a href="convert.js.html">convert.js</a>, <a href="convert.js.html#line61">line 61</a>
     </li></ul></dd>
     
 
@@ -7243,7 +7380,7 @@ interval.</td>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="convert.js.html">convert.js</a>, <a href="convert.js.html#line27">line 27</a>
+        <a href="convert.js.html">convert.js</a>, <a href="convert.js.html#line52">line 52</a>
     </li></ul></dd>
     
 
@@ -7299,7 +7436,7 @@ interval.</td>
     
 
     
-    <h4 class="name" id="rgb255ToMhvc"><span class="type-signature"></span>rgb255ToMhvc<span class="signature">()</span><span class="type-signature"></span></h4>
+    <h4 class="name" id="rgb255ToMhvc"><span class="type-signature"></span>rgb255ToMhvc<span class="signature">(r255, g255, b255, rgbSpace<span class="signature-attributes">opt</span>, threshold<span class="signature-attributes">opt</span>, maxIteration<span class="signature-attributes">opt</span>, ifReachMax<span class="signature-attributes">opt</span>, factor<span class="signature-attributes">opt</span>)</span><span class="type-signature"> &rarr; {Array}</span></h4>
     
 
     
@@ -7318,6 +7455,337 @@ interval.</td>
 
 
 
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+        <th>Attributes</th>
+        
+
+        
+        <th>Default</th>
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>r255</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">number</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                </td>
+            
+
+            <td class="description last">will be in {0, 1, ..., 255} though any integer is
+accepted and properly processed as out-of-gamut color.</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>g255</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">number</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                </td>
+            
+
+            <td class="description last">-</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>b255</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">number</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                </td>
+            
+
+            <td class="description last">-</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>rgbSpace</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">RGBSpace</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                    SRGB
+                
+                </td>
+            
+
+            <td class="description last"></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>threshold</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">number</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                    1e-6
+                
+                </td>
+            
+
+            <td class="description last"></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>maxIteration</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">number</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                    200
+                
+                </td>
+            
+
+            <td class="description last"></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>ifReachMax</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                    "error"
+                
+                </td>
+            
+
+            <td class="description last"></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>factor</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">number</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                    0.5
+                
+                </td>
+            
+
+            <td class="description last"></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
 
 
 
@@ -7351,7 +7819,7 @@ interval.</td>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="invert.js.html">invert.js</a>, <a href="invert.js.html#line248">line 248</a>
+        <a href="invert.js.html">invert.js</a>, <a href="invert.js.html#line258">line 258</a>
     </li></ul></dd>
     
 
@@ -7381,6 +7849,28 @@ interval.</td>
 
 
 
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    [Hue, Value, Chroma]
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">Array</span>
+
+
+    </dd>
+</dl>
+
+    
 
 
 
@@ -7392,7 +7882,7 @@ interval.</td>
     
 
     
-    <h4 class="name" id="rgb255ToMunsell"><span class="type-signature"></span>rgb255ToMunsell<span class="signature">()</span><span class="type-signature"></span></h4>
+    <h4 class="name" id="rgb255ToMunsell"><span class="type-signature"></span>rgb255ToMunsell<span class="signature">(r255, g255, b255, rgbSpace<span class="signature-attributes">opt</span>, digits<span class="signature-attributes">opt</span>, threshold<span class="signature-attributes">opt</span>, maxIteration<span class="signature-attributes">opt</span>, ifReachMax<span class="signature-attributes">opt</span>, factor<span class="signature-attributes">opt</span>)</span><span class="type-signature"> &rarr; {string}</span></h4>
     
 
     
@@ -7411,6 +7901,378 @@ interval.</td>
 
 
 
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+        <th>Attributes</th>
+        
+
+        
+        <th>Default</th>
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>r255</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">number</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                </td>
+            
+
+            <td class="description last">will be in {0, 1, ..., 255} though any integer is
+accepted and properly processed as out-of-gamut color.</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>g255</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">number</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                </td>
+            
+
+            <td class="description last">-</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>b255</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">number</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                </td>
+            
+
+            <td class="description last">-</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>rgbSpace</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">RGBSpace</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                    SRGB
+                
+                </td>
+            
+
+            <td class="description last"></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>digits</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">number</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                    1
+                
+                </td>
+            
+
+            <td class="description last">is the number of digits after the decimal
+point. Must be non-negative integer. Note that the units digit of the hue
+prefix is assumed to be already after the decimal point.</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>threshold</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">number</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                    1e-6
+                
+                </td>
+            
+
+            <td class="description last"></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>maxIteration</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">number</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                    200
+                
+                </td>
+            
+
+            <td class="description last"></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>ifReachMax</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                    "error"
+                
+                </td>
+            
+
+            <td class="description last"></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>factor</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">number</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                    0.5
+                
+                </td>
+            
+
+            <td class="description last"></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
 
 
 
@@ -7444,7 +8306,7 @@ interval.</td>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="invert.js.html">invert.js</a>, <a href="invert.js.html#line256">line 256</a>
+        <a href="invert.js.html">invert.js</a>, <a href="invert.js.html#line279">line 279</a>
     </li></ul></dd>
     
 
@@ -7474,6 +8336,28 @@ interval.</td>
 
 
 
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    Munsell Color code
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">string</span>
+
+
+    </dd>
+</dl>
+
+    
 
 
 
@@ -8027,13 +8911,13 @@ Y is in [0, 1].
 </div>
 
 <nav>
-    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#ADOBE_RGB">ADOBE_RGB</a></li><li><a href="global.html#hexToMhvc">hexToMhvc</a></li><li><a href="global.html#hexToMunsell">hexToMunsell</a></li><li><a href="global.html#ILLUMINANT_C">ILLUMINANT_C</a></li><li><a href="global.html#ILLUMINANT_D65">ILLUMINANT_D65</a></li><li><a href="global.html#labToMhvc">labToMhvc</a></li><li><a href="global.html#labToMunsell">labToMunsell</a></li><li><a href="global.html#lchabToMhvc">lchabToMhvc</a></li><li><a href="global.html#lchabToMunsell">lchabToMunsell</a></li><li><a href="global.html#linearRgbToMhvc">linearRgbToMhvc</a></li><li><a href="global.html#linearRgbToMunsell">linearRgbToMunsell</a></li><li><a href="global.html#lToMunsellValue">lToMunsellValue</a></li><li><a href="global.html#mhvcToHex">mhvcToHex</a></li><li><a href="global.html#mhvcToLab">mhvcToLab</a></li><li><a href="global.html#mhvcToLchab">mhvcToLchab</a></li><li><a href="global.html#mhvcToLinearRgb">mhvcToLinearRgb</a></li><li><a href="global.html#mhvcToMunsell">mhvcToMunsell</a></li><li><a href="global.html#mhvcToRgb">mhvcToRgb</a></li><li><a href="global.html#mhvcToRgb255">mhvcToRgb255</a></li><li><a href="global.html#mhvcToXyz">mhvcToXyz</a></li><li><a href="global.html#munsellToHex">munsellToHex</a></li><li><a href="global.html#munsellToLab">munsellToLab</a></li><li><a href="global.html#munsellToLchab">munsellToLchab</a></li><li><a href="global.html#munsellToLinearRgb">munsellToLinearRgb</a></li><li><a href="global.html#munsellToMhvc">munsellToMhvc</a></li><li><a href="global.html#munsellToRgb">munsellToRgb</a></li><li><a href="global.html#munsellToRgb255">munsellToRgb255</a></li><li><a href="global.html#munsellToXyz">munsellToXyz</a></li><li><a href="global.html#munsellValueToL">munsellValueToL</a></li><li><a href="global.html#munsellValueToY">munsellValueToY</a></li><li><a href="global.html#rgb255ToMhvc">rgb255ToMhvc</a></li><li><a href="global.html#rgb255ToMunsell">rgb255ToMunsell</a></li><li><a href="global.html#rgbToMhvc">rgbToMhvc</a></li><li><a href="global.html#rgbToMunsell">rgbToMunsell</a></li><li><a href="global.html#SRGB">SRGB</a></li><li><a href="global.html#xyzToMhvc">xyzToMhvc</a></li><li><a href="global.html#xyzToMunsell">xyzToMunsell</a></li><li><a href="global.html#yToMunsellValue">yToMunsellValue</a></li></ul>
+    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#ADOBE_RGB">ADOBE_RGB</a></li><li><a href="global.html#hexToMhvc">hexToMhvc</a></li><li><a href="global.html#hexToMunsell">hexToMunsell</a></li><li><a href="global.html#ILLUMINANT_C">ILLUMINANT_C</a></li><li><a href="global.html#ILLUMINANT_D65">ILLUMINANT_D65</a></li><li><a href="global.html#labToMhvc">labToMhvc</a></li><li><a href="global.html#labToMunsell">labToMunsell</a></li><li><a href="global.html#lchabToMhvc">lchabToMhvc</a></li><li><a href="global.html#lchabToMunsell">lchabToMunsell</a></li><li><a href="global.html#linearRgbToMhvc">linearRgbToMhvc</a></li><li><a href="global.html#linearRgbToMunsell">linearRgbToMunsell</a></li><li><a href="global.html#lToMunsellValue">lToMunsellValue</a></li><li><a href="global.html#mhvc">mhvc</a></li><li><a href="global.html#mhvcToHex">mhvcToHex</a></li><li><a href="global.html#mhvcToLab">mhvcToLab</a></li><li><a href="global.html#mhvcToLchab">mhvcToLchab</a></li><li><a href="global.html#mhvcToLinearRgb">mhvcToLinearRgb</a></li><li><a href="global.html#mhvcToMunsell">mhvcToMunsell</a></li><li><a href="global.html#mhvcToRgb">mhvcToRgb</a></li><li><a href="global.html#mhvcToRgb255">mhvcToRgb255</a></li><li><a href="global.html#mhvcToXyz">mhvcToXyz</a></li><li><a href="global.html#munsell">munsell</a></li><li><a href="global.html#munsellToHex">munsellToHex</a></li><li><a href="global.html#munsellToLab">munsellToLab</a></li><li><a href="global.html#munsellToLchab">munsellToLchab</a></li><li><a href="global.html#munsellToLinearRgb">munsellToLinearRgb</a></li><li><a href="global.html#munsellToMhvc">munsellToMhvc</a></li><li><a href="global.html#munsellToRgb">munsellToRgb</a></li><li><a href="global.html#munsellToRgb255">munsellToRgb255</a></li><li><a href="global.html#munsellToXyz">munsellToXyz</a></li><li><a href="global.html#munsellValueToL">munsellValueToL</a></li><li><a href="global.html#munsellValueToY">munsellValueToY</a></li><li><a href="global.html#rgb255ToMhvc">rgb255ToMhvc</a></li><li><a href="global.html#rgb255ToMunsell">rgb255ToMunsell</a></li><li><a href="global.html#rgbToMhvc">rgbToMhvc</a></li><li><a href="global.html#rgbToMunsell">rgbToMunsell</a></li><li><a href="global.html#SRGB">SRGB</a></li><li><a href="global.html#xyzToMhvc">xyzToMhvc</a></li><li><a href="global.html#xyzToMunsell">xyzToMunsell</a></li><li><a href="global.html#yToMunsellValue">yToMunsellValue</a></li></ul>
 </nav>
 
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Tue Dec 18 2018 22:27:42 GMT+0000 (Coordinated Universal Time)
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Tue Dec 18 2018 22:54:24 GMT+0000 (Coordinated Universal Time)
 </footer>
 
 <script> prettyPrint(); </script>
