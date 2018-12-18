@@ -432,7 +432,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="invert.js.html">invert.js</a>, <a href="invert.js.html#line231">line 231</a>
+        <a href="invert.js.html">invert.js</a>, <a href="invert.js.html#line262">line 262</a>
     </li></ul></dd>
     
 
@@ -525,7 +525,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="invert.js.html">invert.js</a>, <a href="invert.js.html#line239">line 239</a>
+        <a href="invert.js.html">invert.js</a>, <a href="invert.js.html#line270">line 270</a>
     </li></ul></dd>
     
 
@@ -566,7 +566,7 @@
     
 
     
-    <h4 class="name" id="labToMhvc"><span class="type-signature"></span>labToMhvc<span class="signature">()</span><span class="type-signature"></span></h4>
+    <h4 class="name" id="labToMhvc"><span class="type-signature"></span>labToMhvc<span class="signature">(lstar, astar, bstar, threshold<span class="signature-attributes">opt</span>, maxIteration<span class="signature-attributes">opt</span>, ifReachMax<span class="signature-attributes">opt</span>, factor<span class="signature-attributes">opt</span>)</span><span class="type-signature"> &rarr; {Array}</span></h4>
     
 
     
@@ -586,6 +586,297 @@ under <strong>Illuminant C</strong>.
 
 
 
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+        <th>Attributes</th>
+        
+
+        
+        <th>Default</th>
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>lstar</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">number</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                </td>
+            
+
+            <td class="description last"></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>astar</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">number</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                </td>
+            
+
+            <td class="description last"></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>bstar</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">number</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                </td>
+            
+
+            <td class="description last"></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>threshold</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">number</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                    1e-6
+                
+                </td>
+            
+
+            <td class="description last"></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>maxIteration</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">number</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                    200
+                
+                </td>
+            
+
+            <td class="description last"></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>ifReachMax</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">String</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                    "error"
+                
+                </td>
+            
+
+            <td class="description last"></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>factor</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">number</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                    0.5
+                
+                </td>
+            
+
+            <td class="description last"></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
 
 
 
@@ -619,7 +910,7 @@ under <strong>Illuminant C</strong>.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="invert.js.html">invert.js</a>, <a href="invert.js.html#line143">line 143</a>
+        <a href="invert.js.html">invert.js</a>, <a href="invert.js.html#line163">line 163</a>
     </li></ul></dd>
     
 
@@ -649,6 +940,28 @@ under <strong>Illuminant C</strong>.
 
 
 
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    [Hue, Value, Chroma]
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">Array</span>
+
+
+    </dd>
+</dl>
+
+    
 
 
 
@@ -660,7 +973,7 @@ under <strong>Illuminant C</strong>.
     
 
     
-    <h4 class="name" id="labToMunsell"><span class="type-signature"></span>labToMunsell<span class="signature">()</span><span class="type-signature"></span></h4>
+    <h4 class="name" id="labToMunsell"><span class="type-signature"></span>labToMunsell<span class="signature">(lstar, astar, bstar, digits<span class="signature-attributes">opt</span>, threshold<span class="signature-attributes">opt</span>, maxIteration<span class="signature-attributes">opt</span>, ifReachMax<span class="signature-attributes">opt</span>, factor<span class="signature-attributes">opt</span>)</span><span class="type-signature"> &rarr; {String}</span></h4>
     
 
     
@@ -680,6 +993,338 @@ be under <strong>Illuminant C</strong>.
 
 
 
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+        <th>Attributes</th>
+        
+
+        
+        <th>Default</th>
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>lstar</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">number</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                </td>
+            
+
+            <td class="description last"></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>astar</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">number</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                </td>
+            
+
+            <td class="description last"></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>bstar</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">number</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                </td>
+            
+
+            <td class="description last"></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>digits</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">number</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                    1
+                
+                </td>
+            
+
+            <td class="description last">Is the number of digits after the decimal
+point. Must be non-negative integer. Note that the units digit of the hue
+prefix is assumed to be already after the decimal point.</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>threshold</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">number</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                    1e-6
+                
+                </td>
+            
+
+            <td class="description last"></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>maxIteration</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">number</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                    200
+                
+                </td>
+            
+
+            <td class="description last"></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>ifReachMax</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">String</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                    "error"
+                
+                </td>
+            
+
+            <td class="description last"></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>factor</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">number</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                    0.5
+                
+                </td>
+            
+
+            <td class="description last"></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
 
 
 
@@ -713,7 +1358,7 @@ be under <strong>Illuminant C</strong>.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="invert.js.html">invert.js</a>, <a href="invert.js.html#line152">line 152</a>
+        <a href="invert.js.html">invert.js</a>, <a href="invert.js.html#line183">line 183</a>
     </li></ul></dd>
     
 
@@ -743,6 +1388,28 @@ be under <strong>Illuminant C</strong>.
 
 
 
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    Munsell Color code
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">String</span>
+
+
+    </dd>
+</dl>
+
+    
 
 
 
@@ -754,7 +1421,7 @@ be under <strong>Illuminant C</strong>.
     
 
     
-    <h4 class="name" id="lchabToMhvc"><span class="type-signature"></span>lchabToMhvc<span class="signature">(lstar, cstarab, hab, threshold<span class="signature-attributes">opt</span>, maxIteration<span class="signature-attributes">opt</span>, ifReachMax<span class="signature-attributes">opt</span>, factor<span class="signature-attributes">opt</span>)</span><span class="type-signature"></span></h4>
+    <h4 class="name" id="lchabToMhvc"><span class="type-signature"></span>lchabToMhvc<span class="signature">(lstar, cstarab, hab, threshold<span class="signature-attributes">opt</span>, maxIteration<span class="signature-attributes">opt</span>, ifReachMax<span class="signature-attributes">opt</span>, factor<span class="signature-attributes">opt</span>)</span><span class="type-signature"> &rarr; {Array}</span></h4>
     
 
     
@@ -1119,7 +1786,7 @@ C</strong>.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="invert.js.html">invert.js</a>, <a href="invert.js.html#line119">line 119</a>
+        <a href="invert.js.html">invert.js</a>, <a href="invert.js.html#line120">line 120</a>
     </li></ul></dd>
     
 
@@ -1142,6 +1809,28 @@ C</strong>.
 
 
 
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    [Hue, Value, Chroma]
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">Array</span>
+
+
+    </dd>
+</dl>
+
+    
 
 
 
@@ -1153,7 +1842,7 @@ C</strong>.
     
 
     
-    <h4 class="name" id="lchabToMunsell"><span class="type-signature"></span>lchabToMunsell<span class="signature">()</span><span class="type-signature"></span></h4>
+    <h4 class="name" id="lchabToMunsell"><span class="type-signature"></span>lchabToMunsell<span class="signature">(lstar, cstarab, hab, digits<span class="signature-attributes">opt</span>, threshold<span class="signature-attributes">opt</span>, maxIteration<span class="signature-attributes">opt</span>, ifReachMax<span class="signature-attributes">opt</span>, factor<span class="signature-attributes">opt</span>)</span><span class="type-signature"> &rarr; {String}</span></h4>
     
 
     
@@ -1171,6 +1860,338 @@ be under <strong>Illuminant C</strong>.
 
 
 
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+        <th>Attributes</th>
+        
+
+        
+        <th>Default</th>
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>lstar</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">number</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                </td>
+            
+
+            <td class="description last"></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>cstarab</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">number</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                </td>
+            
+
+            <td class="description last"></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>hab</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">number</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                </td>
+            
+
+            <td class="description last"></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>digits</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">number</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                    1
+                
+                </td>
+            
+
+            <td class="description last">Is the number of digits after the decimal
+point. Must be non-negative integer. Note that the units digit of the hue
+prefix is assumed to be already after the decimal point.</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>threshold</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">number</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                    1e-6
+                
+                </td>
+            
+
+            <td class="description last"></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>maxIteration</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">number</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                    200
+                
+                </td>
+            
+
+            <td class="description last"></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>ifReachMax</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">String</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                    "error"
+                
+                </td>
+            
+
+            <td class="description last"></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>factor</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">number</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                    0.5
+                
+                </td>
+            
+
+            <td class="description last"></td>
+        </tr>
+
+    
+    </tbody>
+</table>
 
 
 
@@ -1206,7 +2227,7 @@ be under <strong>Illuminant C</strong>.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="invert.js.html">invert.js</a>, <a href="invert.js.html#line134">line 134</a>
+        <a href="invert.js.html">invert.js</a>, <a href="invert.js.html#line146">line 146</a>
     </li></ul></dd>
     
 
@@ -1236,6 +2257,28 @@ be under <strong>Illuminant C</strong>.
 
 
 
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    Munsell Color code
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">String</span>
+
+
+    </dd>
+</dl>
+
+    
 
 
 
@@ -1299,7 +2342,7 @@ be under <strong>Illuminant C</strong>.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="invert.js.html">invert.js</a>, <a href="invert.js.html#line183">line 183</a>
+        <a href="invert.js.html">invert.js</a>, <a href="invert.js.html#line214">line 214</a>
     </li></ul></dd>
     
 
@@ -1392,7 +2435,7 @@ be under <strong>Illuminant C</strong>.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="invert.js.html">invert.js</a>, <a href="invert.js.html#line191">line 191</a>
+        <a href="invert.js.html">invert.js</a>, <a href="invert.js.html#line222">line 222</a>
     </li></ul></dd>
     
 
@@ -4909,7 +5952,7 @@ interval.</td>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="invert.js.html">invert.js</a>, <a href="invert.js.html#line215">line 215</a>
+        <a href="invert.js.html">invert.js</a>, <a href="invert.js.html#line246">line 246</a>
     </li></ul></dd>
     
 
@@ -5002,7 +6045,7 @@ interval.</td>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="invert.js.html">invert.js</a>, <a href="invert.js.html#line223">line 223</a>
+        <a href="invert.js.html">invert.js</a>, <a href="invert.js.html#line254">line 254</a>
     </li></ul></dd>
     
 
@@ -5095,7 +6138,7 @@ interval.</td>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="invert.js.html">invert.js</a>, <a href="invert.js.html#line199">line 199</a>
+        <a href="invert.js.html">invert.js</a>, <a href="invert.js.html#line230">line 230</a>
     </li></ul></dd>
     
 
@@ -5188,7 +6231,7 @@ interval.</td>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="invert.js.html">invert.js</a>, <a href="invert.js.html#line207">line 207</a>
+        <a href="invert.js.html">invert.js</a>, <a href="invert.js.html#line238">line 238</a>
     </li></ul></dd>
     
 
@@ -5281,7 +6324,7 @@ interval.</td>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="invert.js.html">invert.js</a>, <a href="invert.js.html#line160">line 160</a>
+        <a href="invert.js.html">invert.js</a>, <a href="invert.js.html#line191">line 191</a>
     </li></ul></dd>
     
 
@@ -5375,7 +6418,7 @@ as CAT.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="invert.js.html">invert.js</a>, <a href="invert.js.html#line175">line 175</a>
+        <a href="invert.js.html">invert.js</a>, <a href="invert.js.html#line206">line 206</a>
     </li></ul></dd>
     
 
@@ -5569,7 +6612,7 @@ Y is in [0, 1].
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Tue Dec 18 2018 04:47:12 GMT+0000 (Coordinated Universal Time)
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Tue Dec 18 2018 05:04:35 GMT+0000 (Coordinated Universal Time)
 </footer>
 
 <script> prettyPrint(); </script>
