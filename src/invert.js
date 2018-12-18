@@ -243,6 +243,16 @@ export function rgbToMunsell(r, g, b, rgbSpace = SRGB, digits = 1, threshold = 1
 
 /**
  * Converts quantized RGB to Munsell HVC.
+ * @param {number} r255 - will be in {0, 1, ..., 255} though any integer is
+ * accepted and properly processed as out-of-gamut color.
+ * @param {number} g255 - -
+ * @param {number} b255 - -
+ * @param {RGBSpace} [rgbSpace = SRGB]
+ * @param {number} [threshold = 1e-6]
+ * @param {number} [maxIteration = 200]
+ * @param {string} [ifReachMax = "error"]
+ * @param {number} [factor = 0.5]
+ * @returns {Array} [Hue, Value, Chroma]
  * @see lchabToMhvc
  */
 export function rgb255ToMhvc(r255, g255, b255, rgbSpace = SRGB, threshold = 1e-6, maxIteration = 200, ifReachMax = "error", factor = 0.5) {
@@ -251,6 +261,19 @@ export function rgb255ToMhvc(r255, g255, b255, rgbSpace = SRGB, threshold = 1e-6
 
 /**
  * Converts quantized RGB to Munsell Color string.
+ * @param {number} r255 - will be in {0, 1, ..., 255} though any integer is
+ * accepted and properly processed as out-of-gamut color.
+ * @param {number} g255 - -
+ * @param {number} b255 - -
+ * @param {RGBSpace} [rgbSpace = SRGB]
+ * @param {number} [digits = 1] is the number of digits after the decimal
+ * point. Must be non-negative integer. Note that the units digit of the hue
+ * prefix is assumed to be already after the decimal point.
+ * @param {number} [threshold = 1e-6]
+ * @param {number} [maxIteration = 200]
+ * @param {string} [ifReachMax = "error"]
+ * @param {number} [factor = 0.5]
+ * @returns {string} Munsell Color code
  * @see lchabToMhvc
  */
 export function rgb255ToMunsell(r255, g255, b255, rgbSpace = SRGB, digits = 1, threshold = 1e-6, maxIteration = 200, ifReachMax = "error", factor = 0.5) {
