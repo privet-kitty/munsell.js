@@ -86,15 +86,15 @@ describe('lchabToMhvc()', () => {
 describe('rgb255ToMunsell()', () => {
   test('achromatic', () => {
     expect(rgb255ToMunsell(0, 0, 0, SRGB, 1)).toEqual("N 0.0");
-    expect(rgb255ToMunsell(255, 255, 255, ADOBE_RGB, 1)).toEqual("N 10.0");
+    expect(rgb255ToMunsell(255, 255, 255, ADOBE_RGB, 2)).toEqual("N 10.00");
   })
 })
 
-describe('hex <-> Munsell HVC', () => {
+describe('hex <-> Munsell string', () => {
   test('round-trip', () => {
-    expect(mhvcToHex(...hexToMhvc("#FEDCBA")).toUpperCase()).toEqual("#FEDCBA");
-    expect(mhvcToHex(...hexToMhvc("#012345", ADOBE_RGB), ADOBE_RGB).toUpperCase()).toEqual("#012345");
-    expect(mhvcToHex(...hexToMhvc("#000000")).toUpperCase()).toEqual("#000000");
-    expect(mhvcToHex(...hexToMhvc("#FFFFFF")).toUpperCase()).toEqual("#FFFFFF");
+    expect(munsellToHex(hexToMunsell("#fedcba", SRGB, 10))).toEqual("#fedcba");
+    expect(munsellToHex(hexToMunsell("#012345", ADOBE_RGB, 10), ADOBE_RGB)).toEqual("#012345");
+    expect(munsellToHex(hexToMunsell("#000000", SRGB, 10))).toEqual("#000000");
+    expect(munsellToHex(hexToMunsell("#ffffff", SRGB, 10))).toEqual("#ffffff");
   })
 })

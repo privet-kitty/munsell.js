@@ -6,18 +6,15 @@ import fs from 'fs';
 
 function findRoot (func, rhs, min, max, threshold) {
   // bisection method
-  let mid = (min + max) * 0.5;
-  let lhs = func(mid);
-  while (Math.abs(lhs - rhs) > threshold) {
-    if (lhs > rhs){
-      max = mid;
-    } else {
-      min = mid;
-    }
-    mid = (min + max) * 0.5;
-    lhs = func(mid);
+  const mid = (min + max) * 0.5;
+  const lhs = func(mid);
+  if (Math.abs(lhs - rhs) <= threshold) {
+    return mid;
+  } else {
+    return lhs > rhs ?
+      findRoot(func, rhs, min, mid, threshold):
+      findRoot(func, rhs, mid, max, threshold);
   }
-  return mid;
 }
 
 const partitions = 2000;

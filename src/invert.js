@@ -115,6 +115,7 @@ function invertMhvcToLchab (lstar, cstarab, hab, initHue100, initChroma, thresho
  * @param {number} [maxIteration = 200]
  * @param {String} [ifReachMax = "error"]
  * @param {number} [factor = 0.5]
+ * @returns {Array} [Hue, Value, Chroma]
  */
 export function lchabToMhvc(lstar, cstarab, hab, threshold = 1e-6, maxIteration = 200, ifReachMax = "error", factor = 0.5) {
   return invertMhvcToLchab(lstar, cstarab, hab,
@@ -129,6 +130,17 @@ export function lchabToMhvc(lstar, cstarab, hab, threshold = 1e-6, maxIteration 
 /**
  * Converts LCHab to Munsell string. Note that the given values are assumed to
  * be under <strong>Illuminant C</strong>.
+ * @param {number} lstar
+ * @param {number} cstarab
+ * @param {number} hab
+ * @param {number} [digits = 1] Is the number of digits after the decimal
+ * point. Must be non-negative integer. Note that the units digit of the hue
+ * prefix is assumed to be already after the decimal point.
+ * @param {number} [threshold = 1e-6]
+ * @param {number} [maxIteration = 200]
+ * @param {String} [ifReachMax = "error"]
+ * @param {number} [factor = 0.5]
+ * @returns {String} Munsell Color code
  * @see lchabToMhvc
  */
 export function lchabToMunsell(lstar, cstarab, hab, digits = 1, threshold = 1e-6, maxIteration = 200, ifReachMax = "error", factor = 0.5) {
@@ -138,6 +150,14 @@ export function lchabToMunsell(lstar, cstarab, hab, digits = 1, threshold = 1e-6
 /**
  * Converts CIELAB to Munsell HVC. Note that the given values are assumed to be
  * under <strong>Illuminant C</strong>.
+ * @param {number} lstar
+ * @param {number} astar
+ * @param {number} bstar
+ * @param {number} [threshold = 1e-6]
+ * @param {number} [maxIteration = 200]
+ * @param {String} [ifReachMax = "error"]
+ * @param {number} [factor = 0.5]
+ * @returns {Array} [Hue, Value, Chroma]
  * @see lchabToMhvc
  */
 export function labToMhvc(lstar, astar, bstar, threshold = 1e-6, maxIteration = 200, ifReachMax = "error", factor = 0.5) {
@@ -147,6 +167,17 @@ export function labToMhvc(lstar, astar, bstar, threshold = 1e-6, maxIteration = 
 /**
  * Converts CIELAB to Munsell Color string. Note that the given values are assumed to
  * be under <strong>Illuminant C</strong>.
+ * @param {number} lstar
+ * @param {number} astar
+ * @param {number} bstar
+ * @param {number} [digits = 1] Is the number of digits after the decimal
+ * point. Must be non-negative integer. Note that the units digit of the hue
+ * prefix is assumed to be already after the decimal point.
+ * @param {number} [threshold = 1e-6]
+ * @param {number} [maxIteration = 200]
+ * @param {String} [ifReachMax = "error"]
+ * @param {number} [factor = 0.5]
+ * @returns {String} Munsell Color code
  * @see lchabToMhvc
  */
 export function labToMunsell(lstar, astar, bstar, digits = 1, threshold = 1e-6, maxIteration = 200, ifReachMax = "error", factor = 0.5) {
