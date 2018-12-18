@@ -22,7 +22,7 @@ import {mod,
  * D1535-18e1.
  * @param {number} value - will be in [0, 10]. Clamped if it exceeds the
  * interval.
- * @return {number} Y
+ * @returns {number} Y
  */
 export function munsellValueToY(v) {
   return v * (1.1914 + v * (-0.22533 + v * (0.23352 + v * (-0.020484 + v * 0.00081939)))) * 0.01;
@@ -31,7 +31,7 @@ export function munsellValueToY(v) {
 /** Converts Munsell value to L* (of CIELAB).
  * @param {number} value - will be in [0, 10]. Clamped if it exceeds the
  * interval.
- * @return {number} L*
+ * @returns {number} L*
  */
 export function munsellValueToL(v) {
   return 116 * functionF(munsellValueToY(v)) - 16;
@@ -235,7 +235,7 @@ export function munsellToLab(munsellStr) {
  * @param {number} chroma - will be in [0, +inf). Assumed to be zero if it is
  * negative.
  * @param {illuminant} [illuminant = ILLUMINANT_D65]
- * @returns {Array} [L*, C*ab, hab]
+ * @returns {Array} [X, Y, Z]
  */
 export function mhvcToXyz(hue100, value, chroma, illuminant = ILLUMINANT_D65) {
   // Uses Bradford transformation
@@ -244,7 +244,11 @@ export function mhvcToXyz(hue100, value, chroma, illuminant = ILLUMINANT_D65) {
                           labToXyz(lstar, astar, bstar, ILLUMINANT_C));
 }
 
-/** */
+/** Converts Munsell Color string to XYZ.
+ * @param {string} munsellStr
+ * @param {illuminant} [illuminant = ILLUMINANT_D65]
+ * @returns {Array} [X, Y, Z]
+ */
 export function munsellToXyz(munsellStr, illuminant = ILLUMINANT_D65) {
   const [hue100, value, chroma] = munsellToMhvc(munsellStr);
   return mhvcToXyz(hue100, value, chroma, illuminant);
@@ -301,6 +305,15 @@ export function munsellToRgb(munsellStr, rgbSpace = SRGB) {
 }
 
 /** Concerts Munsell HVC to quantized RGB.
+ * @param {number} hue100 - is in the circle group R/100Z. Any real number is
+ * accepted.
+ * @param {number} value - will be in [0, 10]. Clamped if it exceeds the
+ * interval.
+ * @param {number} chroma - will be in [0, +inf). Assumed to be zero if it is
+ * negative.
+ * @param {boolean} [clamp = true] - If true, the returned value will be clamped
+ * to the range [0, 255].
+ * @param {RGBSpace} [rgbSpace = SRGB]
  * @returns {Array} [R255, G255, B255]
  */
 export function mhvcToRgb255(hue100, value, chroma, clamp = true, rgbSpace = SRGB) {
@@ -309,6 +322,10 @@ export function mhvcToRgb255(hue100, value, chroma, clamp = true, rgbSpace = SRG
 }
 
 /** Concerts Munsell Color string to quantized RGB.
+ * @param {string} munsellStr
+ * @param {boolean} [clamp = true] - If true, the returned value will be clamped
+ * to the range [0, 255].
+ * @param {RGBSpace} [rgbSpace = SRGB]
  * @returns {Array} [R255, G255, B255]
  */
 export function munsellToRgb255(munsellStr, clamp = true, rgbSpace = SRGB) {
@@ -318,6 +335,13 @@ export function munsellToRgb255(munsellStr, clamp = true, rgbSpace = SRGB) {
 
 /**
  * Converts Munsell HVC to Hex code.
+ * @param {number} hue100 - is in the circle group R/100Z. Any real number is
+ * accepted.
+ * @param {number} value - will be in [0, 10]. Clamped if it exceeds the
+ * interval.
+ * @param {number} chroma - will be in [0, +inf). Assumed to be zero if it is
+ * negative.
+ * @param {RGBSpace} [rgbSpace = SRGB]
  * @returns {string} Hex
  */
 export function mhvcToHex(hue100, value, chroma, rgbSpace = SRGB) {
@@ -326,6 +350,8 @@ export function mhvcToHex(hue100, value, chroma, rgbSpace = SRGB) {
 
 /**
  * Converts Munsell Color string to Hex code.
+ * @param {string} munsellStr
+ * @param {RGBSpace} [rgbSpace = SRGB]
  * @returns {string} Hex
  */
 export function munsellToHex(munsellStr, rgbSpace = SRGB) {
@@ -339,7 +365,7 @@ export function munsellToHex(munsellStr, rgbSpace = SRGB) {
  * @param {number} hue100
  * @param {number} value
  * @param {number} chroma
- * @param {number} [digits = 1] Is the number of digits after the decimal
+ * @param {number} [digits = 1] is the number of digits after the decimal
  * point. Must be non-negative integer. Note that the units digit of the hue
  * prefix is assumed to be already after the decimal point.
  * @returns {string} Munsell Color code

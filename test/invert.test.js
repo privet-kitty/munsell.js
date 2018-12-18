@@ -11,6 +11,7 @@ import {munsellValueToY,
         munsellValueToL,
         mhvcToLchab,
         mhvcToRgb255,
+        munsellToRgb255,
         mhvcToHex,
         munsellToHex} from '../src/convert.js';
 import {SRGB, ADOBE_RGB, ILLUMINANT_C, ILLUMINANT_D65} from '../src/colorspace.js';
@@ -86,19 +87,6 @@ describe('lchabToMhvc()', () => {
   })
 })
 
-describe('quantized RGB <-> Munsell HVC', () => {
-  test('round-trip', () => {
-    expect(mhvcToRgb255(...rgb255ToMhvc(-10, 20, 30))).toEqual([0, 20, 30]);
-    expect(mhvcToRgb255(...rgb255ToMhvc(-10, 250, 270, ADOBE_RGB), false, ADOBE_RGB)).toEqual([-10, 250, 270]);
-  })
-})
-describe('rgb255ToMunsell()', () => {
-  test('achromatic', () => {
-    expect(rgb255ToMunsell(0, 0, 0, SRGB, 1)).toEqual("N 0.0");
-    expect(rgb255ToMunsell(255, 255, 255, ADOBE_RGB, 2)).toEqual("N 10.00");
-  })
-})
-
 describe('lchabToMunsell()', () => {
   test('consistency with dufy', () => {
     expect(lchabToMunsell(1.555, 15.555, -155.555, 2)).toEqual("3.5BG 0.15/4.87");
@@ -112,11 +100,34 @@ describe('labToMunsell()', () => {
   })
 })
 
+describe('quantized RGB <-> Munsell HVC', () => {
+  test('round-trip', () => {
+    expect(mhvcToRgb255(...rgb255ToMhvc(-10, 20, 30))).toEqual([0, 20, 30]);
+    expect(mhvcToRgb255(...rgb255ToMhvc(-10, 250, 270, ADOBE_RGB), false, ADOBE_RGB)).toEqual([-10, 250, 270]);
+  })
+})
+
+describe('quantized RGB <-> Munsell string', () => {
+  test('round-trip', () => {
+    expect(munsellToRgb255(rgb255ToMunsell(-12, 34, 260, SRGB, 10), false)).toEqual([-12, 34, 260]);
+    expect(munsellToRgb255(rgb255ToMunsell(-12, 34, 56, ADOBE_RGB, 10), true, ADOBE_RGB)).toEqual([0, 34, 56]);
+    expect(munsellToRgb255(rgb255ToMunsell(0, 0, 0))).toEqual([0, 0, 0]);
+    expect(munsellToRgb255(rgb255ToMunsell(255, 255, 255))).toEqual([255, 255, 255]);
+  })
+})
+
+describe('rgb255ToMunsell()', () => {
+  test('achromatic', () => {
+    expect(rgb255ToMunsell(0, 0, 0, SRGB, 1)).toEqual("N 0.0");
+    expect(rgb255ToMunsell(255, 255, 255, ADOBE_RGB, 2)).toEqual("N 10.00");
+  })
+})
+
 describe('hex <-> Munsell string', () => {
   test('round-trip', () => {
     expect(munsellToHex(hexToMunsell("#fedcba", SRGB, 10))).toEqual("#fedcba");
     expect(munsellToHex(hexToMunsell("#012345", ADOBE_RGB, 10), ADOBE_RGB)).toEqual("#012345");
-    expect(munsellToHex(hexToMunsell("#000000", SRGB, 10))).toEqual("#000000");
-    expect(munsellToHex(hexToMunsell("#ffffff", SRGB, 10))).toEqual("#ffffff");
+    expect(munsellToHex(hexToMunsell("#000000"))).toEqual("#000000");
+    expect(munsellToHex(hexToMunsell("#ffffff"))).toEqual("#ffffff");
   })
 })
