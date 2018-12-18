@@ -18,19 +18,11 @@ import {mod,
         multMatrixVector} from './arithmetic.js';
 
 /**
- * <p> munsell.js handles the Munsell Color System. The main facility of this
- * module is the conversion between the Munsell Color space and other spaces
- * (e.g. RGB).
-
  * <p> The data underlying this module is {@link
  * https://www.rit.edu/cos/colorscience/rc_munsell_renotation.php Munsell
  * Renotation Data}. Every converter inter- and extrapolates them using
- * cylindrical coordinates of LCH(ab) space. The algorithm is similar to the one
- * by Paul Centore. (See his thesis "An open‐source inversion algorithm for the
- * Munsell renotation", 2011). All of the relevant colorimetric data are
- * (indirectly) based on corresponding standards via {@link
- * https://github.com/privet-kitty/dufy dufy}, my color library for Common
- * Lisp. See the links for more details.
+ * cylindrical coordinates of LCH(ab) space. The primary converter is
+ * lchabToMhvc().
  *
  * <p> This module expresses the Munsell Color in two ways, a string or triplet
  * of numbers, which can be identified by the name of method. The former is
