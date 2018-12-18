@@ -9,8 +9,6 @@
  */
 
 export const TWO_PI = Math.PI + Math.PI;
-export const FACTOR_DEGREE_TO_RADIAN = TWO_PI / 360;
-export const FACTOR_RADIAN_TO_DEGREE = 360 / TWO_PI;
 
 export function mod(dividend, divisor) {
   const x = dividend % divisor;
