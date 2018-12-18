@@ -36,11 +36,7 @@ munsell.hexToMhvc("#ABCDEF");
 ## Mechanism
 _[API Reference](https://privet-kitty.github.io/munsell.js/) provides the details beyond this README file._
 
-This module expresses the Munsell Color in two ways, a string or triplet of numbers, which can be identified by the name of method. The former is `munsell`, the standard string specification of the Munsell Color: e.g. `"4.2RP 3/11"`, `"N 10"`. The latter is `mhvc`, or Munsell HVC, its 3-number expression composed of [Hue, Value, Chroma]: e.g. `[94.2, 3, 11]`, `[0, 10 ,0]`.
-
-<!--
-Here Hue is in the circle group R/100Z: i.e. 0R (= 10RP) corresponds to 0 (= 100 = 300 = -2000) and 2YR corresponds to 12 (= -88 = 412). Value is in the interval [0, 10] and the converters will clamp it if a given value exceeds it. Chroma is non-negative and the converters will assume it to be zero if a given chroma is negative. Note that every converter accepts a huge chroma outside the Munsell Renotation Data (e.g. 1000000) and returns a extrapolated result.
--->
+This module expresses the Munsell Color in two ways, a string or triplet of numbers, which can be identified by the name of method. The former is `munsell`, the standard string specification of the Munsell Color: e.g. `"4.2RP 3/11"`, `"N 10"`. The latter is `mhvc`, or Munsell HVC, its 3-number expression composed of [Hue, Value, Chroma]: e.g. `[94.2, 3, 11]`, `[0, 10 ,0]`. Here Hue is in the circle group R/100Z: i.e. 0R (= 10RP) corresponds to 0 (= 100 = 300 = -2000) and 2YR corresponds to 12 (= -88 = 412). Value is in the interval [0, 10] and the converters will clamp it if a given value exceeds it. Chroma is non-negative and the converters will assume it to be zero if a given chroma is negative. Note that every converter accepts a huge chroma outside the Munsell Renotation Data (e.g. 1000000) and returns a extrapolated result.
 
 The underlying data of this module is the [Munsell Renotation Data](https://www.rit.edu/cos/colorscience/rc_munsell_renotation.php). Since this data assume the illuminant to be the Standard Illuminant C, munsell.js uses the Bradford transformation as CAT to other illumnants (e.g. D65).
 
