@@ -47,12 +47,21 @@
 <a href="https://coveralls.io/github/privet-kitty/munsell.js?branch=master"><img src="https://coveralls.io/repos/github/privet-kitty/munsell.js/badge.svg?branch=master" alt="Coverage Status"></a>
 <strong>This library is still in a alpha stage.</strong></p>
 <p>munsell.js is a library for JavaScript and Node.js, whose main facility is converting Munsell Color to/from other color spaces (e.g. RGB).</p>
-<h2>Usage</h2><p>[To Be Edited]</p>
-<p>For the details, see <a href="https://privet-kitty.github.io/munsell.js/">API Reference</a>.</p>
-<p>This module expresses the Munsell Color in two ways, a string or triplet of numbers, which can be identified by the name of method. The former is <code>munsell</code>, the standard string specification of the Munsell Color: e.g. <code>&quot;4.2RP 3/11&quot;</code>, <code>&quot;N 10&quot;</code>. The latter is <code>mhvc</code>, or Munsell HVC, its 3-number expression composed of [Hue, Value, Chroma]: e.g. <code>[94.2, 3, 11]</code>, <code>[0, 10 ,0]</code>. Here Hue is in the circle group R/100Z: i.e. 0R (= 10RP) corresponds to 0 (= 100 = 300 = -2000) and 2YR corresponds to 12 (= -88 = 412). Value is in the interval [0, 10] and the converters will clamp it if a given value exceeds it. Chroma is non-negative and the converters will assume it to be zero if a given chroma is negative. Note that every converter accepts a huge chroma outside the Munsell Renotation Data (e.g. 1000000) and returns a extrapolated result.</p>
-<h2>Compatibility</h2><p>munsell.js is completely written in the ES module format. You can <code>require</code> it from CommonJS without being conscious of that as this library uses <a href="https://www.npmjs.com/package/esm"><code>esm</code> loader</a>.</p>
-<h2>Mechanism</h2><p>The underlying data of this module is the <a href="https://www.rit.edu/cos/colorscience/rc_munsell_renotation.php">Munsell Renotation Data</a>. Since this data assume the illuminant to be the Standard Illuminant C, munsell.js uses the Bradford transformation as CAT to other illumnants (e.g. D65).</p>
-<p>The method of inter- and extrapolation is in common with <a href="https://github.com/privet-kitty/dufy">dufy</a>, my color library for Common Lisp, which is substantially based on the Paul Centore's method (though munsell.js interpolates the data via LCh<sub>ab</sub> space). See the links and articles for more details.</p>
+<h2>Getting started</h2><h3>Install</h3><p>To install munsell.js to your project via npm, just run:</p>
+<pre class="prettyprint source"><code>$ npm install munsell</code></pre><h3>Load</h3><p>munsell.js is written in the ES module format. You can <code>require</code> it from CommonJS, however, as this library uses <a href="https://www.npmjs.com/package/esm"><code>esm</code> loader</a>. Below are the simplest examples:</p>
+<h4>ES module</h4><pre class="prettyprint source lang-javascript"><code>import * as munsell from 'munsell';
+
+munsell.munsellToRgb255(&quot;2.3YR 6.7/4.22&quot;);
+// => [ 201, 156, 135 ]</code></pre><h4>CommonJS</h4><pre class="prettyprint source lang-javascript"><code>const munsell = require('munsell');
+
+munsell.hexToMhvc(&quot;#ABCDEF&quot;);
+// => [ 73.43648829473781, 8.05763439330249, 5.304123165279228 ]</code></pre><h2>Mechanism</h2><p><em><a href="https://privet-kitty.github.io/munsell.js/">API Reference</a> provides the details beyond this README file.</em></p>
+<p>This module expresses the Munsell Color in two ways, a string or triplet of numbers, which can be identified by the name of method. The former is <code>munsell</code>, the standard string specification of the Munsell Color: e.g. <code>&quot;4.2RP 3/11&quot;</code>, <code>&quot;N 10&quot;</code>. The latter is <code>mhvc</code>, or Munsell HVC, its 3-number expression composed of [Hue, Value, Chroma]: e.g. <code>[94.2, 3, 11]</code>, <code>[0, 10 ,0]</code>.</p>
+<!--
+Here Hue is in the circle group R/100Z: i.e. 0R (= 10RP) corresponds to 0 (= 100 = 300 = -2000) and 2YR corresponds to 12 (= -88 = 412). Value is in the interval [0, 10] and the converters will clamp it if a given value exceeds it. Chroma is non-negative and the converters will assume it to be zero if a given chroma is negative. Note that every converter accepts a huge chroma outside the Munsell Renotation Data (e.g. 1000000) and returns a extrapolated result.
+-->
+<p>The underlying data of this module is the <a href="https://www.rit.edu/cos/colorscience/rc_munsell_renotation.php">Munsell Renotation Data</a>. Since this data assume the illuminant to be the Standard Illuminant C, munsell.js uses the Bradford transformation as CAT to other illumnants (e.g. D65).</p>
+<p>The method of inter- and extrapolation is in common with <a href="https://github.com/privet-kitty/dufy">dufy</a>, my color library for Common Lisp, which is substantially based on the Paul Centore's method (though munsell.js interpolates the data via LCh<sub>ab</sub> space). See the links and articles for more information.</p>
 <ul>
 <li>Centore, Paul. (2012). An open-source inversion algorithm for the Munsell renotation. Color Research &amp; Application. 37. 10.1002/col.20715. </li>
 </ul>
@@ -73,7 +82,7 @@
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Tue Dec 18 2018 09:48:39 GMT+0000 (Coordinated Universal Time)
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Tue Dec 18 2018 10:28:18 GMT+0000 (Coordinated Universal Time)
 </footer>
 
 <script> prettyPrint(); </script>
