@@ -35,6 +35,7 @@ class Illuminant {
 }
 
 // The following data are based on dufy. CAT is Bradford transformation.
+/** @type {Illuminant} */
 export const ILLUMINANT_D65 =
   new Illuminant(0.950428061568676,
                  1.08891545904089,
@@ -44,6 +45,7 @@ export const ILLUMINANT_D65 =
                  [[1.0098158523233767,0.007060316533713093,0.012764537821734395],
                   [0.012335983421444891,0.9846986027789835,0.003284857773421468],
                   [0.003822773174044815,-0.007224207660971385,1.0890100329203007]]);
+/** @type {Illuminant} */
 export const ILLUMINANT_C =
   new Illuminant(0.9807171421603395,
                  1.182248923134197,
@@ -106,6 +108,7 @@ class RGBSpace {
 const CONST5 = 0.0031308*12.92;
 
 // The following data are based on dufy.
+/** @type {RGBSpace} */
 export const SRGB = new RGBSpace(
   [[0.4124319639872968,0.3575780371782625,0.1804592355313134],
    [0.21266023143094992,0.715156074356525,0.07218369421252536],
@@ -133,6 +136,9 @@ export const SRGB = new RGBSpace(
   }
 );
 
+/** 
+ * @type {RGBSpace}
+ */
 export const ADOBE_RGB = new RGBSpace (
   [[0.5766645233146432, 0.18556215235063508, 0.18820138590339738],
    [0.29734264483411293, 0.6273768008045281, 0.07528055436135896],
@@ -144,16 +150,16 @@ export const ADOBE_RGB = new RGBSpace (
   genLinearizer(563/256)
 );
 
-export function xyzToLinearRgb(X, Y, Z, space = SRGB) {
-  return multMatrixVector(space.matrixXyzToThis, [X, Y, Z]);
+export function xyzToLinearRgb(X, Y, Z, rgbSpace = SRGB) {
+  return multMatrixVector(rgbSpace.matrixXyzToThis, [X, Y, Z]);
 }
 
-export function linearRgbToXyz(lr, lg, lb, space = SRGB) {
-  return multMatrixVector(space.matrixThisToXyz, [lr, lg, lb]);
+export function linearRgbToXyz(lr, lg, lb, rgbSpace = SRGB) {
+  return multMatrixVector(rgbSpace.matrixThisToXyz, [lr, lg, lb]);
 }
 
-export function linearRgbToRgb(lr, lg, lb, space = SRGB) {
-  return [lr, lg, lb].map(space.delinearizer);
+export function linearRgbToRgb(lr, lg, lb, rgbSpace = SRGB) {
+  return [lr, lg, lb].map(rgbSpace.delinearizer);
 }
 
 

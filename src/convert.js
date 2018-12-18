@@ -17,29 +17,6 @@ import {mod,
         circularLerp,
         multMatrixVector} from './arithmetic.js';
 
-/**
- * <p> The data underlying this module is {@link
- * https://www.rit.edu/cos/colorscience/rc_munsell_renotation.php Munsell
- * Renotation Data}. Every converter inter- and extrapolates them using
- * cylindrical coordinates of LCH(ab) space. The primary converter is
- * lchabToMhvc().
- *
- * <p> This module expresses the Munsell Color in two ways, a string or triplet
- * of numbers, which can be identified by the name of method. The former is
- * <dfn>Munsell</dfn>, the standard string specification of the Munsell Color:
- * e.g. <code>"4.2RP 3/11"</code>, <code>"N 10"</code>. The latter is
- * <dfn>MHVC</dfn>, or Munsell HVC, its 3-number expression composed of [Hue,
- * Value, Chroma]: e.g. <code>[94.2, 3, 11]</code>, <code>[0, 10
- * ,0]</code>. Here Hue is in the circle group R/100Z: i.e. 0R (= 10RP)
- * corresponds to 0 (= 100 = 300 = -2000) and 2YR corresponds to 12 (= -88 =
- * 412). Value is in the interval [0, 10] and the converters will clamp it if a
- * given value exceeds it. Chroma is non-negative and the converters will assume
- * it to be zero if a given chroma is negative. Note that every converter
- * accepts a huge chroma outside the MRD (e.g. 1000000) and returns a
- * extrapolated result.
- * @module
- */
-
 /** 
  * Converts Munsell value to Y (in XYZ).
  * @param {number} value - will be in [0, 10]. Clamped if it exceeds the
@@ -190,10 +167,11 @@ export function mhvcToLchab(hue100, value, chroma) {
 const hueNames = ["R", "YR", "Y", "GY", "G", "BG", "B", "PB", "P", "RP"];
 
 /**
- * Converts Munsell string to Munsell HVC. Munsell string is e.g.  "3GY 2/10" or
- "N 2.4". This converter accepts various notations of numbers; an ugly
- specification like "2e-02RP .9/0xffffff" will be also available. However, the
- capital letters and '/' are reserved.
+ * Converts Munsell Color string to Munsell HVC. Munsell Color string is e.g.
+ * <code>"3GY 2/10"</code> or <code>"N 2.4"</code>. This converter accepts
+ * various notations of numbers; an ugly specification like <code>"2e-02RP
+ * .9/0xffffff"</code> will be also available. However, the capital letters and
+ * '/' are reserved.
  * @param {string} munsellStr - is the standard Munsell Color code.
  * @returns {Array} [hue100, value, chroma]
  */
@@ -215,7 +193,7 @@ export function munsellToMhvc(munsellStr) {
 }
 
 /**
- * Converts Munsell string to LCHab. Note that the returned value is under
+ * Converts Munsell Color string to LCHab. Note that the returned value is under
  * <strong>Illuminant C</strong>.
  * @param {string} munsellStr - is the standard Munsell Color code.
  * @returns {Array} [L*, C*ab, hab]
@@ -239,7 +217,7 @@ export function mhvcToLab(hue100, value, chroma) {
 }
 
 
-/** Converts Munsell string to CIELAB. Note that the returned value is under
+/** Converts Munsell Color string to CIELAB. Note that the returned value is under
  * <strong>Illuminant C</strong>.
  * @param {string} munsellStr
  * @returns {Array} [L*, a*, b*]
@@ -286,7 +264,7 @@ export function mhvcToLinearRgb(hue100, value, chroma, rgbSpace = SRGB) {
   return xyzToLinearRgb(X, Y, Z, rgbSpace);
 }
 
-/** Converts Munsell string to linear RGB.
+/** Converts Munsell Color string to linear RGB.
  * @param {string} munsellStr
  * @param {RGBSpace} [rgbSpace = SRGB]
  * @returns {Array} [linear R, linear G, linear B]
@@ -311,7 +289,7 @@ export function mhvcToRgb(hue100, value, chroma, rgbSpace = SRGB) {
   return linearRgbToRgb(lr, lg, lb, rgbSpace);
 }
 
-/** Converts Munsell string to gamma-corrected RGB.
+/** Converts Munsell Color string to gamma-corrected RGB.
  * @param {string} munsellStr
  * @param {RGBSpace} [rgbSpace = SRGB]
  * @returns {Array} [R, G, B]
@@ -329,7 +307,7 @@ export function mhvcToRgb255(hue100, value, chroma, clamp = true, rgbSpace = SRG
   return rgbToRgb255(r, g, b, clamp);
 }
 
-/** Concerts Munsell string to quantized RGB.
+/** Concerts Munsell Color string to quantized RGB.
  * @returns {Array} [R255, G255, B255]
  */
 export function munsellToRgb255(munsellStr, clamp = true, rgbSpace = SRGB) {
@@ -346,7 +324,7 @@ export function mhvcToHex(hue100, value, chroma, rgbSpace = SRGB) {
 }
 
 /**
- * Converts Munsell string to Hex code.
+ * Converts Munsell Color string to Hex code.
  * @returns {string} Hex
  */
 export function munsellToHex(munsellStr, rgbSpace = SRGB) {
