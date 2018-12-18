@@ -5,6 +5,7 @@ import {lchabToLab,
         xyzToLinearRgb,
         linearRgbToXyz,
         linearRgbToRgb,
+        rgbToLinearRgb,
         rgbToRgb255,
         rgb255ToRgb,
         rgbToHex,
@@ -55,6 +56,10 @@ describe('XYZ <-> liner RGB', () => {
 describe('linear RGB <-> gamma-corrected RGB', () => {
   test('consistency with dufy (sRGB)', () => {
     expect(linearRgbToRgb(0.002, 0.7, -0.2)).toNearlyEqual([0.025840000000000002, 0.85430583154494, -0.48452920448170694], 6);
+  })
+  test('round-trip', () => {
+    expect(linearRgbToRgb(...rgbToLinearRgb(0, 0.5, 1, ADOBE_RGB), ADOBE_RGB)).toNearlyEqual([0, 0.5, 1], 10);
+    expect(linearRgbToRgb(...rgbToLinearRgb(-1.2, 1e-3, 1.8,))).toNearlyEqual([-1.2, 1e-3, 1.8], 10);
   })
 })
 

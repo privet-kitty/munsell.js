@@ -59,6 +59,12 @@ describe('mhvcToMunsell()', () => {
   })
 })
 
+describe('mhvcToLchab()', () => {
+  test('extrapolation (V < 0.2)', () => {
+    expect(mhvcToLchab(0, 0.1, 0.5)).toNearlyEqual([1.0579241958909762, 3.575933774382648, 341.9999157759378], 5);
+  })
+})
+
 describe('munsellToLchab()', () => {
   test('all integer case', () => {
     expect(munsellToLchab("10RP 1/2")).toNearlyEqual([10.408445518542798, 12.62469571978245, 350.56362148026216], 5);
@@ -67,7 +73,6 @@ describe('munsellToLchab()', () => {
     expect(munsellToLchab("10RP 0.2/2")).toNearlyEqual([2.08753985167084, 14.303735097530591, 341.9999157759378], 5);
   })
 })
-
 
 describe('munsellToLab()', () => {
   test('boundary case', () => {
@@ -83,6 +88,9 @@ describe('mhvcToXyz()', () => {
 })
 
 describe('munsellToXyz()', () => {
+  test('consistency with dufy (Illuminant D65)', () => {
+    expect(munsellToXyz("10RP 2.18/3.1")).toNearlyEqual([0.04407256823883116, 0.03510249845936815, 0.038100157923138124], 6);
+  })
   test('consistency with dufy (Illuminant C)', () => {
     expect(munsellToXyz("2.1YR 0.95/52.1", ILLUMINANT_C)).toNearlyEqual([0.3160051332270124, 0.011126335673373787,-0.04901459409007915], 6);
   })

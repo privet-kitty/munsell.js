@@ -1,6 +1,8 @@
 import {yToMunsellValue,
         lToMunsellValue,
         lchabToMhvc,
+        lchabToMunsell,
+        labToMunsell,
         rgb255ToMhvc,
         rgb255ToMunsell,
         hexToMhvc,
@@ -8,6 +10,7 @@ import {yToMunsellValue,
 import {munsellValueToY,
         munsellValueToL,
         mhvcToLchab,
+        mhvcToRgb255,
         mhvcToHex,
         munsellToHex} from '../src/convert.js';
 import {SRGB, ADOBE_RGB, ILLUMINANT_C, ILLUMINANT_D65} from '../src/colorspace.js';
@@ -82,11 +85,30 @@ describe('lchabToMhvc()', () => {
     expect(() => lchabToMhvc(20, 30, 40, 1e-9, 0, "no such keyword")).toThrow(SyntaxError);
   })
 })
-    
+
+describe('quantized RGB <-> Munsell HVC', () => {
+  test('round-trip', () => {
+    expect(mhvcToRgb255(...rgb255ToMhvc(-10, 20, 30))).toEqual([0, 20, 30]);
+    expect(mhvcToRgb255(...rgb255ToMhvc(-10, 250, 270, ADOBE_RGB), false, ADOBE_RGB)).toEqual([-10, 250, 270]);
+  })
+})
 describe('rgb255ToMunsell()', () => {
   test('achromatic', () => {
     expect(rgb255ToMunsell(0, 0, 0, SRGB, 1)).toEqual("N 0.0");
     expect(rgb255ToMunsell(255, 255, 255, ADOBE_RGB, 2)).toEqual("N 10.00");
+  })
+})
+
+describe('lchabToMunsell()', () => {
+  test('consistency with dufy', () => {
+    expect(lchabToMunsell(1.555, 15.555, -155.555, 2)).toEqual("3.5BG 0.15/4.87");
+  })
+})
+
+describe('labToMunsell()', () => {
+  test('consistency with dufy', () => {
+    expect(labToMunsell(1.444, 15.555, -155.555, 2)).toEqual("2.4PB 0.14/34.59");
+    expect(labToMunsell(1.444, 15.555, -15555.555)).toEqual("1PB 0.1/3581.3");
   })
 })
 
