@@ -90,7 +90,7 @@ function invertMhvcToLchab (lstar, cstarab, hab, initHue100, initChroma, thresho
  * <ul>
  * <li>V := {@link lToMunsellValue}(L*);</li>
  * <li>C<sub>0</sub> := C*<sub>ab</sub> / 5.5;</li>
- * <li>H<sub>0</sub> := h<sub>ab</sub> / 9;</li>
+ * <li>H<sub>0</sub> := h<sub>ab</sub> * 100/360;</li>
  * <li>C<sub>n+1</sub> := C<sub>n</sub> + factor * ΔC<sub>n</sub>;</li>
  * <li>H<sub>n+1</sub> :=  H<sub>n</sub> + factor * ΔH<sub>n</sub>.</li>
  * </ul>
