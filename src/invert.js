@@ -37,7 +37,8 @@ export function yToMunsellValue(Y) {
  * Converts L* of CIELAB to Munsell value. The round-trip error, abs(L* -
  * munsellValueToL(lToMunsellValue(L*)), is guaranteed to be smaller than 1e-3
  * if L* is in [0, 100].
- * @param {number} Y - will be in [0, 1]. Clamped if it exceeds the interval.
+ * @param {number} lstar - will be in [0, 100]. Clamped if it exceeds the
+ * interval.
  */
 export function lToMunsellValue(lstar) {
   return yToMunsellValue(lToY(lstar));
@@ -102,6 +103,9 @@ function invertMhvcToLchab (lstar, cstarab, hab, initHue100, initChroma, thresho
  * <li>"init": Returns the initial rough approximation.</li>
  * <li>"as-is": Returns the last </li>
  * </ul>
+
+ * Note that the given values are assumed to be under <strong>Illuminant
+ * C</strong>.
  * @param {number} lstar
  * @param {number} cstarab
  * @param {number} hab
@@ -121,6 +125,8 @@ export function lchabToMhvc(lstar, cstarab, hab, threshold = 1e-6, maxIteration 
 }
 
 /**
+ * Converts LCHab to Munsell string. Note that the given values are assumed to
+ * be under <strong>Illuminant C</strong>.
  * @see lchabToMhvc
  */
 export function lchabToMunsell(lstar, cstarab, hab, digits = 1, threshold = 1e-6, maxIteration = 200, ifReachMax = "error", factor = 0.5) {

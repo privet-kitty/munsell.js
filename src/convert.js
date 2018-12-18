@@ -18,7 +18,8 @@ import {mod,
         multMatrixVector} from './arithmetic.js';
 
 /** 
- * Converts Munsell value to Y (in XYZ).
+ * Converts Munsell value to Y (of XYZ) based on the formula in the ASTM
+ * D1535-18e1.
  * @param {number} value - will be in [0, 10]. Clamped if it exceeds the
  * interval.
  * @return {number} Y
@@ -27,7 +28,7 @@ export function munsellValueToY(v) {
   return v * (1.1914 + v * (-0.22533 + v * (0.23352 + v * (-0.020484 + v * 0.00081939)))) * 0.01;
 }
 
-/** Converts Munsell value to L* (in CIELAB).
+/** Converts Munsell value to L* (of CIELAB).
  * @param {number} value - will be in [0, 10]. Clamped if it exceeds the
  * interval.
  * @return {number} L*

@@ -4,3 +4,14 @@ node_js:
 
 script:
   - npm run coveralls
+  - npm run doc
+
+deploy:
+  provider: pages
+  skip-cleanup: true
+  github-token: $GITHUB_TOKEN
+  keep-history: true
+  local-dir: doc
+  target-branch: gh-pages
+  on:
+    branch: master

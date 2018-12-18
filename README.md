@@ -6,13 +6,12 @@
 
 munsell.js is a library for JavaScript and Node.js, whose main facility is converting Munsell Color to/from other color spaces (e.g. RGB).
 
-## Basic usage
+## Usage
 [To Be Edited]
 
-This module expresses the Munsell Color in two ways, a string or triplet of numbers, which can be identified by the name of method. The former is `munsell`, the standard string specification of the Munsell Color: e.g. `"4.2RP 3/11"`, `"N 10"`. The latter is `mhvc`, or Munsell HVC, its 3-number expression composed of [Hue, Value, Chroma]: e.g. `[94.2, 3, 11]`, `[0, 10 ,0]`. Here Hue is in the circle group R/100Z: i.e. 0R (= 10RP) corresponds to 0 (= 100 = 300 = -2000) and 2YR corresponds to 12 (= -88 = 412). Value is in the interval [0, 10] and the converters will clamp it if a given value exceeds it. Chroma is non-negative and the converters will assume it to be zero if a given chroma is negative. Note that every converter accepts a huge chroma outside the MRD (e.g. 1000000) and returns a extrapolated result.
+For the details, see [API Reference](https://privet-kitty.github.io/munsell.js/).
 
-## API reference
-[To Be Edited]
+This module expresses the Munsell Color in two ways, a string or triplet of numbers, which can be identified by the name of method. The former is `munsell`, the standard string specification of the Munsell Color: e.g. `"4.2RP 3/11"`, `"N 10"`. The latter is `mhvc`, or Munsell HVC, its 3-number expression composed of [Hue, Value, Chroma]: e.g. `[94.2, 3, 11]`, `[0, 10 ,0]`. Here Hue is in the circle group R/100Z: i.e. 0R (= 10RP) corresponds to 0 (= 100 = 300 = -2000) and 2YR corresponds to 12 (= -88 = 412). Value is in the interval [0, 10] and the converters will clamp it if a given value exceeds it. Chroma is non-negative and the converters will assume it to be zero if a given chroma is negative. Note that every converter accepts a huge chroma outside the Munsell Renotation Data (e.g. 1000000) and returns a extrapolated result.
 
 ## Compatibility
 munsell.js is completely written in the ES module format. You can `require` it from CommonJS without being conscious of that as this library uses [`esm` loader](https://www.npmjs.com/package/esm).
