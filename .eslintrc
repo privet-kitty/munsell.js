@@ -7,6 +7,7 @@
     "sourceType": "module"
   },
   "rules": {
+    "eqeqeq": "error",
     "no-useless-escape": "off",
     "arrow-parens": "error",
     "arrow-spacing": "error",
