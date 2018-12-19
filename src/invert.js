@@ -282,7 +282,7 @@ export function rgb255ToMunsell(r255, g255, b255, rgbSpace = SRGB, digits = 1, t
 }
 
 /**
- * Converts Hex code to Munsell HVC.
+ * Converts hex color to Munsell HVC.
  * @param {string} hex - may be 24-bit RGB (#XXXXXX), 12-bit RGB (#XXX), 32-bit
  * RGBA, (#XXXXXXXX), or 16-bit RGBA (#XXXX). Alpha channel is ignored.
  * @param {RGBSpace} [rgbSpace = SRGB]
@@ -298,7 +298,7 @@ export function hexToMhvc(hex, rgbSpace = SRGB, threshold = 1e-6, maxIteration =
 }
 
 /**
- * Converts Hex code to Munsell Color string.
+ * Converts hex color to Munsell Color string.
  * @param {string} hex - may be 24-bit RGB (#XXXXXX), 12-bit RGB (#XXX), 32-bit
  * RGBA, (#XXXXXXXX), or 16-bit RGBA (#XXXX). Alpha channel is ignored.
  * @param {RGBSpace} [rgbSpace = SRGB]
