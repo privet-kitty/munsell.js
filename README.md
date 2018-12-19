@@ -2,7 +2,6 @@
 
 [![Build Status](https://api.travis-ci.org/privet-kitty/munsell.js.svg?branch=master)](https://travis-ci.org/privet-kitty/munsell.js)
 [![Coverage Status](https://coveralls.io/repos/github/privet-kitty/munsell.js/badge.svg?branch=master)](https://coveralls.io/github/privet-kitty/munsell.js?branch=master)
-**This library is still in an alpha stage.**
 
 munsell.js is a library for JavaScript and Node.js, whose main facility is converting Munsell Color to/from other color spaces (e.g. RGB).
 
