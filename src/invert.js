@@ -100,12 +100,13 @@ function invertMhvcToLchab (lstar, cstarab, hab, initHue100, initChroma, thresho
  * or if V ≦ threshold or when max(ΔH<sub>n</sub>, ΔC<sub>n</sub>) falls
  * below threshold.
 
- * <p> <var>ifReachMax</var> specifies the action to be taken if the loop
+ * <p> <var>ifReachMax</var> specifies the action to be taken when the loop
  * reaches the maxIteration as follows:
+
  * <ul>
- * <li>"error": Throws Error;</li>
- * <li>"init": Returns the initial rough approximation.</li>
- * <li>"last": Returns the last approximation.</li>
+ * <li>"error": throws Error;</li>
+ * <li>"init": returns the initial rough approximation.</li>
+ * <li>"last": returns the last approximation.</li>
  * </ul>
 
  * Note that the given values are assumed to be under <strong>Illuminant
@@ -135,7 +136,7 @@ export function lchabToMhvc(lstar, cstarab, hab, threshold = 1e-6, maxIteration 
  * @param {number} lstar
  * @param {number} cstarab
  * @param {number} hab
- * @param {number} [digits = 1] is the number of digits after the decimal
+ * @param {number} [digits = 1] - is the number of digits after the decimal
  * point. Must be non-negative integer. Note that the units digit of the hue
  * prefix is assumed to be already after the decimal point.
  * @param {number} [threshold = 1e-6]
@@ -172,7 +173,7 @@ export function labToMhvc(lstar, astar, bstar, threshold = 1e-6, maxIteration = 
  * @param {number} lstar
  * @param {number} astar
  * @param {number} bstar
- * @param {number} [digits = 1] is the number of digits after the decimal
+ * @param {number} [digits = 1] - is the number of digits after the decimal
  * point. Must be non-negative integer. Note that the units digit of the hue
  * prefix is assumed to be already after the decimal point.
  * @param {number} [threshold = 1e-6]
@@ -266,7 +267,7 @@ export function rgb255ToMhvc(r255, g255, b255, rgbSpace = SRGB, threshold = 1e-6
  * @param {number} g255 - -
  * @param {number} b255 - -
  * @param {RGBSpace} [rgbSpace = SRGB]
- * @param {number} [digits = 1] is the number of digits after the decimal
+ * @param {number} [digits = 1] - is the number of digits after the decimal
  * point. Must be non-negative integer. Note that the units digit of the hue
  * prefix is assumed to be already after the decimal point.
  * @param {number} [threshold = 1e-6]
@@ -282,7 +283,8 @@ export function rgb255ToMunsell(r255, g255, b255, rgbSpace = SRGB, digits = 1, t
 
 /**
  * Converts Hex code to Munsell HVC.
- * @param {number} hex
+ * @param {string} hex - may be 24-bit RGB (#XXXXXX), 12-bit RGB (#XXX), 32-bit
+ * RGBA, (#XXXXXXXX), or 16-bit RGBA (#XXXX). Alpha channel is ignored.
  * @param {RGBSpace} [rgbSpace = SRGB]
  * @param {number} [threshold = 1e-6]
  * @param {number} [maxIteration = 200]
@@ -297,9 +299,10 @@ export function hexToMhvc(hex, rgbSpace = SRGB, threshold = 1e-6, maxIteration =
 
 /**
  * Converts Hex code to Munsell Color string.
- * @param {number} hex
+ * @param {string} hex - may be 24-bit RGB (#XXXXXX), 12-bit RGB (#XXX), 32-bit
+ * RGBA, (#XXXXXXXX), or 16-bit RGBA (#XXXX). Alpha channel is ignored.
  * @param {RGBSpace} [rgbSpace = SRGB]
- * @param {number} [digits = 1] is the number of digits after the decimal
+ * @param {number} [digits = 1] - is the number of digits after the decimal
  * point. Must be non-negative integer. Note that the units digit of the hue
  * prefix is assumed to be already after the decimal point.
  * @param {number} [threshold = 1e-6]

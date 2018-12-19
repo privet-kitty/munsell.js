@@ -192,11 +192,15 @@ export function hexToRgb(hex) {
   const num = parseInt(hex.slice(1), 16);
   const length = hex.length;
   switch (length) {
-  case 7:
+  case 7: // #XXXXXX
     return [num >> 16, num >> 8, num].map((x) => (x & 0xff) / 255);
-  case 4:
-    return [num >> 8, num >> 4, num].map((x) => (x & 0xf) / 16);
+  case 4: // #XXX
+    return [num >> 8, num >> 4, num].map((x) => (x & 0xf) / 15);
+  case 9: // #XXXXXXXX
+    return [num >> 24, num >> 16, num >> 8].map((x) => (x & 0xff) / 255);
+  case 5: // #XXXX
+    return [num >> 12, num >> 8, num >> 4].map((x) => (x & 0xf) / 15);
   default:
-    throw SyntaxError(`The length of hex is neither 7 nor 4: ${hex}`);
+    throw SyntaxError(`The length of hex color is invalid: ${hex}`);
   }
 }

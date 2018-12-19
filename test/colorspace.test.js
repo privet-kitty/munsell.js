@@ -82,7 +82,13 @@ describe('gamma-corrected RGB <-> Hex code', () => {
     }
   })
   test('12-bit hex', () => {
-    expect(hexToRgb("#FE0")).toNearlyEqual([15/16, 14/16, 0], 10);
+    expect(hexToRgb("#FE0")).toNearlyEqual([15/15, 14/15, 0], 10);
+  })
+  test('32-bit hex', () => {
+    expect(hexToRgb("#10203040")).toNearlyEqual([16/255, 32/255, 48/255], 10);
+  })
+  test('16-bit hex', () => {
+    expect(hexToRgb("#FEDC")).toNearlyEqual([15/15, 14/15, 13/15], 10);
   })
   test('invalid-hex-length error', () => {
     expect(() => hexToRgb("#0000000")).toThrowError(SyntaxError);

@@ -126,6 +126,9 @@ describe('rgb255ToMunsell()', () => {
 describe('hex <-> Munsell string', () => {
   test('round-trip', () => {
     expect(munsellToHex(hexToMunsell("#fedcba", SRGB, 10))).toEqual("#fedcba");
+    expect(munsellToHex(hexToMunsell("#fed", SRGB, 10))).toEqual("#ffeedd");
+    expect(munsellToHex(hexToMunsell("#fedcba98", SRGB, 10))).toEqual("#fedcba");
+    expect(munsellToHex(hexToMunsell("#fedc", SRGB, 10))).toEqual("#ffeedd");
     expect(munsellToHex(hexToMunsell("#012345", ADOBE_RGB, 10), ADOBE_RGB)).toEqual("#012345");
     expect(munsellToHex(hexToMunsell("#000000"))).toEqual("#000000");
     expect(munsellToHex(hexToMunsell("#ffffff"))).toEqual("#ffffff");
