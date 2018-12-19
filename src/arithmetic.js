@@ -104,7 +104,7 @@ export function circularLerp (coef, theta1, theta2, perimeter = TWO_PI) {
 
 /**
  * Returns the 'difference' of two values in a circle group. The returned value
- * Δ fulfills theta1 + Δ ≡ theta2 and -perimeter/2 <= Δ <= perimeter/2.
+ * Δ fulfills theta2 + Δ ≡ theta1 and -perimeter/2 <= Δ <= perimeter/2.
  * @param {number} theta1
  * @param {number} theta2
  * @param {number} [perimter = TWO_PI]

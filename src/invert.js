@@ -189,6 +189,15 @@ export function labToMunsell(lstar, astar, bstar, digits = 1, threshold = 1e-6, 
 
 /**
  * Converts XYZ to Munsell HVC, where Bradford transformation is used as CAT.
+ * @param {number} X
+ * @param {number} Y
+ * @param {number} Z
+ * @param {RGBSpace} [rgbSpace = SRGB]
+ * @param {number} [threshold = 1e-6]
+ * @param {number} [maxIteration = 200]
+ * @param {string} [ifReachMax = "error"]
+ * @param {number} [factor = 0.5]
+ * @returns {Array} [Hue, Value, Chroma]
  * @see lchabToMhvc
  */
 export function xyzToMhvc(X, Y, Z, illuminant = ILLUMINANT_D65, threshold = 1e-6, maxIteration = 200, ifReachMax = "error", factor = 0.5) {
@@ -204,6 +213,18 @@ export function xyzToMhvc(X, Y, Z, illuminant = ILLUMINANT_D65, threshold = 1e-6
 /**
  * Converts XYZ to Munsell Color string, where Bradford transformation is used
  * as CAT.
+ * @param {number} X
+ * @param {number} Y
+ * @param {number} Z
+ * @param {RGBSpace} [rgbSpace = SRGB]
+ * @param {number} [digits = 1] - is the number of digits after the decimal
+ * point. Must be non-negative integer. Note that the units digit of the hue
+ * prefix is assumed to be already after the decimal point.
+ * @param {number} [threshold = 1e-6]
+ * @param {number} [maxIteration = 200]
+ * @param {string} [ifReachMax = "error"]
+ * @param {number} [factor = 0.5]
+ * @returns {string} Munsell Color code
  * @see lchabToMhvc
  */
 export function xyzToMunsell(X, Y, Z, illuminant = ILLUMINANT_D65, digits = 1, threshold = 1e-6, maxIteration = 200, ifReachMax = "error", factor = 0.5) {
@@ -212,6 +233,16 @@ export function xyzToMunsell(X, Y, Z, illuminant = ILLUMINANT_D65, digits = 1, t
 
 /**
  * Converts linear RGB to Munsell HVC.
+ * @param {number} lr - will be in [0, 1] though any real number is accepted and
+ * properly processed as out-of-gamut color.
+ * @param {number} lg - -
+ * @param {number} lb - -
+ * @param {RGBSpace} [rgbSpace = SRGB]
+ * @param {number} [threshold = 1e-6]
+ * @param {number} [maxIteration = 200]
+ * @param {string} [ifReachMax = "error"]
+ * @param {number} [factor = 0.5]
+ * @returns {Array} [Hue, Value, Chroma]
  * @see lchabToMhvc
  */
 export function linearRgbToMhvc(lr, lg, lb, rgbSpace = SRGB, threshold = 1e-6, maxIteration = 200, ifReachMax = "error", factor = 0.5) {
@@ -220,6 +251,19 @@ export function linearRgbToMhvc(lr, lg, lb, rgbSpace = SRGB, threshold = 1e-6, m
 
 /**
  * Converts linear RGB to Munsell Color string.
+ * @param {number} lr - will be in [0, 1] though any real number is accepted and
+ * properly processed as out-of-gamut color.
+ * @param {number} lg - -
+ * @param {number} lb - -
+ * @param {RGBSpace} [rgbSpace = SRGB]
+ * @param {number} [digits = 1] - is the number of digits after the decimal
+ * point. Must be non-negative integer. Note that the units digit of the hue
+ * prefix is assumed to be already after the decimal point.
+ * @param {number} [threshold = 1e-6]
+ * @param {number} [maxIteration = 200]
+ * @param {string} [ifReachMax = "error"]
+ * @param {number} [factor = 0.5]
+ * @returns {string} Munsell Color code
  * @see lchabToMhvc
  */
 export function linearRgbToMunsell(lr, lg, lb, rgbSpace = SRGB, digits = 1, threshold = 1e-6, maxIteration = 200, ifReachMax = "error", factor = 0.5) {
@@ -228,6 +272,16 @@ export function linearRgbToMunsell(lr, lg, lb, rgbSpace = SRGB, digits = 1, thre
 
 /**
  * Converts gamma-corrected RGB to Munsell HVC.
+ * @param {number} r - will be in [0, 1] though any real number is accepted and
+ * properly processed as out-of-gamut color.
+ * @param {number} g - -
+ * @param {number} b - -
+ * @param {RGBSpace} [rgbSpace = SRGB]
+ * @param {number} [threshold = 1e-6]
+ * @param {number} [maxIteration = 200]
+ * @param {string} [ifReachMax = "error"]
+ * @param {number} [factor = 0.5]
+ * @returns {Array} [Hue, Value, Chroma]
  * @see lchabToMhvc
  */
 export function rgbToMhvc(r, g, b, rgbSpace = SRGB, threshold = 1e-6, maxIteration = 200, ifReachMax = "error", factor = 0.5) {
@@ -236,6 +290,19 @@ export function rgbToMhvc(r, g, b, rgbSpace = SRGB, threshold = 1e-6, maxIterati
 
 /**
  * Converts gamma-corrected RGB to Munsell Color string.
+ * @param {number} r - will be in [0, 1] though any real number is accepted and
+ * properly processed as out-of-gamut color.
+ * @param {number} g - -
+ * @param {number} b - -
+ * @param {RGBSpace} [rgbSpace = SRGB]
+ * @param {number} [digits = 1] - is the number of digits after the decimal
+ * point. Must be non-negative integer. Note that the units digit of the hue
+ * prefix is assumed to be already after the decimal point.
+ * @param {number} [threshold = 1e-6]
+ * @param {number} [maxIteration = 200]
+ * @param {string} [ifReachMax = "error"]
+ * @param {number} [factor = 0.5]
+ * @returns {string} Munsell Color code
  * @see lchabToMhvc
  */
 export function rgbToMunsell(r, g, b, rgbSpace = SRGB, digits = 1, threshold = 1e-6, maxIteration = 200, ifReachMax = "error", factor = 0.5) {

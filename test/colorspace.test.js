@@ -41,7 +41,18 @@ describe('built-in RGB spaces', () => {
     }
   })
 })
-  
+
+describe('built-in illuminants', () => {
+  test('round-trip of CAT', () => {
+    for (let illum of [ILLUMINANT_D65, ILLUMINANT_C]) {
+      const mat = multMatrixMatrix(illum.catMatrixCToThis, illum.catMatrixThisToC);
+      expect(mat[0]).toNearlyEqual([1, 0, 0], 10);
+      expect(mat[1]).toNearlyEqual([0, 1, 0], 10);
+      expect(mat[2]).toNearlyEqual([0, 0, 1], 10);
+    }
+  })
+})
+
 describe('XYZ <-> liner RGB', () => {
   test('consistency with dufy (sRGB)', () => {
     expect(xyzToLinearRgb(0.1, 0.2, 0.3)).toNearlyEqual([-0.1329496041195698, 0.29074078266626474, 0.28189274594473257], 5);

@@ -1,7 +1,11 @@
 import {mod,
         TWO_PI,
-        cartesianToPolar, polarToCartesian,
-        circularNearer, circularClamp, circularLerp} from '../src/arithmetic.js';
+        cartesianToPolar,
+        polarToCartesian,
+        circularNearer,
+        circularClamp,
+        circularLerp,
+        circularDelta} from '../src/arithmetic.js';
 import './jest-extension.js';
 
 describe('mod()', () => {    
@@ -45,10 +49,18 @@ describe('circularClamp()', () => {
         expect(circularClamp(30, 350, 10, 360)).toBe(10);
     })
 })
-         
+
 describe('circularLerp()', () => {
     test('basic behaviours', () => {
         expect(circularLerp(1, 0.2, 1)).toBe(1);
-        expect(circularLerp(0.4, 350, 10, 360)).toBeCloseTo(358);
+      expect(circularLerp(0.4, 350, 10, 360)).toBeCloseTo(358, 10);
+    })
+})
+
+describe('circularDelta()', () => {
+    test('basic behaviours', () => {
+      expect(circularDelta(13, 6)).toBeCloseTo(7-TWO_PI, 10);
+      expect(circularDelta(4, 6)).toBeCloseTo(-2, 10);
+      expect(circularDelta(1, 350, 360)).toBeCloseTo(11, 10);
     })
 })

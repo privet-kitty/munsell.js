@@ -264,9 +264,8 @@ export function munsellToLab(munsellStr) {
  */
 export function mhvcToXyz(hue100, value, chroma, illuminant = ILLUMINANT_D65) {
   // Uses Bradford transformation
-  const [lstar, astar, bstar] = mhvcToLab(hue100, value, chroma);
   return multMatrixVector(illuminant.catMatrixCToThis,
-                          labToXyz(lstar, astar, bstar, ILLUMINANT_C));
+                          labToXyz(...mhvcToLab(hue100, value, chroma), ILLUMINANT_C));
 }
 
 /** Converts Munsell Color string to XYZ.
@@ -275,8 +274,7 @@ export function mhvcToXyz(hue100, value, chroma, illuminant = ILLUMINANT_D65) {
  * @returns {Array} [X, Y, Z]
  */
 export function munsellToXyz(munsellStr, illuminant = ILLUMINANT_D65) {
-  const [hue100, value, chroma] = munsellToMhvc(munsellStr);
-  return mhvcToXyz(hue100, value, chroma, illuminant);
+  return mhvcToXyz(...munsellToMhvc(munsellStr), illuminant);
 }
 
 /** Converts Munsell HVC to linear RGB.
@@ -290,8 +288,7 @@ export function munsellToXyz(munsellStr, illuminant = ILLUMINANT_D65) {
  * @returns {Array} [linear R, linear G, linear B]
  */
 export function mhvcToLinearRgb(hue100, value, chroma, rgbSpace = SRGB) {
-  const [X, Y, Z] = mhvcToXyz(hue100, value, chroma, rgbSpace.illuminant);
-  return xyzToLinearRgb(X, Y, Z, rgbSpace);
+  return xyzToLinearRgb(...mhvcToXyz(hue100, value, chroma, rgbSpace.illuminant), rgbSpace);
 }
 
 /** Converts Munsell Color string to linear RGB.
@@ -300,8 +297,7 @@ export function mhvcToLinearRgb(hue100, value, chroma, rgbSpace = SRGB) {
  * @returns {Array} [linear R, linear G, linear B]
  */
 export function munsellToLinearRgb(munsellStr, rgbSpace = SRGB) {
-  const [hue100, value, chroma] = munsellToMhvc(munsellStr);
-  return mhvcToLinearRgb(hue100, value, chroma, rgbSpace);
+  return mhvcToLinearRgb(...munsellToMhvc(munsellStr), rgbSpace);
 }
 
 /** Converts Munsell HVC to gamma-corrected RGB.
@@ -315,8 +311,7 @@ export function munsellToLinearRgb(munsellStr, rgbSpace = SRGB) {
  * @returns {Array} [R, G, B]
  */
 export function mhvcToRgb(hue100, value, chroma, rgbSpace = SRGB) {
-  const [lr, lg, lb] = mhvcToLinearRgb(hue100, value, chroma, rgbSpace);
-  return linearRgbToRgb(lr, lg, lb, rgbSpace);
+  return linearRgbToRgb(...mhvcToLinearRgb(hue100, value, chroma, rgbSpace), rgbSpace);
 }
 
 /** Converts Munsell Color string to gamma-corrected RGB.
@@ -325,8 +320,7 @@ export function mhvcToRgb(hue100, value, chroma, rgbSpace = SRGB) {
  * @returns {Array} [R, G, B]
  */
 export function munsellToRgb(munsellStr, rgbSpace = SRGB) {
-  const [hue100, value, chroma] = munsellToMhvc(munsellStr);
-  return mhvcToRgb(hue100, value, chroma, rgbSpace);
+  return mhvcToRgb(...munsellToMhvc(munsellStr), rgbSpace);
 }
 
 /** Concerts Munsell HVC to quantized RGB.
@@ -342,8 +336,7 @@ export function munsellToRgb(munsellStr, rgbSpace = SRGB) {
  * @returns {Array} [R255, G255, B255]
  */
 export function mhvcToRgb255(hue100, value, chroma, clamp = true, rgbSpace = SRGB) {
-  const [r, g, b] = mhvcToRgb(hue100, value, chroma, rgbSpace);
-  return rgbToRgb255(r, g, b, clamp);
+  return rgbToRgb255(... mhvcToRgb(hue100, value, chroma, rgbSpace), clamp);
 }
 
 /** Concerts Munsell Color string to quantized RGB.
@@ -354,8 +347,7 @@ export function mhvcToRgb255(hue100, value, chroma, clamp = true, rgbSpace = SRG
  * @returns {Array} [R255, G255, B255]
  */
 export function munsellToRgb255(munsellStr, clamp = true, rgbSpace = SRGB) {
-  const [hue100, value, chroma] = munsellToMhvc(munsellStr);
-  return mhvcToRgb255(hue100, value, chroma, clamp, rgbSpace);
+  return mhvcToRgb255(...munsellToMhvc(munsellStr), clamp, rgbSpace);
 }
 
 /**
@@ -380,8 +372,7 @@ export function mhvcToHex(hue100, value, chroma, rgbSpace = SRGB) {
  * @returns {string} Hex
  */
 export function munsellToHex(munsellStr, rgbSpace = SRGB) {
-  const [hue100, value, chroma] = munsellToMhvc(munsellStr);
-  return mhvcToHex(hue100, value, chroma, rgbSpace);
+  return mhvcToHex(...munsellToMhvc(munsellStr), rgbSpace);
 }
 
 /**

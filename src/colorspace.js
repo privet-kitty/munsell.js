@@ -116,7 +116,7 @@ export const SRGB = new RGBSpace(
   [[3.240646461582504,-1.537229731776316,-0.49856099408961585],
    [-0.969260718909152,1.876000564872059,0.04155578980259398],
    [0.05563672378977863,-0.2040013205625215,1.0570977520057931]],
-  (x) => {
+  (x) => { // Below is actually the linearizer of bg-sRGB.
     if (x > CONST5) {
       return Math.pow ((0.055 + x) / 1.055, 2.4);
     } else if (x < -CONST5) {
@@ -125,7 +125,7 @@ export const SRGB = new RGBSpace(
       return x / 12.92;
     }
   },
-  (x) => {
+  (x) => { // Below is actually the delinearizer of bg-sRGB.
     if (x > 0.0031308) {
       return Math.pow(x, 1/2.4) * 1.055 - 0.055;
     } else if (x < -0.0031308) {

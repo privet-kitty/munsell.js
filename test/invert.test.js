@@ -3,6 +3,9 @@ import {yToMunsellValue,
         lchabToMhvc,
         lchabToMunsell,
         labToMunsell,
+        xyzToMunsell,
+        linearRgbToMunsell,
+        rgbToMunsell,
         rgb255ToMhvc,
         rgb255ToMunsell,
         hexToMhvc,
@@ -10,6 +13,9 @@ import {yToMunsellValue,
 import {munsellValueToY,
         munsellValueToL,
         mhvcToLchab,
+        munsellToXyz,
+        munsellToLinearRgb,
+        munsellToRgb,
         mhvcToRgb255,
         munsellToRgb255,
         mhvcToHex,
@@ -89,7 +95,8 @@ describe('lchabToMhvc()', () => {
 
 describe('lchabToMunsell()', () => {
   test('consistency with dufy', () => {
-    expect(lchabToMunsell(1.555, 15.555, -155.555, 2)).toEqual("3.5BG 0.15/4.87");
+    expect(lchabToMunsell(1.444, 14.444, -144.444, 2)).toEqual("5.1BG 0.14/4.30");
+    expect(lchabToMunsell(1.444, 14.444, -144.444)).toEqual("5BG 0.1/4.3");
   })
 })
 
@@ -97,6 +104,33 @@ describe('labToMunsell()', () => {
   test('consistency with dufy', () => {
     expect(labToMunsell(1.444, 15.555, -155.555, 2)).toEqual("2.4PB 0.14/34.59");
     expect(labToMunsell(1.444, 15.555, -15555.555)).toEqual("1PB 0.1/3581.3");
+  })
+})
+
+describe('XYZ <-> Munsell string', () => {
+  test('round-trip', () => {
+    expect(munsellToXyz(xyzToMunsell(0.6, 1e-4, 1.1, ILLUMINANT_D65, 10))).toNearlyEqual([0.6, 1e-4, 1.1], 4);
+    expect(munsellToXyz(xyzToMunsell(-0.2, 0.1, 0.8, ILLUMINANT_C, 10), ILLUMINANT_C)).toNearlyEqual([-0.2, 0.1, 0.8], 4);
+    expect(munsellToXyz(xyzToMunsell(0, 0, 0))).toNearlyEqual([0, 0, 0], 4);
+    expect(munsellToXyz(xyzToMunsell(1, 1, 1, ILLUMINANT_C, 10, 1e-10), ILLUMINANT_C)).toNearlyEqual([1, 1, 1], 4);
+  })
+})
+
+describe('linear RGB <-> Munsell string', () => {
+  test('round-trip', () => {
+    expect(munsellToLinearRgb(linearRgbToMunsell(-0.2, 1e-4, 1.1, SRGB, 10))).toNearlyEqual([-0.2, 1e-4, 1.1], 4);
+    expect(munsellToLinearRgb(linearRgbToMunsell(-0.2, 0.1, 0.8, ADOBE_RGB, 10), ADOBE_RGB)).toNearlyEqual([-0.2, 0.1, 0.8], 4);
+    expect(munsellToLinearRgb(linearRgbToMunsell(0, 0, 0))).toNearlyEqual([0, 0, 0], 4);
+    expect(munsellToLinearRgb(linearRgbToMunsell(1, 1, 1, SRGB, 10))).toNearlyEqual([1, 1, 1], 4);
+  })
+})
+
+describe('gamma-corrected RGB <-> Munsell string', () => {
+  test('round-trip', () => {
+    expect(munsellToRgb(rgbToMunsell(-0.2, 1e-4, 1.1, SRGB, 10))).toNearlyEqual([-0.2, 1e-4, 1.1], 4);
+    expect(munsellToRgb(rgbToMunsell(-0.2, 0.1, 0.8, ADOBE_RGB, 10), ADOBE_RGB)).toNearlyEqual([-0.2, 0.1, 0.8], 4);
+    expect(munsellToRgb(rgbToMunsell(0, 0, 0))).toNearlyEqual([0, 0, 0], 4);
+    expect(munsellToRgb(rgbToMunsell(1, 1, 1, SRGB, 10))).toNearlyEqual([1, 1, 1], 4);
   })
 })
 
