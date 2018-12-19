@@ -571,7 +571,7 @@ are reserved.
             <td class="type">
             
                 
-<span class="param-type">number</span>
+<span class="param-type">string</span>
 
 
             
@@ -593,7 +593,8 @@ are reserved.
                 </td>
             
 
-            <td class="description last"></td>
+            <td class="description last">may be 24-bit RGB (#XXXXXX), 12-bit RGB (#XXX), 32-bit
+RGBA, (#XXXXXXXX), or 16-bit RGBA (#XXXX). Alpha channel is ignored.</td>
         </tr>
 
     
@@ -829,7 +830,7 @@ are reserved.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="invert.js.html">invert.js</a>, <a href="invert.js.html#line294">line 294</a>
+        <a href="invert.js.html">invert.js</a>, <a href="invert.js.html#line296">line 296</a>
     </li></ul></dd>
     
 
@@ -946,7 +947,7 @@ are reserved.
             <td class="type">
             
                 
-<span class="param-type">number</span>
+<span class="param-type">string</span>
 
 
             
@@ -968,7 +969,8 @@ are reserved.
                 </td>
             
 
-            <td class="description last"></td>
+            <td class="description last">may be 24-bit RGB (#XXXXXX), 12-bit RGB (#XXX), 32-bit
+RGBA, (#XXXXXXXX), or 16-bit RGBA (#XXXX). Alpha channel is ignored.</td>
         </tr>
 
     
@@ -1245,7 +1247,7 @@ prefix is assumed to be already after the decimal point.</td>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="invert.js.html">invert.js</a>, <a href="invert.js.html#line312">line 312</a>
+        <a href="invert.js.html">invert.js</a>, <a href="invert.js.html#line315">line 315</a>
     </li></ul></dd>
     
 
@@ -1652,7 +1654,7 @@ under <strong>Illuminant C</strong>.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="invert.js.html">invert.js</a>, <a href="invert.js.html#line165">line 165</a>
+        <a href="invert.js.html">invert.js</a>, <a href="invert.js.html#line166">line 166</a>
     </li></ul></dd>
     
 
@@ -2100,7 +2102,7 @@ prefix is assumed to be already after the decimal point.</td>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="invert.js.html">invert.js</a>, <a href="invert.js.html#line185">line 185</a>
+        <a href="invert.js.html">invert.js</a>, <a href="invert.js.html#line186">line 186</a>
     </li></ul></dd>
     
 
@@ -2185,12 +2187,12 @@ Inversion Algorithm for the Munsell Renotation" by Paul Centore, 2011:
 step. This function returns Munsell HVC values if C<sub>0</sub> ≦ threshold
 or if V ≦ threshold or when max(ΔH<sub>n</sub>, ΔC<sub>n</sub>) falls
 below threshold.
-<p> <var>ifReachMax</var> specifies the action to be taken if the loop
+<p> <var>ifReachMax</var> specifies the action to be taken when the loop
 reaches the maxIteration as follows:
 <ul>
-<li>"error": Throws Error;</li>
-<li>"init": Returns the initial rough approximation.</li>
-<li>"last": Returns the last approximation.</li>
+<li>"error": throws Error;</li>
+<li>"init": returns the initial rough approximation.</li>
+<li>"last": returns the last approximation.</li>
 </ul>
 Note that the given values are assumed to be under <strong>Illuminant
 C</strong>.
@@ -2528,7 +2530,7 @@ C</strong>.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="invert.js.html">invert.js</a>, <a href="invert.js.html#line122">line 122</a>
+        <a href="invert.js.html">invert.js</a>, <a href="invert.js.html#line123">line 123</a>
     </li></ul></dd>
     
 
@@ -2969,7 +2971,7 @@ prefix is assumed to be already after the decimal point.</td>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="invert.js.html">invert.js</a>, <a href="invert.js.html#line148">line 148</a>
+        <a href="invert.js.html">invert.js</a>, <a href="invert.js.html#line149">line 149</a>
     </li></ul></dd>
     
 
@@ -3084,7 +3086,7 @@ prefix is assumed to be already after the decimal point.</td>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="invert.js.html">invert.js</a>, <a href="invert.js.html#line216">line 216</a>
+        <a href="invert.js.html">invert.js</a>, <a href="invert.js.html#line217">line 217</a>
     </li></ul></dd>
     
 
@@ -3177,7 +3179,7 @@ prefix is assumed to be already after the decimal point.</td>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="invert.js.html">invert.js</a>, <a href="invert.js.html#line224">line 224</a>
+        <a href="invert.js.html">invert.js</a>, <a href="invert.js.html#line225">line 225</a>
     </li></ul></dd>
     
 
@@ -7819,7 +7821,7 @@ accepted and properly processed as out-of-gamut color.</td>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="invert.js.html">invert.js</a>, <a href="invert.js.html#line258">line 258</a>
+        <a href="invert.js.html">invert.js</a>, <a href="invert.js.html#line259">line 259</a>
     </li></ul></dd>
     
 
@@ -8306,7 +8308,7 @@ prefix is assumed to be already after the decimal point.</td>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="invert.js.html">invert.js</a>, <a href="invert.js.html#line279">line 279</a>
+        <a href="invert.js.html">invert.js</a>, <a href="invert.js.html#line280">line 280</a>
     </li></ul></dd>
     
 
@@ -8421,7 +8423,7 @@ prefix is assumed to be already after the decimal point.</td>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="invert.js.html">invert.js</a>, <a href="invert.js.html#line232">line 232</a>
+        <a href="invert.js.html">invert.js</a>, <a href="invert.js.html#line233">line 233</a>
     </li></ul></dd>
     
 
@@ -8514,7 +8516,7 @@ prefix is assumed to be already after the decimal point.</td>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="invert.js.html">invert.js</a>, <a href="invert.js.html#line240">line 240</a>
+        <a href="invert.js.html">invert.js</a>, <a href="invert.js.html#line241">line 241</a>
     </li></ul></dd>
     
 
@@ -8607,7 +8609,7 @@ prefix is assumed to be already after the decimal point.</td>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="invert.js.html">invert.js</a>, <a href="invert.js.html#line193">line 193</a>
+        <a href="invert.js.html">invert.js</a>, <a href="invert.js.html#line194">line 194</a>
     </li></ul></dd>
     
 
@@ -8701,7 +8703,7 @@ as CAT.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="invert.js.html">invert.js</a>, <a href="invert.js.html#line208">line 208</a>
+        <a href="invert.js.html">invert.js</a>, <a href="invert.js.html#line209">line 209</a>
     </li></ul></dd>
     
 
@@ -8917,7 +8919,7 @@ Y is in [0, 1].
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Tue Dec 18 2018 23:12:29 GMT+0000 (Coordinated Universal Time)
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Wed Dec 19 2018 05:28:14 GMT+0000 (Coordinated Universal Time)
 </footer>
 
 <script> prettyPrint(); </script>
