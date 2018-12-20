@@ -83,9 +83,10 @@ function invertMhvcToLchab (lstar, cstarab, hab, initHue100, initChroma, thresho
 }
 
 /**
- * Converts LCHab to Munsell HVC by inverting {@link mhvcToLchab}() with a simple
- * iteration algorithm, which is almost the same as the one in "An Open-Source
- * Inversion Algorithm for the Munsell Renotation" by Paul Centore, 2011:
+ * Converts LCHab to Munsell HVC by inverting {@link mhvcToLchab}() with a
+ * simple iteration algorithm, which is almost the same as the one in "An
+ * Open-Source Inversion Algorithm for the Munsell Renotation" by Paul Centore,
+ * 2011:
 
  * <ul>
  * <li>V := {@link lToMunsellValue}(L*);</li>
@@ -310,7 +311,18 @@ export function rgbToMunsell(r, g, b, rgbSpace = SRGB, digits = 1, threshold = 1
 }
 
 /**
- * Converts quantized RGB to Munsell HVC.
+ * Converts quantized RGB to Munsell HVC. Whether this conversion succeeds or
+ * not depends on the parameters though the following behaviours are guaranteed
+ * and tested on Node.js:
+
+ * <p> If r255, g255, b255 are in {0, 1, ..., 255} and the other optional
+ * parameters are default,
+
+ * <ol>
+ * <li>rgb255ToMhvc() successfully returns Munsell HVC before maxIteration</li>
+ * <li>and the round-trip is invariant: i.e. {@link mhvcToRgb255}(rgb255ToMhvc(r255, g255, b255)) returns [r255, g255, b255].</li>
+ * </ol>
+
  * @param {number} r255 - will be in {0, 1, ..., 255} though any integer is
  * accepted and properly processed as out-of-gamut color.
  * @param {number} g255 - -
@@ -328,7 +340,14 @@ export function rgb255ToMhvc(r255, g255, b255, rgbSpace = SRGB, threshold = 1e-6
 }
 
 /**
- * Converts quantized RGB to Munsell Color string.
+ * Converts quantized RGB to Munsell Color string. Whether this conversion
+ * succeeds or not depends on the parameters though the following behaviours are
+ * guaranteed and tested on Node.js:
+
+ * <p> If r255, g255, b255 are in {0, 1, ..., 255} and the other optional
+ * parameters are default, rgb255ToMunsell() successfully returns a Munsell
+ * Color string before maxIteration.
+
  * @param {number} r255 - will be in {0, 1, ..., 255} though any integer is
  * accepted and properly processed as out-of-gamut color.
  * @param {number} g255 - -
@@ -349,7 +368,17 @@ export function rgb255ToMunsell(r255, g255, b255, rgbSpace = SRGB, digits = 1, t
 }
 
 /**
- * Converts hex color to Munsell HVC.
+ * Converts hex color to Munsell HVC. Whether this conversion succeeds or
+ * not depends on the parameters though the following behaviours are guaranteed
+ * and tested on Node.js:
+
+ * <p> If the optional parameters are default,
+
+ * <ol>
+ * <li>hexToMhvc() successfully returns Munsell HVC before maxIteration</li>
+ * <li>and the round-trip is invariant for 24-bit hex color: i.e. {@link mhvcToHex}(hexToMhvc(hex)) returns the same hex color.</li>
+ * </ol>
+
  * @param {string} hex - may be 24-bit RGB (#XXXXXX), 12-bit RGB (#XXX), 32-bit
  * RGBA, (#XXXXXXXX), or 16-bit RGBA (#XXXX). Alpha channel is ignored.
  * @param {RGBSpace} [rgbSpace = SRGB]
@@ -365,7 +394,13 @@ export function hexToMhvc(hex, rgbSpace = SRGB, threshold = 1e-6, maxIteration =
 }
 
 /**
- * Converts hex color to Munsell Color string.
+ * Converts hex color to Munsell Color string. Whether this conversion
+ * succeeds or not depends on the parameters though the following behaviours are
+ * guaranteed and tested on Node.js:
+
+ * <p> If the other optional parameters are default, hexToMunsell() successfully
+ * returns a Munsell Color string before maxIteration.
+
  * @param {string} hex - may be 24-bit RGB (#XXXXXX), 12-bit RGB (#XXX), 32-bit
  * RGBA, (#XXXXXXXX), or 16-bit RGBA (#XXXX). Alpha channel is ignored.
  * @param {RGBSpace} [rgbSpace = SRGB]
