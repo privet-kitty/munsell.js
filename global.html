@@ -525,7 +525,14 @@ are reserved.
 
 
 <div class="description">
-    Converts hex color to Munsell HVC.
+    Converts hex color to Munsell HVC. Whether this conversion succeeds or
+not depends on the parameters though the following behaviours are guaranteed
+and tested on Node.js:
+<p> If the optional parameters are default,
+<ol>
+<li>hexToMhvc() successfully returns Munsell HVC before maxIteration</li>
+<li>and the round-trip is invariant for 24-bit hex color: i.e. <a href="global.html#mhvcToHex">mhvcToHex</a>(hexToMhvc(hex)) returns the same hex color.</li>
+</ol>
 </div>
 
 
@@ -830,7 +837,7 @@ RGBA, (#XXXXXXXX), or 16-bit RGBA (#XXXX). Alpha channel is ignored.</td>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="invert.js.html">invert.js</a>, <a href="invert.js.html#line363">line 363</a>
+        <a href="invert.js.html">invert.js</a>, <a href="invert.js.html#line392">line 392</a>
     </li></ul></dd>
     
 
@@ -901,7 +908,11 @@ RGBA, (#XXXXXXXX), or 16-bit RGBA (#XXXX). Alpha channel is ignored.</td>
 
 
 <div class="description">
-    Converts hex color to Munsell Color string.
+    Converts hex color to Munsell Color string. Whether this conversion
+succeeds or not depends on the parameters though the following behaviours are
+guaranteed and tested on Node.js:
+<p> If the other optional parameters are default, hexToMunsell() successfully
+returns a Munsell Color string before maxIteration.
 </div>
 
 
@@ -1247,7 +1258,7 @@ prefix is assumed to be already after the decimal point.</td>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="invert.js.html">invert.js</a>, <a href="invert.js.html#line382">line 382</a>
+        <a href="invert.js.html">invert.js</a>, <a href="invert.js.html#line417">line 417</a>
     </li></ul></dd>
     
 
@@ -1654,7 +1665,7 @@ under <strong>Illuminant C</strong>.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="invert.js.html">invert.js</a>, <a href="invert.js.html#line166">line 166</a>
+        <a href="invert.js.html">invert.js</a>, <a href="invert.js.html#line167">line 167</a>
     </li></ul></dd>
     
 
@@ -2102,7 +2113,7 @@ prefix is assumed to be already after the decimal point.</td>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="invert.js.html">invert.js</a>, <a href="invert.js.html#line186">line 186</a>
+        <a href="invert.js.html">invert.js</a>, <a href="invert.js.html#line187">line 187</a>
     </li></ul></dd>
     
 
@@ -2173,9 +2184,10 @@ prefix is assumed to be already after the decimal point.</td>
 
 
 <div class="description">
-    Converts LCHab to Munsell HVC by inverting <a href="global.html#mhvcToLchab">mhvcToLchab</a>() with a simple
-iteration algorithm, which is almost the same as the one in "An Open-Source
-Inversion Algorithm for the Munsell Renotation" by Paul Centore, 2011:
+    Converts LCHab to Munsell HVC by inverting <a href="global.html#mhvcToLchab">mhvcToLchab</a>() with a
+simple iteration algorithm, which is almost the same as the one in "An
+Open-Source Inversion Algorithm for the Munsell Renotation" by Paul Centore,
+2011:
 <ul>
 <li>V := <a href="global.html#lToMunsellValue">lToMunsellValue</a>(L*);</li>
 <li>C<sub>0</sub> := C*<sub>ab</sub> / 5.5;</li>
@@ -2530,7 +2542,7 @@ C</strong>.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="invert.js.html">invert.js</a>, <a href="invert.js.html#line123">line 123</a>
+        <a href="invert.js.html">invert.js</a>, <a href="invert.js.html#line124">line 124</a>
     </li></ul></dd>
     
 
@@ -2971,7 +2983,7 @@ prefix is assumed to be already after the decimal point.</td>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="invert.js.html">invert.js</a>, <a href="invert.js.html#line149">line 149</a>
+        <a href="invert.js.html">invert.js</a>, <a href="invert.js.html#line150">line 150</a>
     </li></ul></dd>
     
 
@@ -3417,7 +3429,7 @@ properly processed as out-of-gamut color.</td>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="invert.js.html">invert.js</a>, <a href="invert.js.html#line248">line 248</a>
+        <a href="invert.js.html">invert.js</a>, <a href="invert.js.html#line249">line 249</a>
     </li></ul></dd>
     
 
@@ -3904,7 +3916,7 @@ prefix is assumed to be already after the decimal point.</td>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="invert.js.html">invert.js</a>, <a href="invert.js.html#line269">line 269</a>
+        <a href="invert.js.html">invert.js</a>, <a href="invert.js.html#line270">line 270</a>
     </li></ul></dd>
     
 
@@ -8193,7 +8205,15 @@ interval.</td>
 
 
 <div class="description">
-    Converts quantized RGB to Munsell HVC.
+    Converts quantized RGB to Munsell HVC. Whether this conversion succeeds or
+not depends on the parameters though the following behaviours are guaranteed
+and tested on Node.js:
+<p> If r255, g255, b255 are in {0, 1, ..., 255} and the other optional
+parameters are default,
+<ol>
+<li>rgb255ToMhvc() successfully returns Munsell HVC before maxIteration</li>
+<li>and the round-trip is invariant: i.e. <a href="global.html#mhvcToRgb255">mhvcToRgb255</a>(rgb255ToMhvc(r255, g255, b255)) returns [r255, g255, b255].</li>
+</ol>
 </div>
 
 
@@ -8568,7 +8588,7 @@ accepted and properly processed as out-of-gamut color.</td>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="invert.js.html">invert.js</a>, <a href="invert.js.html#line326">line 326</a>
+        <a href="invert.js.html">invert.js</a>, <a href="invert.js.html#line338">line 338</a>
     </li></ul></dd>
     
 
@@ -8639,7 +8659,12 @@ accepted and properly processed as out-of-gamut color.</td>
 
 
 <div class="description">
-    Converts quantized RGB to Munsell Color string.
+    Converts quantized RGB to Munsell Color string. Whether this conversion
+succeeds or not depends on the parameters though the following behaviours are
+guaranteed and tested on Node.js:
+<p> If r255, g255, b255 are in {0, 1, ..., 255} and the other optional
+parameters are default, rgb255ToMunsell() successfully returns a Munsell
+Color string before maxIteration.
 </div>
 
 
@@ -9055,7 +9080,7 @@ prefix is assumed to be already after the decimal point.</td>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="invert.js.html">invert.js</a>, <a href="invert.js.html#line347">line 347</a>
+        <a href="invert.js.html">invert.js</a>, <a href="invert.js.html#line366">line 366</a>
     </li></ul></dd>
     
 
@@ -9501,7 +9526,7 @@ properly processed as out-of-gamut color.</td>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="invert.js.html">invert.js</a>, <a href="invert.js.html#line287">line 287</a>
+        <a href="invert.js.html">invert.js</a>, <a href="invert.js.html#line288">line 288</a>
     </li></ul></dd>
     
 
@@ -9988,7 +10013,7 @@ prefix is assumed to be already after the decimal point.</td>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="invert.js.html">invert.js</a>, <a href="invert.js.html#line308">line 308</a>
+        <a href="invert.js.html">invert.js</a>, <a href="invert.js.html#line309">line 309</a>
     </li></ul></dd>
     
 
@@ -10433,7 +10458,7 @@ prefix is assumed to be already after the decimal point.</td>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="invert.js.html">invert.js</a>, <a href="invert.js.html#line203">line 203</a>
+        <a href="invert.js.html">invert.js</a>, <a href="invert.js.html#line204">line 204</a>
     </li></ul></dd>
     
 
@@ -10920,7 +10945,7 @@ prefix is assumed to be already after the decimal point.</td>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="invert.js.html">invert.js</a>, <a href="invert.js.html#line230">line 230</a>
+        <a href="invert.js.html">invert.js</a>, <a href="invert.js.html#line231">line 231</a>
     </li></ul></dd>
     
 
@@ -11158,7 +11183,7 @@ Y is in [0, 1].
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Wed Dec 19 2018 22:05:51 GMT+0000 (Coordinated Universal Time)
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Thu Dec 20 2018 00:09:30 GMT+0000 (Coordinated Universal Time)
 </footer>
 
 <script> prettyPrint(); </script>
