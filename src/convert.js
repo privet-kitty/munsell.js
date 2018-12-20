@@ -193,13 +193,11 @@ export function mhvcToLchab(hue100, value, chroma) {
 const hueNames = ["R", "YR", "Y", "GY", "G", "BG", "B", "PB", "P", "RP"];
 
 /**
- * Converts Munsell Color string to Munsell HVC. Munsell Color string is e.g.
- * <code>"3GY 2/10"</code> or <code>"N 2.4"</code>. This converter accepts
- * various notations of numbers; an ugly specification like <code>"2e-02RP
- * .9/0xffffff"</code> will be also available. However, the capital letters and
- * '/' are reserved.
+ * Converts Munsell Color string to Munsell HVC.
  * @param {string} munsellStr - is the standard Munsell Color code.
  * @returns {Array} [hue100, value, chroma]
+ * @see munsell
+ * @see mhvc
  */
 export function munsellToMhvc(munsellStr) {
   const nums = munsellStr.split(/[^a-z0-9.\-]+/)
@@ -351,7 +349,7 @@ export function munsellToRgb255(munsellStr, clamp = true, rgbSpace = SRGB) {
 }
 
 /**
- * Converts Munsell HVC to Hex code.
+ * Converts Munsell HVC to 24-bit hex color.
  * @param {number} hue100 - is in the circle group R/100Z. Any real number is
  * accepted.
  * @param {number} value - will be in [0, 10]. Clamped if it exceeds the
@@ -359,17 +357,17 @@ export function munsellToRgb255(munsellStr, clamp = true, rgbSpace = SRGB) {
  * @param {number} chroma - will be in [0, +inf). Assumed to be zero if it is
  * negative.
  * @param {RGBSpace} [rgbSpace = SRGB]
- * @returns {string} Hex
+ * @returns {string} hex color "#XXXXXX"
  */
 export function mhvcToHex(hue100, value, chroma, rgbSpace = SRGB) {
   return rgbToHex(...mhvcToRgb(hue100, value, chroma, rgbSpace));
 }
 
 /**
- * Converts Munsell Color string to Hex code.
+ * Converts Munsell Color string to 24-bit hex color.
  * @param {string} munsellStr
  * @param {RGBSpace} [rgbSpace = SRGB]
- * @returns {string} Hex
+ * @returns {string} hex color "#XXXXXX"
  */
 export function munsellToHex(munsellStr, rgbSpace = SRGB) {
   return mhvcToHex(...munsellToMhvc(munsellStr), rgbSpace);
@@ -385,6 +383,8 @@ export function munsellToHex(munsellStr, rgbSpace = SRGB) {
  * point. Must be non-negative integer. Note that the units digit of the hue
  * prefix is assumed to be already after the decimal point.
  * @returns {string} Munsell Color code
+ * @see mhvc
+ * @see munsell
  */
 export function mhvcToMunsell(hue100, value, chroma, digits = 1) {
   const canonicalHue100 = mod(hue100, 100);
