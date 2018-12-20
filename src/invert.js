@@ -193,7 +193,7 @@ export function labToMunsell(lstar, astar, bstar, digits = 1, threshold = 1e-6, 
  * @param {number} X
  * @param {number} Y
  * @param {number} Z
- * @param {RGBSpace} [rgbSpace = SRGB]
+ * @param {Illuminant} [illuminant = ILLUMINANT_D65]
  * @param {number} [threshold = 1e-6]
  * @param {number} [maxIteration = 200]
  * @param {string} [ifReachMax = "error"]
@@ -217,7 +217,7 @@ export function xyzToMhvc(X, Y, Z, illuminant = ILLUMINANT_D65, threshold = 1e-6
  * @param {number} X
  * @param {number} Y
  * @param {number} Z
- * @param {RGBSpace} [rgbSpace = SRGB]
+ * @param {Illuminant} [illuminant = ILLUMINANT_D65]
  * @param {number} [digits = 1] - is the number of digits after the decimal
  * point. Must be non-negative integer. Note that the units digit of the hue
  * prefix is assumed to be already after the decimal point.
