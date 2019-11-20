@@ -6,7 +6,11 @@
   "homepage": "https://github.com/privet-kitty/munsell.js",
   "bugs": "https://github.com/privet-kitty/munsell.js/issues",
   "description": "Library for Munsell Color System",
-  "keywords": ["color", "Munsell", "colorimetry"],
+  "keywords": [
+    "color",
+    "Munsell",
+    "colorimetry"
+  ],
   "private": false,
   "main": "src/index.js",
   "module": "src/main.js",
@@ -27,20 +31,20 @@
       "src/**/*.js",
       "!**/gen-*.js",
       "!**/index.js"
-    ] 
+    ]
   },
   "devDependencies": {
     "babel-cli": "^6.26.0",
     "babel-core": "^6.26.3",
     "babel-polyfill": "^6.26.0",
     "babel-preset-env": "^1.7.0",
-    "coveralls": "^3.0.2",
-    "eslint": "^5.9.0",
+    "coveralls": "^3.0.7",
+    "eslint": "^5.16.0",
     "jest": "^23.6.0",
-    "jsdoc": "^3.5.5"
+    "jsdoc": "^3.6.3"
   },
   "dependencies": {
     "cached-path-relative": "^1.0.2",
-    "esm": "^3.0.84"
+    "esm": "^3.2.25"
   }
 }
