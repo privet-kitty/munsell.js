@@ -38,9 +38,9 @@
     "babel-core": "^6.26.3",
     "babel-polyfill": "^6.26.0",
     "babel-preset-env": "^1.7.0",
-    "coveralls": "^3.0.7",
+    "coveralls": "^3.0.8",
     "eslint": "^5.16.0",
-    "jest": "^23.6.0",
+    "jest": "^25.0.0",
     "jsdoc": "^3.6.3"
   },
   "dependencies": {
