@@ -334,7 +334,7 @@ export function munsellToRgb(munsellStr, rgbSpace = SRGB) {
  * @returns {Array} [R255, G255, B255]
  */
 export function mhvcToRgb255(hue100, value, chroma, clamp = true, rgbSpace = SRGB) {
-  return rgbToRgb255(... mhvcToRgb(hue100, value, chroma, rgbSpace), clamp);
+  return rgbToRgb255(...mhvcToRgb(hue100, value, chroma, rgbSpace), clamp);
 }
 
 /** Concerts Munsell Color string to quantized RGB.
