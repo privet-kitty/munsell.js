@@ -19,7 +19,8 @@
     "test": "jest",
     "lint": "eslint src",
     "doc": "jsdoc -c jsdoc-conf.json",
-    "coveralls": "jest --coverage && cat ./coverage/lcov.info | coveralls"
+    "coveralls": "jest --coverage && cat ./coverage/lcov.info | coveralls",
+    "preinstall": "npx npm-force-resolutions"
   },
   "repository": {
     "type": "git",
@@ -34,18 +35,18 @@
     ]
   },
   "devDependencies": {
-    "@babel/preset-env": "^7.7.7",
+    "@babel/preset-env": "^7.14.1",
     "babel-cli": "^6.26.0",
     "babel-core": "^6.26.3",
     "babel-polyfill": "^6.26.0",
     "babel-preset-env": "^1.7.0",
-    "coveralls": "^3.0.9",
+    "coveralls": "^3.1.0",
     "eslint": "^5.16.0",
-    "jest": "^25.0.0",
-    "jsdoc": "^3.6.3"
+    "jest": "^25.5.4",
+    "jsdoc": "^3.6.6",
+    "npm-force-resolutions": "0.0.10"
   },
   "dependencies": {
-    "cached-path-relative": "^1.0.2",
     "esm": "^3.2.25"
   }
 }
