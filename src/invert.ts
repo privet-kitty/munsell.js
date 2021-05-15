@@ -1,21 +1,18 @@
-// -*- coding: utf-8 -*-
-import {clamp,
-        mod,
-        circularDelta,
-        multMatrixVector} from './arithmetic.js';
-import {yToMunsellValueTable} from './y-to-value-table.js';
-import {lToY,
-        labToLchab,
-        xyzToLab,
-        linearRgbToXyz,
-        rgbToLinearRgb,
-        rgb255ToRgb,
-        hexToRgb,
-        ILLUMINANT_C,
-        ILLUMINANT_D65,
-        SRGB} from './colorspace.js';
-import {mhvcToLchab,
-        mhvcToMunsell} from './convert.js';
+import { clamp, mod, circularDelta, multMatrixVector, Vector3 } from './arithmetic';
+import { yToMunsellValueTable } from './y-to-value-table';
+import {
+  lToY,
+  labToLchab,
+  xyzToLab,
+  linearRgbToXyz,
+  rgbToLinearRgb,
+  rgb255ToRgb,
+  hexToRgb,
+  ILLUMINANT_C,
+  ILLUMINANT_D65,
+  SRGB,
+} from './colorspace';
+import { mhvcToLchab, mhvcToMunsell } from './convert';
 
 /**
  * Converts Y of XYZ to Munsell value. The round-trip error, abs(Y -
@@ -24,17 +21,19 @@ import {mhvcToLchab,
  * @param {number} Y - will be in [0, 1]. Clamped if it exceeds the interval.
  * @returns {number} Munsell value
  */
-export function yToMunsellValue(Y) {
+export const yToMunsellValue = (Y: number): number => {
   const y2000 = clamp(Y, 0, 1) * 2000;
   const yFloor = Math.floor(y2000);
   const yCeil = Math.ceil(y2000);
   if (yFloor === yCeil) {
     return yToMunsellValueTable[yFloor];
   } else {
-    return (yCeil - y2000) * yToMunsellValueTable[yFloor] +
-      (y2000 - yFloor) * yToMunsellValueTable[yCeil];
+    return (
+      (yCeil - y2000) * yToMunsellValueTable[yFloor] +
+      (y2000 - yFloor) * yToMunsellValueTable[yCeil]
+    );
   }
-}
+};
 
 /**
  * Converts L* of CIELAB to Munsell value. The round-trip error, abs(L* -
@@ -44,11 +43,23 @@ export function yToMunsellValue(Y) {
  * interval.
  * @returns {number} Munsell value
  */
-export function lToMunsellValue(lstar) {
+export const lToMunsellValue = (lstar: number): number => {
   return yToMunsellValue(lToY(lstar));
-}
+};
 
-function invertMhvcToLchab (lstar, cstarab, hab, initHue100, initChroma, threshold = 1e-6, maxIteration = 200, ifReachMax = "error", factor = 0.5) {
+export type ProcType = 'error' | 'init' | 'last';
+
+const invertMhvcToLchab = (
+  lstar: number,
+  cstarab: number,
+  hab: number,
+  initHue100: number,
+  initChroma: number,
+  threshold = 1e-6,
+  maxIteration = 200,
+  ifReachMax: ProcType = 'error',
+  factor = 0.5,
+): Vector3 => {
   const value = lToMunsellValue(lstar);
   if (value <= threshold || initChroma <= threshold) {
     return [initHue100, value, initChroma];
@@ -61,8 +72,7 @@ function invertMhvcToLchab (lstar, cstarab, hab, initHue100, initChroma, thresho
     const d_hab = circularDelta(hab, tmp_hab, 360);
     const d_hue100 = d_hab * 0.277777777778; // 100/360
     const d_chroma = d_cstarab * 0.181818181818; // 1/5.5
-    if (Math.abs(d_hue100) <= threshold &&
-        Math.abs(d_chroma) <= threshold) {
+    if (Math.abs(d_hue100) <= threshold && Math.abs(d_chroma) <= threshold) {
       return [mod(hue100, 100), value, chroma];
     } else {
       hue100 += factor * d_hue100;
@@ -71,16 +81,18 @@ function invertMhvcToLchab (lstar, cstarab, hab, initHue100, initChroma, thresho
   }
   // If loop finished without achieving the required accuracy:
   switch (ifReachMax) {
-  case "error":
-    throw new Error("invertMhvcToLchab() reached maxIteration without achieving the required accuracy.");
-  case "init":
-    return [initHue100, value, initChroma];
-  case "last":
-    return [hue100, value, chroma];
-  default:
-    throw new SyntaxError(`Unknown ifReachMax specifier: ${ifReachMax}`);
+    case 'error':
+      throw new Error(
+        'invertMhvcToLchab() reached maxIteration without achieving the required accuracy.',
+      );
+    case 'init':
+      return [initHue100, value, initChroma];
+    case 'last':
+      return [hue100, value, chroma];
+    default:
+      throw new SyntaxError(`Unknown ifReachMax specifier: ${ifReachMax}`);
   }
-}
+};
 
 /**
  * Converts LCHab to Munsell HVC by inverting {@link mhvcToLchab}() with a
@@ -121,15 +133,27 @@ function invertMhvcToLchab (lstar, cstarab, hab, initHue100, initChroma, thresho
  * @param {number} [factor = 0.5]
  * @returns {Array} [Hue, Value, Chroma]
  */
-export function lchabToMhvc(lstar, cstarab, hab, threshold = 1e-6, maxIteration = 200, ifReachMax = "error", factor = 0.5) {
-  return invertMhvcToLchab(lstar, cstarab, hab,
-                           hab * 0.277777777778,
-                           cstarab * 0.181818181818,
-                           threshold,
-                           maxIteration,
-                           ifReachMax,
-                           factor);
-}
+export const lchabToMhvc = (
+  lstar: number,
+  cstarab: number,
+  hab: number,
+  threshold = 1e-6,
+  maxIteration = 200,
+  ifReachMax: ProcType = 'error',
+  factor = 0.5,
+): Vector3 => {
+  return invertMhvcToLchab(
+    lstar,
+    cstarab,
+    hab,
+    hab * 0.277777777778,
+    cstarab * 0.181818181818,
+    threshold,
+    maxIteration,
+    ifReachMax,
+    factor,
+  );
+};
 
 /**
  * Converts LCHab to Munsell string. Note that the given values are assumed to
@@ -147,9 +171,21 @@ export function lchabToMhvc(lstar, cstarab, hab, threshold = 1e-6, maxIteration 
  * @returns {string} Munsell Color code
  * @see lchabToMhvc
  */
-export function lchabToMunsell(lstar, cstarab, hab, digits = 1, threshold = 1e-6, maxIteration = 200, ifReachMax = "error", factor = 0.5) {
-  return mhvcToMunsell(...lchabToMhvc(lstar, cstarab, hab, threshold, maxIteration, ifReachMax, factor), digits);
-}
+export const lchabToMunsell = (
+  lstar: number,
+  cstarab: number,
+  hab: number,
+  digits = 1,
+  threshold = 1e-6,
+  maxIteration = 200,
+  ifReachMax: ProcType = 'error',
+  factor = 0.5,
+): string => {
+  return mhvcToMunsell(
+    ...lchabToMhvc(lstar, cstarab, hab, threshold, maxIteration, ifReachMax, factor),
+    digits,
+  );
+};
 
 /**
  * Converts CIELAB to Munsell HVC. Note that the given values are assumed to be
@@ -164,9 +200,23 @@ export function lchabToMunsell(lstar, cstarab, hab, digits = 1, threshold = 1e-6
  * @returns {Array} [Hue, Value, Chroma]
  * @see lchabToMhvc
  */
-export function labToMhvc(lstar, astar, bstar, threshold = 1e-6, maxIteration = 200, ifReachMax = "error", factor = 0.5) {
-  return lchabToMhvc(...labToLchab(lstar, astar, bstar), threshold, maxIteration, ifReachMax, factor);
-}
+export const labToMhvc = (
+  lstar: number,
+  astar: number,
+  bstar: number,
+  threshold = 1e-6,
+  maxIteration = 200,
+  ifReachMax: ProcType = 'error',
+  factor = 0.5,
+): Vector3 => {
+  return lchabToMhvc(
+    ...labToLchab(lstar, astar, bstar),
+    threshold,
+    maxIteration,
+    ifReachMax,
+    factor,
+  );
+};
 
 /**
  * Converts CIELAB to Munsell Color string. Note that the given values are assumed to
@@ -184,9 +234,21 @@ export function labToMhvc(lstar, astar, bstar, threshold = 1e-6, maxIteration = 
  * @returns {string} Munsell Color code
  * @see lchabToMhvc
  */
-export function labToMunsell(lstar, astar, bstar, digits = 1, threshold = 1e-6, maxIteration = 200, ifReachMax = "error", factor = 0.5) {
-  return mhvcToMunsell(...labToMhvc(lstar, astar, bstar, threshold, maxIteration, ifReachMax, factor), digits);
-}
+export const labToMunsell = (
+  lstar: number,
+  astar: number,
+  bstar: number,
+  digits = 1,
+  threshold = 1e-6,
+  maxIteration = 200,
+  ifReachMax: ProcType = 'error',
+  factor = 0.5,
+): string => {
+  return mhvcToMunsell(
+    ...labToMhvc(lstar, astar, bstar, threshold, maxIteration, ifReachMax, factor),
+    digits,
+  );
+};
 
 /**
  * Converts XYZ to Munsell HVC, where Bradford transformation is used as CAT.
@@ -201,15 +263,24 @@ export function labToMunsell(lstar, astar, bstar, digits = 1, threshold = 1e-6, 
  * @returns {Array} [Hue, Value, Chroma]
  * @see lchabToMhvc
  */
-export function xyzToMhvc(X, Y, Z, illuminant = ILLUMINANT_D65, threshold = 1e-6, maxIteration = 200, ifReachMax = "error", factor = 0.5) {
-  return labToMhvc(...xyzToLab(...multMatrixVector(illuminant.catMatrixThisToC,
-                                                   [X, Y, Z]),
-                               ILLUMINANT_C),
-                   threshold,
-                   maxIteration,
-                   ifReachMax,
-                   factor);
-}
+export const xyzToMhvc = (
+  X: number,
+  Y: number,
+  Z: number,
+  illuminant = ILLUMINANT_D65,
+  threshold = 1e-6,
+  maxIteration = 200,
+  ifReachMax: ProcType = 'error',
+  factor = 0.5,
+): Vector3 => {
+  return labToMhvc(
+    ...xyzToLab(...multMatrixVector(illuminant.catMatrixThisToC, [X, Y, Z]), ILLUMINANT_C),
+    threshold,
+    maxIteration,
+    ifReachMax,
+    factor,
+  );
+};
 
 /**
  * Converts XYZ to Munsell Color string, where Bradford transformation is used
@@ -228,9 +299,22 @@ export function xyzToMhvc(X, Y, Z, illuminant = ILLUMINANT_D65, threshold = 1e-6
  * @returns {string} Munsell Color code
  * @see lchabToMhvc
  */
-export function xyzToMunsell(X, Y, Z, illuminant = ILLUMINANT_D65, digits = 1, threshold = 1e-6, maxIteration = 200, ifReachMax = "error", factor = 0.5) {
-  return mhvcToMunsell(...xyzToMhvc(X, Y, Z, illuminant, threshold, maxIteration, ifReachMax, factor), digits);
-}
+export const xyzToMunsell = (
+  X: number,
+  Y: number,
+  Z: number,
+  illuminant = ILLUMINANT_D65,
+  digits = 1,
+  threshold = 1e-6,
+  maxIteration = 200,
+  ifReachMax: ProcType = 'error',
+  factor = 0.5,
+): string => {
+  return mhvcToMunsell(
+    ...xyzToMhvc(X, Y, Z, illuminant, threshold, maxIteration, ifReachMax, factor),
+    digits,
+  );
+};
 
 /**
  * Converts linear RGB to Munsell HVC.
@@ -246,9 +330,25 @@ export function xyzToMunsell(X, Y, Z, illuminant = ILLUMINANT_D65, digits = 1, t
  * @returns {Array} [Hue, Value, Chroma]
  * @see lchabToMhvc
  */
-export function linearRgbToMhvc(lr, lg, lb, rgbSpace = SRGB, threshold = 1e-6, maxIteration = 200, ifReachMax = "error", factor = 0.5) {
-  return xyzToMhvc(...linearRgbToXyz(lr, lg, lb, rgbSpace), rgbSpace.illuminant, threshold, maxIteration, ifReachMax, factor);
-}
+export const linearRgbToMhvc = (
+  lr: number,
+  lg: number,
+  lb: number,
+  rgbSpace = SRGB,
+  threshold = 1e-6,
+  maxIteration = 200,
+  ifReachMax: ProcType = 'error',
+  factor = 0.5,
+): Vector3 => {
+  return xyzToMhvc(
+    ...linearRgbToXyz(lr, lg, lb, rgbSpace),
+    rgbSpace.illuminant,
+    threshold,
+    maxIteration,
+    ifReachMax,
+    factor,
+  );
+};
 
 /**
  * Converts linear RGB to Munsell Color string.
@@ -267,9 +367,22 @@ export function linearRgbToMhvc(lr, lg, lb, rgbSpace = SRGB, threshold = 1e-6, m
  * @returns {string} Munsell Color code
  * @see lchabToMhvc
  */
-export function linearRgbToMunsell(lr, lg, lb, rgbSpace = SRGB, digits = 1, threshold = 1e-6, maxIteration = 200, ifReachMax = "error", factor = 0.5) {
-  return mhvcToMunsell(...linearRgbToMhvc(lr, lg, lb, rgbSpace, threshold, maxIteration, ifReachMax, factor), digits);
-}
+export const linearRgbToMunsell = (
+  lr: number,
+  lg: number,
+  lb: number,
+  rgbSpace = SRGB,
+  digits = 1,
+  threshold = 1e-6,
+  maxIteration = 200,
+  ifReachMax: ProcType = 'error',
+  factor = 0.5,
+): string => {
+  return mhvcToMunsell(
+    ...linearRgbToMhvc(lr, lg, lb, rgbSpace, threshold, maxIteration, ifReachMax, factor),
+    digits,
+  );
+};
 
 /**
  * Converts gamma-corrected RGB to Munsell HVC.
@@ -285,9 +398,25 @@ export function linearRgbToMunsell(lr, lg, lb, rgbSpace = SRGB, digits = 1, thre
  * @returns {Array} [Hue, Value, Chroma]
  * @see lchabToMhvc
  */
-export function rgbToMhvc(r, g, b, rgbSpace = SRGB, threshold = 1e-6, maxIteration = 200, ifReachMax = "error", factor = 0.5) {
-  return linearRgbToMhvc(...rgbToLinearRgb(r, g, b, rgbSpace), rgbSpace, threshold, maxIteration, ifReachMax, factor);
-}
+export const rgbToMhvc = (
+  r: number,
+  g: number,
+  b: number,
+  rgbSpace = SRGB,
+  threshold = 1e-6,
+  maxIteration = 200,
+  ifReachMax: ProcType = 'error',
+  factor = 0.5,
+): Vector3 => {
+  return linearRgbToMhvc(
+    ...rgbToLinearRgb(r, g, b, rgbSpace),
+    rgbSpace,
+    threshold,
+    maxIteration,
+    ifReachMax,
+    factor,
+  );
+};
 
 /**
  * Converts gamma-corrected RGB to Munsell Color string.
@@ -306,9 +435,22 @@ export function rgbToMhvc(r, g, b, rgbSpace = SRGB, threshold = 1e-6, maxIterati
  * @returns {string} Munsell Color code
  * @see lchabToMhvc
  */
-export function rgbToMunsell(r, g, b, rgbSpace = SRGB, digits = 1, threshold = 1e-6, maxIteration = 200, ifReachMax = "error", factor = 0.5) {
-  return mhvcToMunsell(...rgbToMhvc(r, g, b, rgbSpace, threshold, maxIteration, ifReachMax, factor), digits);
-}
+export const rgbToMunsell = (
+  r: number,
+  g: number,
+  b: number,
+  rgbSpace = SRGB,
+  digits = 1,
+  threshold = 1e-6,
+  maxIteration = 200,
+  ifReachMax: ProcType = 'error',
+  factor = 0.5,
+): string => {
+  return mhvcToMunsell(
+    ...rgbToMhvc(r, g, b, rgbSpace, threshold, maxIteration, ifReachMax, factor),
+    digits,
+  );
+};
 
 /**
  * Converts quantized RGB to Munsell HVC. Whether this conversion succeeds or
@@ -335,9 +477,25 @@ export function rgbToMunsell(r, g, b, rgbSpace = SRGB, digits = 1, threshold = 1
  * @returns {Array} [Hue, Value, Chroma]
  * @see lchabToMhvc
  */
-export function rgb255ToMhvc(r255, g255, b255, rgbSpace = SRGB, threshold = 1e-6, maxIteration = 200, ifReachMax = "error", factor = 0.5) {
-  return rgbToMhvc(...rgb255ToRgb(r255, g255, b255), rgbSpace, threshold, maxIteration, ifReachMax, factor);
-}
+export const rgb255ToMhvc = (
+  r255: number,
+  g255: number,
+  b255: number,
+  rgbSpace = SRGB,
+  threshold = 1e-6,
+  maxIteration = 200,
+  ifReachMax: ProcType = 'error',
+  factor = 0.5,
+): Vector3 => {
+  return rgbToMhvc(
+    ...rgb255ToRgb(r255, g255, b255),
+    rgbSpace,
+    threshold,
+    maxIteration,
+    ifReachMax,
+    factor,
+  );
+};
 
 /**
  * Converts quantized RGB to Munsell Color string. Whether this conversion
@@ -363,9 +521,22 @@ export function rgb255ToMhvc(r255, g255, b255, rgbSpace = SRGB, threshold = 1e-6
  * @returns {string} Munsell Color code
  * @see lchabToMhvc
  */
-export function rgb255ToMunsell(r255, g255, b255, rgbSpace = SRGB, digits = 1, threshold = 1e-6, maxIteration = 200, ifReachMax = "error", factor = 0.5) {
-  return mhvcToMunsell(...rgb255ToMhvc(r255, g255, b255, rgbSpace, threshold, maxIteration, ifReachMax, factor), digits);
-}
+export const rgb255ToMunsell = (
+  r255: number,
+  g255: number,
+  b255: number,
+  rgbSpace = SRGB,
+  digits = 1,
+  threshold = 1e-6,
+  maxIteration = 200,
+  ifReachMax: ProcType = 'error',
+  factor = 0.5,
+): string => {
+  return mhvcToMunsell(
+    ...rgb255ToMhvc(r255, g255, b255, rgbSpace, threshold, maxIteration, ifReachMax, factor),
+    digits,
+  );
+};
 
 /**
  * Converts hex color to Munsell HVC. Whether this conversion succeeds or
@@ -389,9 +560,16 @@ export function rgb255ToMunsell(r255, g255, b255, rgbSpace = SRGB, digits = 1, t
  * @returns {Array} [Hue, Value, Chroma]
  * @see lchabToMhvc
  */
-export function hexToMhvc(hex, rgbSpace = SRGB, threshold = 1e-6, maxIteration = 200, ifReachMax = "error", factor = 0.5) {
+export const hexToMhvc = (
+  hex: string,
+  rgbSpace = SRGB,
+  threshold = 1e-6,
+  maxIteration = 200,
+  ifReachMax: ProcType = 'error',
+  factor = 0.5,
+): Vector3 => {
   return rgbToMhvc(...hexToRgb(hex), rgbSpace, threshold, maxIteration, ifReachMax, factor);
-}
+};
 
 /**
  * Converts hex color to Munsell Color string. Whether this conversion
@@ -414,6 +592,17 @@ export function hexToMhvc(hex, rgbSpace = SRGB, threshold = 1e-6, maxIteration =
  * @returns {string} Munsell Color code
  * @see lchabToMhvc
  */
-export function hexToMunsell(hex, rgbSpace = SRGB, digits = 1, threshold = 1e-6, maxIteration = 200, ifReachMax = "error", factor = 0.5) {
-  return mhvcToMunsell(...hexToMhvc(hex, rgbSpace, threshold, maxIteration, ifReachMax, factor), digits);
-}
+export const hexToMunsell = (
+  hex: string,
+  rgbSpace = SRGB,
+  digits = 1,
+  threshold = 1e-6,
+  maxIteration = 200,
+  ifReachMax: ProcType = 'error',
+  factor = 0.5,
+): string => {
+  return mhvcToMunsell(
+    ...hexToMhvc(hex, rgbSpace, threshold, maxIteration, ifReachMax, factor),
+    digits,
+  );
+};

@@ -1,11 +1,6 @@
 {
   "source": {
-    "include": [
-      "./src/convert.js",
-      "./src/invert.js",
-      "./src/colorspace.js",
-      "./README.md"
-    ]
+    "include": ["./src/convert.ts", "./src/invert.ts", "./src/colorspace.ts", "./README.md"]
   },
   "opts": {
     "destination": "./doc/"

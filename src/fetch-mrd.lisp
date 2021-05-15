@@ -4,11 +4,11 @@
 ;;; it.
 ;;;
 ;;; Usage:
-;;; $ sbcl --load fetch-mrd.lisp [output file] [number of digits]
+;;; $ sbcl --load fetch-mrd.lisp --quit [output file] [number of digits]
 ;;;
 
 (eval-when (:compile-toplevel :load-toplevel :execute)
-  (ql:quickload '(:drakma :babel :dufy/core/* :alexandria)))
+  (ql:quickload '(:drakma :babel :dufy/core :alexandria)))
 
 (use-package :dufy/internal)
 
@@ -48,13 +48,13 @@
 ;;; Parse and process the Munsell Renotation Data
 ;;;
 
-(defvar munsell-renotation-data)
+(defvar *munsell-renotation-data*)
 
 ;; Reads the Munsell Renotation Data to a list. Y values in the MRD
 ;; are substituted by #'munsell-value-to-y (that conforms to the
 ;; formula in the ASTM D1535-08e1).
 (with-input-from-string (in *dat-txt*)
-  (setf munsell-renotation-data nil)
+  (setf *munsell-renotation-data* nil)
   (read-line in) ; The first row is the label of the data.
   (let ((*read-default-float-format* 'double-float))
     (loop
@@ -70,7 +70,7 @@
             (unless (<= small-y 0) ; Ignores non-positive y.
               (let ((row (list hue value chroma small-x small-y
                                (munsell-value-to-y value))))
-                (push row munsell-renotation-data))))))))
+                (push row *munsell-renotation-data*))))))))
 
 (defun quantize-hue-specifier (hue-name hue-prefix)
   (let ((hue-number
@@ -80,13 +80,13 @@
     (mod (+ (* 4 hue-number) (round (/ hue-prefix 2.5))) 40)))
 
 ;; Quantizes hue spec. in the list.
-(setf munsell-renotation-data
+(setf *munsell-renotation-data*
       (mapcar #'(lambda (row)
                   (let* ((hue-str (string (car row)))
                          (hue-name (remove-if-not #'alpha-char-p hue-str))
                          (hue-prefix (read-from-string (remove-if #'alpha-char-p hue-str))))
                     (cons (quantize-hue-specifier hue-name hue-prefix) (cdr row))))
-              munsell-renotation-data))
+              *munsell-renotation-data*))
 
 ;; Constructs max-chroma-table (for 40 hues and 11 values in {0, ...,
 ;; 10}) and max-chroma-table-dark (for 40 hues and 6 values in {0,
@@ -98,14 +98,14 @@
 
 (dotimes (hue 40)
   (dotimes (value 11)
-     ;; Uses V = 1 when V = 0, as the data for V = 0 are not in the MRD. 
+    ;; Uses V = 1 when V = 0, as the data for V = 0 are not in the MRD. 
     (let ((adopted-value (max value 1)))
       (setf (aref max-chroma-table hue value)
             (apply #'max
-                   (loop for row in munsell-renotation-data
+                   (loop for row in *munsell-renotation-data*
                          when (and (= (first row) hue)
                                    (= (second row) adopted-value))
-                           collect (third row)))))))
+                         collect (third row)))))))
 
 
 ;; We need to interpolate the missing data at 10Y 0.2/2.
@@ -130,28 +130,28 @@
                  (multiple-value-call #'midpoint-in-lchab
                    (xyy-to-lchab 1.434d0 1.459d0 (munsell-value-to-y 0.2d0))
                    (xyy-to-lchab 0.713d0 1.414d0 (munsell-value-to-y 0.2d0))))))
-      munsell-renotation-data)
+      *munsell-renotation-data*)
 
 (dotimes (hue 40)
   (dotimes (dark-value 6)
-     ;; Use dark-value = 1 (i.e. 0.2) when dark-value = 0, as the data
-     ;; for V = 0 are not in the MRD.
+    ;; Use dark-value = 1 (i.e. 0.2) when dark-value = 0, as the data
+    ;; for V = 0 are not in the MRD.
     (let ((adopted-dark-value (max 1 dark-value)))
       (setf (aref max-chroma-table-dark hue dark-value)
             (apply #'max
-                   (loop for row in munsell-renotation-data
+                   (loop for row in *munsell-renotation-data*
                          when (and (= (first row) hue)
                                    (nearly= 1d-4 (second row) (* adopted-dark-value 0.2d0)))
-                           collect (third row)))))))
+                         collect (third row)))))))
 
 (defun max-chroma-in-mrd (hue value)
   ;; Use V = 0.2d0 when V = 0, as the data for V = 0 are not in the MRD.
   (let ((adopted-value (max 0.2d0 value)))
     (apply #'max
-           (loop for row in munsell-renotation-data
+           (loop for row in *munsell-renotation-data*
                  when (and (= (first row) hue)
                            (= (second row) adopted-value))
-                   collect (third row)))))
+                 collect (third row)))))
 
 (defun munsell-value-to-achromatic-xyy (v)
   "Illuminant C."
@@ -174,13 +174,13 @@ Note: The data at value = 0 are substituted with the data at value =
                        (and (= (mod (first row) 40) (mod hue-num 40))
                             (nearly= 1d-3 (second row) 0.2d0)
                             (= (third row) chroma)))
-                   munsell-renotation-data)))
+                   *munsell-renotation-data*)))
         (t ((lambda (lst) (if (null lst) nil (subseq lst 3 6)))
             (find-if #'(lambda (row)
                          (and (= (mod (first row) 40) (mod hue-num 40))
                               (nearly= 1d-3 (second row) value)
                               (= (third row) chroma)))
-                     munsell-renotation-data)))))
+                     *munsell-renotation-data*)))))
 
 (defun get-lchab-from-dat (hue-num value chroma)
   (uiop:if-let ((xyy (get-xyy-from-dat hue-num value chroma)))
@@ -217,19 +217,19 @@ Note: The data at value = 0 are substituted with the data at value =
                (multiple-value-call #'lchab-to-xyy
                  (apply #'midpoint-in-lchab
                         (append lchab-at-33-0.4-22 lchab-at-35-0.4-22)))))
-      munsell-renotation-data)
+      *munsell-renotation-data*)
 (push (append '(34 0.4d0 24)
               (multiple-value-list
                (multiple-value-call #'lchab-to-xyy
                  (apply #'midpoint-in-lchab
                         (append lchab-at-33-0.4-24 lchab-at-35-0.4-24)))))
-      munsell-renotation-data)
+      *munsell-renotation-data*)
 (push (append '(34 0.4d0 26)
               (multiple-value-list
                (multiple-value-call #'lchab-to-xyy
                  (apply #'midpoint-in-lchab
                         (append lchab-at-33-0.4-26 lchab-at-35-0.4-26)))))
-      munsell-renotation-data)
+      *munsell-renotation-data*)
 
 ;;;
 ;;; Construct Munsell-to-LCHab data
@@ -332,13 +332,9 @@ Note: The data at value = 0 are substituted with the data at value =
       (print-js-object-definition "maxChromaTable" max-chroma-table :stream out)
       (print-js-object-definition "maxChromaTableDark" max-chroma-table-dark :stream out))
 
-    (format t "Munsell Renotation Data is successfully fetched and converted.~%")
+    (format t "Munsell Renotation Data are successfully fetched and converted.~%")
     (format t "The file is saved at ~A.~%" dest-path)))
 
 (let ((args #-swank(uiop:command-line-arguments)
             #+swank nil))
   (apply #'main args))
-
-#-swank (uiop:quit)
-
-  
