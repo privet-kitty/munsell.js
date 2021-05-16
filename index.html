@@ -61,7 +61,7 @@
 				<a href="#munselljs---library-for-handling-munsell-color-system" id="munselljs---library-for-handling-munsell-color-system" style="color: inherit; text-decoration: none;">
 					<h1>munsell.js - library for handling Munsell Color System</h1>
 				</a>
-				<p><a href="https://travis-ci.org/privet-kitty/munsell.js"><img src="https://api.travis-ci.org/privet-kitty/munsell.js.svg?branch=master" alt="Build Status"></a>
+				<p><a href="https://github.com/privet-kitty/munsell.js/actions"><img src="https://github.com/privet-kitty/munsell.js/actions/workflows/ci-master.yml/badge.svg" alt="Build Status"></a>
 				<a href="https://coveralls.io/github/privet-kitty/munsell.js?branch=master"><img src="https://coveralls.io/repos/github/privet-kitty/munsell.js/badge.svg?branch=master" alt="Coverage Status"></a></p>
 				<p>munsell.js is a library for JavaScript and Node.js, whose main facility is converting Munsell Color to/from other color spaces (e.g. RGB).</p>
 				<p><em><a href="https://privet-kitty.github.io/munsell.js/">API Reference</a> provides the details beyond this README file.</em></p>
@@ -83,7 +83,7 @@
 				</a>
 				<pre><code class="language-javascript"><span style="color: #AF00DB">import</span><span style="color: #000000"> </span><span style="color: #0000FF">*</span><span style="color: #000000"> </span><span style="color: #AF00DB">as</span><span style="color: #000000"> </span><span style="color: #001080">munsell</span><span style="color: #000000"> </span><span style="color: #AF00DB">from</span><span style="color: #000000"> </span><span style="color: #A31515">&#039;munsell&#039;</span><span style="color: #000000">;</span>
 
-<span style="color: #001080">munsell</span><span style="color: #000000">.</span><span style="color: #795E26">munsellToRgb255</span><span style="color: #000000">(</span><span style="color: #A31515">&quot;2.3YR 6.7/4.22&quot;</span><span style="color: #000000">);</span>
+<span style="color: #001080">munsell</span><span style="color: #000000">.</span><span style="color: #795E26">munsellToRgb255</span><span style="color: #000000">(</span><span style="color: #A31515">&#039;2.3YR 6.7/4.22&#039;</span><span style="color: #000000">);</span>
 <span style="color: #008000">// =&gt; [ 201, 156, 135 ]</span>
 </code></pre>
 				<a href="#commonjs" id="commonjs" style="color: inherit; text-decoration: none;">
@@ -91,7 +91,7 @@
 				</a>
 				<pre><code class="language-javascript"><span style="color: #0000FF">const</span><span style="color: #000000"> </span><span style="color: #0070C1">munsell</span><span style="color: #000000"> = </span><span style="color: #795E26">require</span><span style="color: #000000">(</span><span style="color: #A31515">&#039;munsell&#039;</span><span style="color: #000000">);</span>
 
-<span style="color: #001080">munsell</span><span style="color: #000000">.</span><span style="color: #795E26">hexToMhvc</span><span style="color: #000000">(</span><span style="color: #A31515">&quot;#ABCDEF&quot;</span><span style="color: #000000">);</span>
+<span style="color: #001080">munsell</span><span style="color: #000000">.</span><span style="color: #795E26">hexToMhvc</span><span style="color: #000000">(</span><span style="color: #A31515">&#039;#ABCDEF&#039;</span><span style="color: #000000">);</span>
 <span style="color: #008000">// =&gt; [ 73.43648829473781, 8.05763439330249, 5.304123165279228 ]</span>
 </code></pre>
 				<a href="#mechanism" id="mechanism" style="color: inherit; text-decoration: none;">
@@ -101,7 +101,7 @@
 				<p>The underlying data of this library is the <a href="https://www.rit.edu/cos/colorscience/rc_munsell_renotation.php">Munsell Renotation Data</a>. Since this data assume the illuminant to be the Standard Illuminant C, munsell.js uses the Bradford transformation as CAT to other illumnants (e.g. D65).</p>
 				<p>munsell.js inter- and extrapolates the data via LCHab space, the method of which is in common with <a href="https://github.com/privet-kitty/dufy">dufy</a>, my color library for Common Lisp. The inversion from LCHab to Munsell Color is based on the method suggested by Paul Centore. See the links and articles for more information.</p>
 				<ul>
-					<li>Centore, Paul. (2012). An open-source inversion algorithm for the Munsell renotation. Color Research &amp; Application. 37. 10.1002/col.20715. </li>
+					<li>Centore, Paul. (2012). An open-source inversion algorithm for the Munsell renotation. Color Research &amp; Application. 37. 10.1002/col.20715.</li>
 				</ul>
 				<a href="#copyright" id="copyright" style="color: inherit; text-decoration: none;">
 					<h2>Copyright</h2>
