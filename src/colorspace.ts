@@ -28,7 +28,7 @@ export const lchabToLab = (lstar: number, Cstarab: number, hab: number): Vector3
   return [lstar, ...polarToCartesian(Cstarab, hab, 360)];
 };
 
-class Illuminant {
+export class Illuminant {
   X: number;
   Z: number;
   catMatrixCToThis: Matrix33;
@@ -119,7 +119,7 @@ const genDelinearizer = (gamma: number): ((x: number) => number) => {
   };
 };
 
-class RGBSpace {
+export class RGBSpace {
   matrixThisToXyz: Matrix33;
   matrixXyzToThis: Matrix33;
   linearizer: (x: number) => number;
