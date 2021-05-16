@@ -5,7 +5,7 @@
 
 munsell.js is a library for JavaScript and Node.js, whose main facility is converting Munsell Color to/from other color spaces (e.g. RGB).
 
-_[API Reference](https://privet-kitty.github.io/munsell.js/) provides the details beyond this README file._
+_[API Reference](https://privet-kitty.github.io/munsell.js/modules.html) provides the details beyond this README file._
 
 ## Getting started
 
