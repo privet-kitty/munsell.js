@@ -347,7 +347,8 @@ export const munsellToXyz = (munsellStr: string, illuminant = ILLUMINANT_D65): V
   return mhvcToXyz(...munsellToMhvc(munsellStr), illuminant);
 };
 
-/** Converts Munsell HVC to linear RGB.
+/**
+ * Converts Munsell HVC to linear RGB.
  * @param {number} hue100 - is in the circle group R/100Z. Any real
  * number is accepted.
  * @param {number} value - will be in [0, 10]. Clamped if it exceeds
@@ -396,7 +397,8 @@ export const mhvcToRgb = (
   return linearRgbToRgb(...mhvcToLinearRgb(hue100, value, chroma, rgbSpace), rgbSpace);
 };
 
-/** Converts Munsell Color string to gamma-corrected RGB.
+/**
+ * Converts Munsell Color string to gamma-corrected RGB.
  * @param {string} munsellStr
  * @param {RGBSpace} [rgbSpace = SRGB]
  * @returns {Array} [R, G, B]

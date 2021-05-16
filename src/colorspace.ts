@@ -41,7 +41,7 @@ export class Illuminant {
   }
 }
 
-// The following data are based on dufy. CAT is Bradford transformation.
+// The following data are based on dufy. Bradford transformation is used as CAT.
 /** @type {Illuminant} */
 export const ILLUMINANT_D65 = new Illuminant(
   0.950428061568676,
@@ -104,16 +104,16 @@ export const xyzToLab = (X: number, Y: number, Z: number, illuminant = ILLUMINAN
   return [116 * fY - 16, 500 * (fX - fY), 200 * (fY - fZ)];
 };
 
-const genLinearizer = (gamma: number): ((x: number) => number) => {
-  // Returns a function for gamma-correction (not for sRGB).
+const createLinearizer = (gamma: number): ((x: number) => number) => {
+  // Returns a function for inverse gamma-correction (not used for sRGB).
   const reciprocal = 1 / gamma;
   return (x) => {
     return x >= 0 ? Math.pow(x, reciprocal) : -Math.pow(-x, reciprocal);
   };
 };
 
-const genDelinearizer = (gamma: number): ((x: number) => number) => {
-  // Returns a function for linearization (not for sRGB).
+const createDelinearizer = (gamma: number): ((x: number) => number) => {
+  // Returns a function for gamma correction (not used for sRGB).
   return (x) => {
     return x >= 0 ? Math.pow(x, gamma) : -Math.pow(-x, gamma);
   };
@@ -128,8 +128,8 @@ export class RGBSpace {
   constructor(
     matrixThisToXyz: Matrix33,
     matrixXyzToThis: Matrix33,
-    linearizer = genLinearizer(2.2),
-    delinearizer = genDelinearizer(2.2),
+    linearizer = createLinearizer(2.2),
+    delinearizer = createDelinearizer(2.2),
     illuminant = ILLUMINANT_D65,
   ) {
     this.matrixThisToXyz = matrixThisToXyz;
@@ -143,7 +143,6 @@ export class RGBSpace {
 const CONST5 = 0.0031308 * 12.92;
 
 // The following data are based on dufy.
-/** @type {RGBSpace} */
 export const SRGB = new RGBSpace(
   [
     [0.4124319639872968, 0.3575780371782625, 0.1804592355313134],
@@ -177,9 +176,6 @@ export const SRGB = new RGBSpace(
   },
 );
 
-/**
- * @type {RGBSpace}
- */
 export const ADOBE_RGB = new RGBSpace(
   [
     [0.5766645233146432, 0.18556215235063508, 0.18820138590339738],
@@ -191,8 +187,8 @@ export const ADOBE_RGB = new RGBSpace(
     [-0.969223190031607, 1.8759279278672774, 0.04155418080089159],
     [0.01344622799042258, -0.11837953662156253, 1.015322039041507],
   ],
-  genDelinearizer(563 / 256),
-  genLinearizer(563 / 256),
+  createDelinearizer(563 / 256),
+  createLinearizer(563 / 256),
 );
 
 export const xyzToLinearRgb = (X: number, Y: number, Z: number, rgbSpace = SRGB): Vector3 => {

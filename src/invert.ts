@@ -79,7 +79,7 @@ const invertMhvcToLchab = (
       chroma = Math.max(0, chroma + factor * d_chroma);
     }
   }
-  // If loop finished without achieving the required accuracy:
+  // If the loop has finished without achieving the required accuracy:
   switch (ifReachMax) {
     case 'error':
       throw new Error(

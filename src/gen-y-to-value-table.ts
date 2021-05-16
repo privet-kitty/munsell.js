@@ -1,3 +1,4 @@
+// This is a script file to generate y-to-value-table.ts
 import { munsellValueToY } from './convert';
 import fs from 'fs';
 
@@ -20,7 +21,7 @@ const findRoot = (
 
 const partitions = 2000;
 const yToMunsellValueTable = Array(1 + partitions)
-  .fill(0.0)
+  .fill(0)
   .map((_, i) => {
     return findRoot(munsellValueToY, i / partitions, 0, 10, 1e-8);
   });
@@ -28,9 +29,9 @@ yToMunsellValueTable[0] = 0;
 yToMunsellValueTable[partitions] = 10;
 
 fs.writeFileSync(
-  'src/y-to-value-table.ts',
+  `${__dirname}/y-to-value-table.ts`,
   `export const yToMunsellValueTable =
-${JSON.stringify(yToMunsellValueTable, (key, val) => {
+${JSON.stringify(yToMunsellValueTable, (_, val) => {
   return val.toFixed ? Number(val.toFixed(6)) : val;
 })};
 `,
