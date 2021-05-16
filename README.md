@@ -11,15 +11,11 @@ _[API Reference](https://privet-kitty.github.io/munsell.js/) provides the detail
 
 ### Install
 
-To install munsell.js to your project via npm, just run:
-
 ```
 $ npm install munsell
 ```
 
 ### Load
-
-munsell.js is written in the ES module format. You can `require` it from CommonJS, however, as this library uses [`esm` loader](https://www.npmjs.com/package/esm). Below are the simplest examples:
 
 #### ES module
 
