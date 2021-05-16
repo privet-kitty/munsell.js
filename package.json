@@ -12,14 +12,16 @@
     "colorimetry"
   ],
   "private": false,
-  "main": "src/index.js",
-  "module": "src/main.js",
-  "sourceType": "module",
+  "main": "dist/index.js",
   "scripts": {
+    "build": "tsc",
     "test": "jest",
-    "lint": "eslint src",
-    "doc": "jsdoc -c jsdoc-conf.json",
+    "test-coverage": "jest --coverage",
+    "lint": "eslint src test",
+    "doc": "typedoc",
     "coveralls": "jest --coverage && cat ./coverage/lcov.info | coveralls",
+    "build-mrd": "sbcl --load ./src/fetch-mrd.lisp --quit MRD.ts 5",
+    "build-y-to-value": "ts-node src/gen-y-to-value-table",
     "preinstall": "npx npm-force-resolutions"
   },
   "repository": {
@@ -27,29 +29,34 @@
     "url": "git://github.com/privet-kitty/munsell.js.git"
   },
   "jest": {
+    "moduleFileExtensions": [
+      "js",
+      "ts",
+      "d.ts"
+    ],
+    "transform": {
+      "^.+\\.ts$": "ts-jest"
+    },
     "verbose": true,
     "collectCoverageFrom": [
-      "src/**/*.js",
-      "!**/gen-*.js",
-      "!**/index.js"
+      "src/**/*.ts",
+      "!**/gen-*.ts",
+      "!**/index.ts"
     ]
   },
   "devDependencies": {
-    "@babel/preset-env": "^7.14.1",
-    "babel-cli": "^6.26.0",
-    "babel-core": "^6.26.3",
-    "babel-polyfill": "^6.26.0",
-    "babel-preset-env": "^1.7.0",
+    "@types/jest": "^26.0.23",
+    "@typescript-eslint/eslint-plugin": "^4.23.0",
+    "@typescript-eslint/parser": "^4.23.0",
     "coveralls": "^3.1.0",
-    "eslint": "^5.16.0",
-    "jest": "^25.5.4",
-    "jsdoc": "^3.6.6",
-    "npm-force-resolutions": "0.0.10"
-  },
-  "dependencies": {
-    "esm": "^3.2.25"
-  },
-  "resolutions": {
-    "underscore": "^1.12.1"
+    "eslint": "^7.26.0",
+    "eslint-config-prettier": "^8.3.0",
+    "jest": "^26.6.3",
+    "npm-force-resolutions": "0.0.10",
+    "prettier": "^2.3.0",
+    "ts-jest": "^26.5.6",
+    "ts-node": "^9.1.1",
+    "typedoc": "^0.20.36",
+    "typescript": "^4.2.4"
   }
 }

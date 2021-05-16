@@ -1,30 +1,17 @@
 {
-  "extends": "eslint:recommended",
+  "extends": ["eslint:recommended", "plugin:@typescript-eslint/recommended", "prettier"],
+  "plugins": ["@typescript-eslint"],
+  "parser": "@typescript-eslint/parser",
   "env": {
+    "browser": true,
+    "node": true,
     "es6": true
   },
   "parserOptions": {
     "sourceType": "module"
   },
   "rules": {
-    "eqeqeq": "error",
-    "no-useless-escape": "off",
-    "arrow-parens": "error",
-    "arrow-spacing": "error",
-    "generator-star-spacing": "error",
-    "no-duplicate-imports": "error",
-    "no-useless-computed-key": "error",
-    "no-useless-constructor": "error",
-    "no-useless-rename": "error",
-    "no-var": "error",
-    "object-shorthand": "error",
-    "prefer-arrow-callback": "error",
-    "prefer-const": "error",
-    "prefer-rest-params": "error",
-    "prefer-spread": "error",
-    "prefer-template": "error",
-    "rest-spread-spacing": "error",
-    "template-curly-spacing": "error",
-    "yield-star-spacing": "error"
+    "semi": ["error", "always"],
+    "quotes": ["error", "single", { "avoidEscape": true }]
   }
 }
