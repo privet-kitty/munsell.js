@@ -19,7 +19,6 @@
     "test-coverage": "jest --coverage",
     "lint": "eslint src test",
     "doc": "typedoc",
-    "coveralls": "jest --coverage && cat ./coverage/lcov.info | coveralls",
     "build-mrd": "sbcl --load ./src/fetch-mrd.lisp --quit MRD.ts 5",
     "build-y-to-value": "ts-node src/gen-y-to-value-table",
     "prepublishOnly": "npm run build"
@@ -49,7 +48,6 @@
     "@types/node": "^17.0.23",
     "@typescript-eslint/eslint-plugin": "^4.28.2",
     "@typescript-eslint/parser": "^4.28.2",
-    "coveralls": "^3.1.1",
     "eslint": "^7.30.0",
     "eslint-config-prettier": "^8.3.0",
     "jest": "^27.0.6",
