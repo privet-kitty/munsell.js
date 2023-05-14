@@ -49,7 +49,7 @@ import {
 /**
  * Converts Munsell value to Y (of XYZ) based on the formula in the ASTM
  * D1535-18e1.
- * @param {number} value - will be in [0, 10]. Clamped if it exceeds the
+ * @param value - will be in [0, 10]. Clamped if it exceeds the
  * interval.
  * @returns {number} Y
  */
@@ -59,7 +59,7 @@ export const munsellValueToY = (v: number): number => {
 
 /**
  * Converts Munsell value to L* (of CIELAB).
- * @param {number} value - will be in [0, 10]. Clamped if it exceeds the
+ * @param v - will be in [0, 10]. Clamped if it exceeds the
  * interval.
  * @returns {number} L*
  */
@@ -229,11 +229,11 @@ const mhvcToLchabGeneralCase = (
 /**
  * Converts Munsell HVC to LCHab. Note that the returned value is under
  * <strong>Illuminant C</strong>.
- * @param {number} hue100 - is in the circle group R/100Z. Any real number is
+ * @param hue100 - is in the circle group R/100Z. Any real number is
  * accepted.
- * @param {number} value - will be in [0, 10]. Clamped if it exceeds the
+ * @param value - will be in [0, 10]. Clamped if it exceeds the
  * interval.
- * @param {number} chroma - will be in [0, +inf). Assumed to be zero if it is
+ * @param chroma - will be in [0, +inf). Assumed to be zero if it is
  * negative.
  * @returns {Array} [L*, C*ab, hab]
  */
@@ -252,7 +252,7 @@ const hueNames = ['R', 'YR', 'Y', 'GY', 'G', 'BG', 'B', 'PB', 'P', 'RP'];
 
 /**
  * Converts Munsell Color string to Munsell HVC.
- * @param {string} munsellStr - is the standard Munsell Color code.
+ * @param munsellStr - is the standard Munsell Color code.
  * @returns {Array} [hue100, value, chroma]
  * @see munsell
  * @see mhvc
@@ -281,7 +281,7 @@ export const munsellToMhvc = (munsellStr: string): Vector3 => {
 /**
  * Converts Munsell Color string to LCHab. Note that the returned value is under
  * <strong>Illuminant C</strong>.
- * @param {string} munsellStr - is the standard Munsell Color code.
+ * @param munsellStr - is the standard Munsell Color code.
  * @returns {Array} [L*, C*ab, hab]
  */
 export const munsellToLchab = (munsellStr: string): Vector3 => {
@@ -291,11 +291,11 @@ export const munsellToLchab = (munsellStr: string): Vector3 => {
 /**
  * Converts Munsell HVC to CIELAB. Note that the returned value is under
  * <strong>Illuminant C</strong>.
- * @param {number} hue100 - is in the circle group R/100Z. Any real number is
+ * @param hue100 - is in the circle group R/100Z. Any real number is
  * accepted.
- * @param {number} value - will be in [0, 10]. Clamped if it exceeds the
+ * @param value - will be in [0, 10]. Clamped if it exceeds the
  * interval.
- * @param {number} chroma - will be in [0, +inf). Assumed to be zero if it is
+ * @param chroma - will be in [0, +inf). Assumed to be zero if it is
  * negative.
  * @returns {Array} [L*, a*, b*]
  */
@@ -306,7 +306,7 @@ export const mhvcToLab = (hue100: number, value: number, chroma: number): Vector
 /**
  * Converts Munsell Color string to CIELAB. Note that the returned value is under
  * <strong>Illuminant C</strong>.
- * @param {string} munsellStr
+ * @param munsellStr
  * @returns {Array} [L*, a*, b*]
  */
 export const munsellToLab = (munsellStr: string): Vector3 => {
@@ -315,13 +315,13 @@ export const munsellToLab = (munsellStr: string): Vector3 => {
 
 /**
  * Converts Munsell HVC to XYZ.
- * @param {number} hue100 - is in the circle group R/100Z. Any real number is
+ * @param hue100 - is in the circle group R/100Z. Any real number is
  * accepted.
- * @param {number} value - will be in [0, 10]. Clamped if it exceeds the
+ * @param value - will be in [0, 10]. Clamped if it exceeds the
  * interval.
- * @param {number} chroma - will be in [0, +inf). Assumed to be zero if it is
+ * @param chroma - will be in [0, +inf). Assumed to be zero if it is
  * negative.
- * @param {illuminant} [illuminant = ILLUMINANT_D65]
+ * @param [illuminant = ILLUMINANT_D65]
  * @returns {Array} [X, Y, Z]
  */
 export const mhvcToXyz = (
@@ -339,8 +339,8 @@ export const mhvcToXyz = (
 
 /**
  * Converts Munsell Color string to XYZ.
- * @param {string} munsellStr
- * @param {illuminant} [illuminant = ILLUMINANT_D65]
+ * @param munsellStr
+ * @param [illuminant = ILLUMINANT_D65]
  * @returns {Array} [X, Y, Z]
  */
 export const munsellToXyz = (munsellStr: string, illuminant = ILLUMINANT_D65): Vector3 => {
@@ -349,13 +349,13 @@ export const munsellToXyz = (munsellStr: string, illuminant = ILLUMINANT_D65): V
 
 /**
  * Converts Munsell HVC to linear RGB.
- * @param {number} hue100 - is in the circle group R/100Z. Any real
+ * @param hue100 - is in the circle group R/100Z. Any real
  * number is accepted.
- * @param {number} value - will be in [0, 10]. Clamped if it exceeds
+ * @param value - will be in [0, 10]. Clamped if it exceeds
  * the interval.
- * @param {number} chroma - will be in [0, +inf). Assumed to be zero
+ * @param chroma - will be in [0, +inf). Assumed to be zero
  * if it is negative.
- * @param {RGBSpace} [rgbSpace = SRGB]
+ * @param [rgbSpace = SRGB]
  * @returns {Array} [linear R, linear G, linear B]
  */
 export const mhvcToLinearRgb = (
@@ -369,8 +369,8 @@ export const mhvcToLinearRgb = (
 
 /**
  * Converts Munsell Color string to linear RGB.
- * @param {string} munsellStr
- * @param {RGBSpace} [rgbSpace = SRGB]
+ * @param munsellStr
+ * @param [rgbSpace = SRGB]
  * @returns {Array} [linear R, linear G, linear B]
  */
 export const munsellToLinearRgb = (munsellStr: string, rgbSpace = SRGB): Vector3 => {
@@ -379,13 +379,13 @@ export const munsellToLinearRgb = (munsellStr: string, rgbSpace = SRGB): Vector3
 
 /**
  * Converts Munsell HVC to gamma-corrected RGB.
- * @param {number} hue100 - is in the circle group R/100Z. Any real number is
+ * @param hue100 - is in the circle group R/100Z. Any real number is
  * accepted.
- * @param {number} value - will be in [0, 10]. Clamped if it exceeds the
+ * @param value - will be in [0, 10]. Clamped if it exceeds the
  * interval.
- * @param {number} chroma - will be in [0, +inf). Assumed to be zero if it is
+ * @param chroma - will be in [0, +inf). Assumed to be zero if it is
  * negative.
- * @param {RGBSpace} [rgbSpace = SRGB]
+ * @param [rgbSpace = SRGB]
  * @returns {Array} [R, G, B]
  */
 export const mhvcToRgb = (
@@ -399,8 +399,8 @@ export const mhvcToRgb = (
 
 /**
  * Converts Munsell Color string to gamma-corrected RGB.
- * @param {string} munsellStr
- * @param {RGBSpace} [rgbSpace = SRGB]
+ * @param munsellStr
+ * @param [rgbSpace = SRGB]
  * @returns {Array} [R, G, B]
  */
 export const munsellToRgb = (munsellStr: string, rgbSpace = SRGB): Vector3 => {
@@ -409,15 +409,15 @@ export const munsellToRgb = (munsellStr: string, rgbSpace = SRGB): Vector3 => {
 
 /**
  * Converts Munsell HVC to quantized RGB.
- * @param {number} hue100 - is in the circle group R/100Z. Any real number is
+ * @param hue100 - is in the circle group R/100Z. Any real number is
  * accepted.
- * @param {number} value - will be in [0, 10]. Clamped if it exceeds the
+ * @param value - will be in [0, 10]. Clamped if it exceeds the
  * interval.
- * @param {number} chroma - will be in [0, +inf). Assumed to be zero if it is
+ * @param chroma - will be in [0, +inf). Assumed to be zero if it is
  * negative.
- * @param {boolean} [clamp = true] - If true, the returned value will be clamped
+ * @param [clamp = true] - If true, the returned value will be clamped
  * to the range [0, 255].
- * @param {RGBSpace} [rgbSpace = SRGB]
+ * @param [rgbSpace = SRGB]
  * @returns {Array} [R255, G255, B255]
  */
 export const mhvcToRgb255 = (
@@ -432,10 +432,10 @@ export const mhvcToRgb255 = (
 
 /**
  * Converts Munsell Color string to quantized RGB.
- * @param {string} munsellStr
- * @param {boolean} [clamp = true] - If true, the returned value will be clamped
+ * @param munsellStr
+ * @param [clamp = true] - If true, the returned value will be clamped
  * to the range [0, 255].
- * @param {RGBSpace} [rgbSpace = SRGB]
+ * @param [rgbSpace = SRGB]
  * @returns {Array} [R255, G255, B255]
  */
 export const munsellToRgb255 = (munsellStr: string, clamp = true, rgbSpace = SRGB): Vector3 => {
@@ -444,13 +444,13 @@ export const munsellToRgb255 = (munsellStr: string, clamp = true, rgbSpace = SRG
 
 /**
  * Converts Munsell HVC to 24-bit hex color.
- * @param {number} hue100 - is in the circle group R/100Z. Any real number is
+ * @param hue100 - is in the circle group R/100Z. Any real number is
  * accepted.
- * @param {number} value - will be in [0, 10]. Clamped if it exceeds the
+ * @param value - will be in [0, 10]. Clamped if it exceeds the
  * interval.
- * @param {number} chroma - will be in [0, +inf). Assumed to be zero if it is
+ * @param chroma - will be in [0, +inf). Assumed to be zero if it is
  * negative.
- * @param {RGBSpace} [rgbSpace = SRGB]
+ * @param [rgbSpace = SRGB]
  * @returns {string} hex color "#XXXXXX"
  */
 export const mhvcToHex = (
@@ -464,8 +464,8 @@ export const mhvcToHex = (
 
 /**
  * Converts Munsell Color string to 24-bit hex color.
- * @param {string} munsellStr
- * @param {RGBSpace} [rgbSpace = SRGB]
+ * @param munsellStr
+ * @param [rgbSpace = SRGB]
  * @returns {string} hex color "#XXXXXX"
  */
 export const munsellToHex = (munsellStr: string, rgbSpace = SRGB): string => {
@@ -475,10 +475,10 @@ export const munsellToHex = (munsellStr: string, rgbSpace = SRGB): string => {
 /**
  * Converts Munsell HVC to string. `N', the code for achromatic colors, is used
  * when the chroma becomes zero w.r.t. the specified number of digits.
- * @param {number} hue100
- * @param {number} value
- * @param {number} chroma
- * @param {number} [digits = 1] - is the number of digits after the decimal
+ * @param hue100
+ * @param value
+ * @param chroma
+ * @param [digits = 1] - is the number of digits after the decimal
  * point. Must be non-negative integer. Note that the units digit of the hue
  * prefix is assumed to be already after the decimal point.
  * @returns {string} Munsell Color code

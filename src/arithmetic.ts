@@ -43,10 +43,10 @@ export const polarToCartesian = (r: number, theta: number, perimeter = TWO_PI): 
  * Compares the counterclockwise distances between theta1 and x and
  * between x and theta2, and returns theta1 or theta2 whichever is
  * nearer.
- * @param {number} x - must be in the counterclockwise interval [min, max]
- * @param {number} theta1
- * @param {number} theta2
- * @param {number} [perimeter = TWO_PI]
+ * @param x - must be in the counterclockwise interval [min, max]
+ * @param theta1
+ * @param theta2
+ * @param [perimeter = TWO_PI]
  */
 export const circularNearer = (
   x: number,
@@ -65,10 +65,10 @@ export const circularNearer = (
  * Is a clamp function in a circle group. If x is not in the
  * (counterclockwise) closed interval [min, max], circularClamp returns
  * min or max whichever is nearer to x.
- * @param {number} x
- * @param {number} min
- * @param {number} max
- * @param {number} [perimeter = TWO_PI]
+ * @param x
+ * @param min
+ * @param max
+ * @param [perimeter = TWO_PI]
  */
 export const circularClamp = (x: number, min: number, max: number, perimeter = TWO_PI): number => {
   const xMod = mod(x, perimeter);
@@ -97,10 +97,10 @@ export const circularClamp = (x: number, min: number, max: number, perimeter = T
  * Is a counterclockwise linear interpolation from theta1 to theta2 in a
  * circle group. It is guaranteed that the returned value is within the
  * given interval from theta1 to theta2 if coef is in [0, 1].
- * @param {number} coef - should be in [0, 1]
- * @param {number} theta1
- * @param {number} theta2
- * @param {number} [perimeter = TWO_PI]
+ * @param coef - should be in [0, 1]
+ * @param theta1
+ * @param theta2
+ * @param [perimeter = TWO_PI]
  */
 export const circularLerp = (
   coef: number,
@@ -115,9 +115,9 @@ export const circularLerp = (
 /**
  * Returns the 'difference' of two values in a circle group. The returned value
  * Δ satisfies theta2 + Δ ≡ theta1 and -perimeter/2 <= Δ <= perimeter/2.
- * @param {number} theta1
- * @param {number} theta2
- * @param {number} [perimter = TWO_PI]
+ * @param theta1
+ * @param theta2
+ * @param [perimter = TWO_PI]
  */
 export const circularDelta = (theta1: number, theta2: number, perimeter = TWO_PI): number => {
   const d = mod(theta1 - theta2, perimeter);
