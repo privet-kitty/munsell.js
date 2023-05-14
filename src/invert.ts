@@ -169,7 +169,7 @@ export const lchabToMhvc = (
  * @param [ifReachMax = "error"]
  * @param [factor = 0.5]
  * @returns {string} Munsell Color code
- * @see lchabToMhvc
+ * @see {@link lchabToMhvc}
  */
 export const lchabToMunsell = (
   lstar: number,
@@ -198,7 +198,7 @@ export const lchabToMunsell = (
  * @param [ifReachMax = "error"]
  * @param [factor = 0.5]
  * @returns {Array} [Hue, Value, Chroma]
- * @see lchabToMhvc
+ * @see {@link lchabToMhvc}
  */
 export const labToMhvc = (
   lstar: number,
@@ -232,7 +232,7 @@ export const labToMhvc = (
  * @param [ifReachMax = "error"]
  * @param [factor = 0.5]
  * @returns {string} Munsell Color code
- * @see lchabToMhvc
+ * @see {@link lchabToMhvc}
  */
 export const labToMunsell = (
   lstar: number,
@@ -261,7 +261,7 @@ export const labToMunsell = (
  * @param [ifReachMax = "error"]
  * @param [factor = 0.5]
  * @returns {Array} [Hue, Value, Chroma]
- * @see lchabToMhvc
+ * @see {@link lchabToMhvc}
  */
 export const xyzToMhvc = (
   X: number,
@@ -297,7 +297,7 @@ export const xyzToMhvc = (
  * @param [ifReachMax = "error"]
  * @param [factor = 0.5]
  * @returns {string} Munsell Color code
- * @see lchabToMhvc
+ * @see {@link lchabToMhvc}
  */
 export const xyzToMunsell = (
   X: number,
@@ -328,7 +328,7 @@ export const xyzToMunsell = (
  * @param [ifReachMax = "error"]
  * @param [factor = 0.5]
  * @returns {Array} [Hue, Value, Chroma]
- * @see lchabToMhvc
+ * @see {@link lchabToMhvc}
  */
 export const linearRgbToMhvc = (
   lr: number,
@@ -365,7 +365,7 @@ export const linearRgbToMhvc = (
  * @param [ifReachMax = "error"]
  * @param [factor = 0.5]
  * @returns {string} Munsell Color code
- * @see lchabToMhvc
+ * @see {@link lchabToMhvc}
  */
 export const linearRgbToMunsell = (
   lr: number,
@@ -396,7 +396,7 @@ export const linearRgbToMunsell = (
  * @param [ifReachMax = "error"]
  * @param [factor = 0.5]
  * @returns {Array} [Hue, Value, Chroma]
- * @see lchabToMhvc
+ * @see {@link lchabToMhvc}
  */
 export const rgbToMhvc = (
   r: number,
@@ -433,7 +433,7 @@ export const rgbToMhvc = (
  * @param [ifReachMax = "error"]
  * @param [factor = 0.5]
  * @returns {string} Munsell Color code
- * @see lchabToMhvc
+ * @see {@link lchabToMhvc}
  */
 export const rgbToMunsell = (
   r: number,
@@ -475,7 +475,7 @@ export const rgbToMunsell = (
  * @param [ifReachMax = "error"]
  * @param [factor = 0.5]
  * @returns {Array} [Hue, Value, Chroma]
- * @see lchabToMhvc
+ * @see {@link lchabToMhvc}
  */
 export const rgb255ToMhvc = (
   r255: number,
@@ -519,7 +519,7 @@ export const rgb255ToMhvc = (
  * @param [ifReachMax = "error"]
  * @param [factor = 0.5]
  * @returns {string} Munsell Color code
- * @see lchabToMhvc
+ * @see {@link lchabToMhvc}
  */
 export const rgb255ToMunsell = (
   r255: number,
@@ -558,7 +558,7 @@ export const rgb255ToMunsell = (
  * @param [ifReachMax = "error"]
  * @param [factor = 0.5]
  * @returns {Array} [Hue, Value, Chroma]
- * @see lchabToMhvc
+ * @see {@link lchabToMhvc}
  */
 export const hexToMhvc = (
   hex: string,
@@ -590,7 +590,7 @@ export const hexToMhvc = (
  * @param [ifReachMax = "error"]
  * @param [factor = 0.5]
  * @returns {string} Munsell Color code
- * @see lchabToMhvc
+ * @see {@link lchabToMhvc}
  */
 export const hexToMunsell = (
   hex: string,

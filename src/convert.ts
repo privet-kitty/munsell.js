@@ -22,31 +22,6 @@ import {
 } from './arithmetic';
 
 /**
- * @name mhvc
- * @global
- * @desc <code>mhvc</code>, or Munsell HVC, is a 3-number expression of Munsell
- * Color composed of [Hue, Value, Chroma]: e.g. <code>[94.2, 3.5, 11]</code>,
- * <code>[0, 10 ,0]</code>. Here Hue is in the circle group R/100Z: i.e. 0R (=
- * 10RP) corresponds to 0 (= 100 = 300 = -2000) and 2YR corresponds to 12 (= -88
- * = 412). Value is in the interval [0, 10] and the converters will clamp it if
- * a given value exceeds it. Chroma is non-negative and the converters will
- * assume it to be zero if a given chroma is negative. Note that every converter
- * accepts a huge chroma outside the Munsell Renotation Data (e.g. 1000000) and
- * returns a extrapolated result.
- */
-
-/**
- * @name munsell
- * @global
- * @desc <code>munsell</code> is the standard string specification of the
- * Munsell Color: e.g. <code>"4.2RP 3.5/11"</code>, <code>"N 10"</code>. Here
- * various notations of numbers are accepted; an ugly specification like
- * <code>"2e-02RP .9/0xf"</code> (equivalent to <code>"0.02RP 0.9/15"</code>)
- * will be also available. However, the capital letters A-Z and the slash '/'
- * are reserved.
- */
-
-/**
  * Converts Munsell value to Y (of XYZ) based on the formula in the ASTM
  * D1535-18e1.
  * @param value - will be in [0, 10]. Clamped if it exceeds the
@@ -254,8 +229,7 @@ const hueNames = ['R', 'YR', 'Y', 'GY', 'G', 'BG', 'B', 'PB', 'P', 'RP'];
  * Converts Munsell Color string to Munsell HVC.
  * @param munsellStr - is the standard Munsell Color code.
  * @returns {Array} [hue100, value, chroma]
- * @see munsell
- * @see mhvc
+ * @throws {SyntaxError} if the given string is invalid.
  */
 export const munsellToMhvc = (munsellStr: string): Vector3 => {
   const nums = munsellStr
@@ -482,8 +456,6 @@ export const munsellToHex = (munsellStr: string, rgbSpace = SRGB): string => {
  * point. Must be non-negative integer. Note that the units digit of the hue
  * prefix is assumed to be already after the decimal point.
  * @returns {string} Munsell Color code
- * @see mhvc
- * @see munsell
  */
 export const mhvcToMunsell = (
   hue100: number,
