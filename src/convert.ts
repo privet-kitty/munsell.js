@@ -24,7 +24,7 @@ import {
 /**
  * Converts Munsell value to Y (of XYZ) based on the formula in the ASTM
  * D1535-18e1.
- * @param value - will be in [0, 10]. Clamped if it exceeds the
+ * @param v - will be in [0, 10]. Clamped if it exceeds the
  * interval.
  * @returns {number} Y
  */
@@ -203,7 +203,8 @@ const mhvcToLchabGeneralCase = (
 
 /**
  * Converts Munsell HVC to LCHab. Note that the returned value is under
- * <strong>Illuminant C</strong>.
+ * **Illuminant C**. I don't recommend you use this function
+ * if you are not sure what that means.
  * @param hue100 - is in the circle group R/100Z. Any real number is
  * accepted.
  * @param value - will be in [0, 10]. Clamped if it exceeds the
@@ -254,7 +255,8 @@ export const munsellToMhvc = (munsellStr: string): Vector3 => {
 
 /**
  * Converts Munsell Color string to LCHab. Note that the returned value is under
- * <strong>Illuminant C</strong>.
+ * **Illuminant C**. I don't recommend you use this function
+ * if you are not sure what that means.
  * @param munsellStr - is the standard Munsell Color code.
  * @returns {Array} [L*, C*ab, hab]
  */
@@ -264,7 +266,8 @@ export const munsellToLchab = (munsellStr: string): Vector3 => {
 
 /**
  * Converts Munsell HVC to CIELAB. Note that the returned value is under
- * <strong>Illuminant C</strong>.
+ * **Illuminant C**. I don't recommend you use this function
+ * if you are not sure what that means.
  * @param hue100 - is in the circle group R/100Z. Any real number is
  * accepted.
  * @param value - will be in [0, 10]. Clamped if it exceeds the
@@ -279,7 +282,8 @@ export const mhvcToLab = (hue100: number, value: number, chroma: number): Vector
 
 /**
  * Converts Munsell Color string to CIELAB. Note that the returned value is under
- * <strong>Illuminant C</strong>.
+ * **Illuminant C**. I don't recommend you use this function
+ * if you are not sure what that means.
  * @param munsellStr
  * @returns {Array} [L*, a*, b*]
  */
@@ -295,7 +299,7 @@ export const munsellToLab = (munsellStr: string): Vector3 => {
  * interval.
  * @param chroma - will be in [0, +inf). Assumed to be zero if it is
  * negative.
- * @param [illuminant = ILLUMINANT_D65]
+ * @param [illuminant]
  * @returns {Array} [X, Y, Z]
  */
 export const mhvcToXyz = (
@@ -314,7 +318,7 @@ export const mhvcToXyz = (
 /**
  * Converts Munsell Color string to XYZ.
  * @param munsellStr
- * @param [illuminant = ILLUMINANT_D65]
+ * @param [illuminant]
  * @returns {Array} [X, Y, Z]
  */
 export const munsellToXyz = (munsellStr: string, illuminant = ILLUMINANT_D65): Vector3 => {
@@ -329,7 +333,7 @@ export const munsellToXyz = (munsellStr: string, illuminant = ILLUMINANT_D65): V
  * the interval.
  * @param chroma - will be in [0, +inf). Assumed to be zero
  * if it is negative.
- * @param [rgbSpace = SRGB]
+ * @param [rgbSpace]
  * @returns {Array} [linear R, linear G, linear B]
  */
 export const mhvcToLinearRgb = (
@@ -344,7 +348,7 @@ export const mhvcToLinearRgb = (
 /**
  * Converts Munsell Color string to linear RGB.
  * @param munsellStr
- * @param [rgbSpace = SRGB]
+ * @param [rgbSpace]
  * @returns {Array} [linear R, linear G, linear B]
  */
 export const munsellToLinearRgb = (munsellStr: string, rgbSpace = SRGB): Vector3 => {
@@ -359,7 +363,7 @@ export const munsellToLinearRgb = (munsellStr: string, rgbSpace = SRGB): Vector3
  * interval.
  * @param chroma - will be in [0, +inf). Assumed to be zero if it is
  * negative.
- * @param [rgbSpace = SRGB]
+ * @param [rgbSpace]
  * @returns {Array} [R, G, B]
  */
 export const mhvcToRgb = (
@@ -374,7 +378,7 @@ export const mhvcToRgb = (
 /**
  * Converts Munsell Color string to gamma-corrected RGB.
  * @param munsellStr
- * @param [rgbSpace = SRGB]
+ * @param [rgbSpace]
  * @returns {Array} [R, G, B]
  */
 export const munsellToRgb = (munsellStr: string, rgbSpace = SRGB): Vector3 => {
@@ -389,9 +393,9 @@ export const munsellToRgb = (munsellStr: string, rgbSpace = SRGB): Vector3 => {
  * interval.
  * @param chroma - will be in [0, +inf). Assumed to be zero if it is
  * negative.
- * @param [clamp = true] - If true, the returned value will be clamped
+ * @param [clamp] - If true, the returned value will be clamped
  * to the range [0, 255].
- * @param [rgbSpace = SRGB]
+ * @param [rgbSpace]
  * @returns {Array} [R255, G255, B255]
  */
 export const mhvcToRgb255 = (
@@ -407,9 +411,9 @@ export const mhvcToRgb255 = (
 /**
  * Converts Munsell Color string to quantized RGB.
  * @param munsellStr
- * @param [clamp = true] - If true, the returned value will be clamped
+ * @param [clamp] - If true, the returned value will be clamped
  * to the range [0, 255].
- * @param [rgbSpace = SRGB]
+ * @param [rgbSpace]
  * @returns {Array} [R255, G255, B255]
  */
 export const munsellToRgb255 = (munsellStr: string, clamp = true, rgbSpace = SRGB): Vector3 => {
@@ -424,7 +428,7 @@ export const munsellToRgb255 = (munsellStr: string, clamp = true, rgbSpace = SRG
  * interval.
  * @param chroma - will be in [0, +inf). Assumed to be zero if it is
  * negative.
- * @param [rgbSpace = SRGB]
+ * @param [rgbSpace]
  * @returns {string} hex color "#XXXXXX"
  */
 export const mhvcToHex = (
@@ -439,7 +443,7 @@ export const mhvcToHex = (
 /**
  * Converts Munsell Color string to 24-bit hex color.
  * @param munsellStr
- * @param [rgbSpace = SRGB]
+ * @param [rgbSpace]
  * @returns {string} hex color "#XXXXXX"
  */
 export const munsellToHex = (munsellStr: string, rgbSpace = SRGB): string => {
@@ -447,12 +451,12 @@ export const munsellToHex = (munsellStr: string, rgbSpace = SRGB): string => {
 };
 
 /**
- * Converts Munsell HVC to string. `N', the code for achromatic colors, is used
+ * Converts Munsell HVC to string. `N`, the code for achromatic colors, is used
  * when the chroma becomes zero w.r.t. the specified number of digits.
  * @param hue100
  * @param value
  * @param chroma
- * @param [digits = 1] - is the number of digits after the decimal
+ * @param [digits] - is the number of digits after the decimal
  * point. Must be non-negative integer. Note that the units digit of the hue
  * prefix is assumed to be already after the decimal point.
  * @returns {string} Munsell Color code

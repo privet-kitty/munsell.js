@@ -41,7 +41,7 @@ export class Illuminant {
   }
 }
 
-// The following data are based on dufy. Bradford transformation is used as CAT.
+// The following data are based on dufy. I use the Bradford transformation as CAT.
 export const ILLUMINANT_D65 = new Illuminant(
   0.950428061568676,
   1.08891545904089,

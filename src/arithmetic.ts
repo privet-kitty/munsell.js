@@ -46,7 +46,7 @@ export const polarToCartesian = (r: number, theta: number, perimeter = TWO_PI): 
  * @param x - must be in the counterclockwise interval [min, max]
  * @param theta1
  * @param theta2
- * @param [perimeter = TWO_PI]
+ * @param [perimeter]
  */
 export const circularNearer = (
   x: number,
@@ -68,7 +68,7 @@ export const circularNearer = (
  * @param x
  * @param min
  * @param max
- * @param [perimeter = TWO_PI]
+ * @param [perimeter]
  */
 export const circularClamp = (x: number, min: number, max: number, perimeter = TWO_PI): number => {
   const xMod = mod(x, perimeter);
@@ -100,7 +100,7 @@ export const circularClamp = (x: number, min: number, max: number, perimeter = T
  * @param coef - should be in [0, 1]
  * @param theta1
  * @param theta2
- * @param [perimeter = TWO_PI]
+ * @param [perimeter]
  */
 export const circularLerp = (
   coef: number,
@@ -117,7 +117,7 @@ export const circularLerp = (
  * Δ satisfies theta2 + Δ ≡ theta1 and -perimeter/2 <= Δ <= perimeter/2.
  * @param theta1
  * @param theta2
- * @param [perimter = TWO_PI]
+ * @param [perimter]
  */
 export const circularDelta = (theta1: number, theta2: number, perimeter = TWO_PI): number => {
   const d = mod(theta1 - theta2, perimeter);

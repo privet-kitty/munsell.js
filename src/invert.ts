@@ -15,8 +15,8 @@ import {
 import { mhvcToLchab, mhvcToMunsell } from './convert';
 
 /**
- * Converts Y of XYZ to Munsell value. The round-trip error, abs(Y -
- * munsellValueToY(yToMunsellValue(Y)), is guaranteed to be smaller than 1e-5 if
+ * Converts Y of XYZ to Munsell value. The round-trip error, `abs(Y -
+ * munsellValueToY(yToMunsellValue(Y))`, is guaranteed to be smaller than 1e-5 if
  * Y is in [0, 1].
  * @param Y - will be in [0, 1]. Clamped if it exceeds the interval.
  * @returns {number} Munsell value
@@ -36,8 +36,8 @@ export const yToMunsellValue = (Y: number): number => {
 };
 
 /**
- * Converts L* of CIELAB to Munsell value. The round-trip error, abs(L* -
- * munsellValueToL(lToMunsellValue(L*)), is guaranteed to be smaller than 1e-3
+ * Converts L* of CIELAB to Munsell value. The round-trip error, `abs(L* -
+ * munsellValueToL(lToMunsellValue(L*))`, is guaranteed to be smaller than 1e-3
  * if L* is in [0, 100].
  * @param lstar - will be in [0, 100]. Clamped if it exceeds the
  * interval.
@@ -100,37 +100,34 @@ const invertMhvcToLchab = (
  * Open-Source Inversion Algorithm for the Munsell Renotation" by Paul Centore,
  * 2011:
 
- * <ul>
- * <li>V := {@link lToMunsellValue}(L*);</li>
- * <li>C<sub>0</sub> := C*<sub>ab</sub> / 5.5;</li>
- * <li>H<sub>0</sub> := h<sub>ab</sub> * 100/360;</li>
- * <li>C<sub>n+1</sub> := C<sub>n</sub> + factor * ΔC<sub>n</sub>;</li>
- * <li>H<sub>n+1</sub> :=  H<sub>n</sub> + factor * ΔH<sub>n</sub>.</li>
- * </ul>
+ * - V := {@link lToMunsellValue}(L*);
+ * - C<sub>0</sub> := C*<sub>ab</sub> / 5.5;
+ * - H<sub>0</sub> := h<sub>ab</sub> * 100/360;
+ * - C<sub>n+1</sub> := C<sub>n</sub> + factor * ΔC<sub>n</sub>;
+ * - H<sub>n+1</sub> :=  H<sub>n</sub> + factor * ΔH<sub>n</sub>.
 
- * <p>ΔH<sub>n</sub> and ΔC<sub>n</sub> are internally calculated at every
+ * ΔH<sub>n</sub> and ΔC<sub>n</sub> are internally calculated at every
  * step. This function returns Munsell HVC values if C<sub>0</sub> ≦ threshold
  * or if V ≦ threshold or when max(ΔH<sub>n</sub>, ΔC<sub>n</sub>) falls
  * below threshold.
 
- * <p> <var>ifReachMax</var> specifies the action to be taken when the loop
+ * `ifReachMax` specifies the action to be taken when the loop
  * reaches the maxIteration as follows:
 
- * <ul>
- * <li>"error": throws Error;</li>
- * <li>"init": returns the initial rough approximation.</li>
- * <li>"last": returns the last approximation.</li>
- * </ul>
+ * - `"error"`: throws Error;
+ * - `"init"`: returns the initial rough approximation.
+ * - `"last"`: returns the last approximation.
 
- * Note that the given values are assumed to be under <strong>Illuminant
- * C</strong>.
+ * Note that the given values are assumed to be under **Illuminant
+ * C**. I don't recommend you use this function if you are not sure
+ * what that means.
  * @param lstar
  * @param cstarab
  * @param hab
- * @param [threshold = 1e-6]
- * @param [maxIteration = 200]
- * @param [ifReachMax = "error"]
- * @param [factor = 0.5]
+ * @param [threshold]
+ * @param [maxIteration]
+ * @param [ifReachMax]
+ * @param [factor]
  * @returns {Array} [Hue, Value, Chroma]
  */
 export const lchabToMhvc = (
@@ -157,17 +154,18 @@ export const lchabToMhvc = (
 
 /**
  * Converts LCHab to Munsell string. Note that the given values are assumed to
- * be under <strong>Illuminant C</strong>.
+ * be under **Illuminant C**. I don't recommend you use this function
+ * if you are not sure what that means.
  * @param lstar
  * @param cstarab
  * @param hab
- * @param [digits = 1] - is the number of digits after the decimal
+ * @param [digits] - is the number of digits after the decimal
  * point. Must be non-negative integer. Note that the units digit of the hue
  * prefix is assumed to be already after the decimal point.
- * @param [threshold = 1e-6]
- * @param [maxIteration = 200]
- * @param [ifReachMax = "error"]
- * @param [factor = 0.5]
+ * @param [threshold]
+ * @param [maxIteration]
+ * @param [ifReachMax]
+ * @param [factor]
  * @returns {string} Munsell Color code
  * @see {@link lchabToMhvc}
  */
@@ -189,14 +187,15 @@ export const lchabToMunsell = (
 
 /**
  * Converts CIELAB to Munsell HVC. Note that the given values are assumed to be
- * under <strong>Illuminant C</strong>.
+ * under **Illuminant C**. I don't recommend you use this function if you
+ * are not sure what that means.
  * @param lstar
  * @param astar
  * @param bstar
- * @param [threshold = 1e-6]
- * @param [maxIteration = 200]
- * @param [ifReachMax = "error"]
- * @param [factor = 0.5]
+ * @param [threshold]
+ * @param [maxIteration]
+ * @param [ifReachMax]
+ * @param [factor]
  * @returns {Array} [Hue, Value, Chroma]
  * @see {@link lchabToMhvc}
  */
@@ -220,17 +219,18 @@ export const labToMhvc = (
 
 /**
  * Converts CIELAB to Munsell Color string. Note that the given values are assumed to
- * be under <strong>Illuminant C</strong>.
+ * be under **Illuminant C**. I don't recommend you use this function
+ * if you are not sure what that means.
  * @param lstar
  * @param astar
  * @param bstar
- * @param [digits = 1] - is the number of digits after the decimal
+ * @param [digits] - is the number of digits after the decimal
  * point. Must be non-negative integer. Note that the units digit of the hue
  * prefix is assumed to be already after the decimal point.
- * @param [threshold = 1e-6]
- * @param [maxIteration = 200]
- * @param [ifReachMax = "error"]
- * @param [factor = 0.5]
+ * @param [threshold]
+ * @param [maxIteration]
+ * @param [ifReachMax]
+ * @param [factor]
  * @returns {string} Munsell Color code
  * @see {@link lchabToMhvc}
  */
@@ -255,11 +255,11 @@ export const labToMunsell = (
  * @param X
  * @param Y
  * @param Z
- * @param [illuminant = ILLUMINANT_D65]
- * @param [threshold = 1e-6]
- * @param [maxIteration = 200]
- * @param [ifReachMax = "error"]
- * @param [factor = 0.5]
+ * @param [illuminant]
+ * @param [threshold]
+ * @param [maxIteration]
+ * @param [ifReachMax]
+ * @param [factor]
  * @returns {Array} [Hue, Value, Chroma]
  * @see {@link lchabToMhvc}
  */
@@ -283,19 +283,19 @@ export const xyzToMhvc = (
 };
 
 /**
- * Converts XYZ to Munsell Color string, where Bradford transformation is used
+ * Converts XYZ to Munsell Color string, where the Bradford transformation is used
  * as CAT.
  * @param X
  * @param Y
  * @param Z
- * @param [illuminant = ILLUMINANT_D65]
- * @param [digits = 1] - is the number of digits after the decimal
+ * @param [illuminant]
+ * @param [digits] - is the number of digits after the decimal
  * point. Must be non-negative integer. Note that the units digit of the hue
  * prefix is assumed to be already after the decimal point.
- * @param [threshold = 1e-6]
- * @param [maxIteration = 200]
- * @param [ifReachMax = "error"]
- * @param [factor = 0.5]
+ * @param [threshold]
+ * @param [maxIteration]
+ * @param [ifReachMax]
+ * @param [factor]
  * @returns {string} Munsell Color code
  * @see {@link lchabToMhvc}
  */
@@ -320,13 +320,13 @@ export const xyzToMunsell = (
  * Converts linear RGB to Munsell HVC.
  * @param lr - will be in [0, 1] though any real number is accepted and
  * properly processed as out-of-gamut color.
- * @param lg - -
- * @param lb - -
- * @param [rgbSpace = SRGB]
- * @param [threshold = 1e-6]
- * @param [maxIteration = 200]
- * @param [ifReachMax = "error"]
- * @param [factor = 0.5]
+ * @param lg - ditto.
+ * @param lb - ditto.
+ * @param [rgbSpace]
+ * @param [threshold]
+ * @param [maxIteration]
+ * @param [ifReachMax]
+ * @param [factor]
  * @returns {Array} [Hue, Value, Chroma]
  * @see {@link lchabToMhvc}
  */
@@ -354,16 +354,16 @@ export const linearRgbToMhvc = (
  * Converts linear RGB to Munsell Color string.
  * @param lr - will be in [0, 1] though any real number is accepted and
  * properly processed as out-of-gamut color.
- * @param lg - -
- * @param lb - -
- * @param [rgbSpace = SRGB]
- * @param [digits = 1] - is the number of digits after the decimal
+ * @param lg - ditto.
+ * @param lb - ditto.
+ * @param [rgbSpace]
+ * @param [digits] - is the number of digits after the decimal
  * point. Must be non-negative integer. Note that the units digit of the hue
  * prefix is assumed to be already after the decimal point.
- * @param [threshold = 1e-6]
- * @param [maxIteration = 200]
- * @param [ifReachMax = "error"]
- * @param [factor = 0.5]
+ * @param [threshold]
+ * @param [maxIteration]
+ * @param [ifReachMax]
+ * @param [factor]
  * @returns {string} Munsell Color code
  * @see {@link lchabToMhvc}
  */
@@ -388,13 +388,13 @@ export const linearRgbToMunsell = (
  * Converts gamma-corrected RGB to Munsell HVC.
  * @param r - will be in [0, 1] though any real number is accepted and
  * properly processed as out-of-gamut color.
- * @param g - -
- * @param b - -
- * @param [rgbSpace = SRGB]
- * @param [threshold = 1e-6]
- * @param [maxIteration = 200]
- * @param [ifReachMax = "error"]
- * @param [factor = 0.5]
+ * @param g - ditto.
+ * @param b - ditto.
+ * @param [rgbSpace]
+ * @param [threshold]
+ * @param [maxIteration]
+ * @param [ifReachMax]
+ * @param [factor]
  * @returns {Array} [Hue, Value, Chroma]
  * @see {@link lchabToMhvc}
  */
@@ -422,16 +422,16 @@ export const rgbToMhvc = (
  * Converts gamma-corrected RGB to Munsell Color string.
  * @param r - will be in [0, 1] though any real number is accepted and
  * properly processed as out-of-gamut color.
- * @param g - -
- * @param b - -
- * @param [rgbSpace = SRGB]
- * @param [digits = 1] - is the number of digits after the decimal
+ * @param g - ditto.
+ * @param b - ditto.
+ * @param [rgbSpace]
+ * @param [digits] - is the number of digits after the decimal
  * point. Must be non-negative integer. Note that the units digit of the hue
  * prefix is assumed to be already after the decimal point.
- * @param [threshold = 1e-6]
- * @param [maxIteration = 200]
- * @param [ifReachMax = "error"]
- * @param [factor = 0.5]
+ * @param [threshold]
+ * @param [maxIteration]
+ * @param [ifReachMax]
+ * @param [factor]
  * @returns {string} Munsell Color code
  * @see {@link lchabToMhvc}
  */
@@ -457,23 +457,22 @@ export const rgbToMunsell = (
  * not depends on the parameters though the following behaviours are guaranteed
  * and tested on Node.js:
 
- * <p> If r255, g255, b255 are in {0, 1, ..., 255} and the other optional
- * parameters are default,
+ * If r255, g255, b255 are in {0, 1, ..., 255} and the optional
+ * parameters have default values,
 
- * <ol>
- * <li>rgb255ToMhvc() successfully returns Munsell HVC before maxIteration</li>
- * <li>and the round-trip is invariant: i.e. {@link mhvcToRgb255}(rgb255ToMhvc(r255, g255, b255)) returns [r255, g255, b255].</li>
- * </ol>
+ * 1. rgb255ToMhvc() successfully returns Munsell HVC before maxIteration</li>
+ * 2. and the round-trip is invariant, i.e. {@link mhvcToRgb255}(rgb255ToMhvc(r255, g255, b255))
+ * returns [r255, g255, b255].
 
  * @param r255 - will be in {0, 1, ..., 255} though any integer is
  * accepted and properly processed as out-of-gamut color.
- * @param g255 - -
- * @param b255 - -
- * @param [rgbSpace = SRGB]
- * @param [threshold = 1e-6]
- * @param [maxIteration = 200]
- * @param [ifReachMax = "error"]
- * @param [factor = 0.5]
+ * @param g255 - ditto.
+ * @param b255 - ditto.
+ * @param [rgbSpace]
+ * @param [threshold]
+ * @param [maxIteration]
+ * @param [ifReachMax]
+ * @param [factor]
  * @returns {Array} [Hue, Value, Chroma]
  * @see {@link lchabToMhvc}
  */
@@ -502,22 +501,22 @@ export const rgb255ToMhvc = (
  * succeeds or not depends on the parameters though the following behaviours are
  * guaranteed and tested on Node.js:
 
- * <p> If r255, g255, b255 are in {0, 1, ..., 255} and the other optional
- * parameters are default, rgb255ToMunsell() successfully returns a Munsell
- * Color string before maxIteration.
+ * If `r255`, `g255`, `b255` are in {0, 1, ..., 255} and the optional
+ * parameters except digits have defaultvalues, rgb255ToMunsell() successfully
+ * returns a Munsell Color string before `maxIteration`.
 
  * @param r255 - will be in {0, 1, ..., 255} though any integer is
  * accepted and properly processed as out-of-gamut color.
- * @param g255 - -
- * @param b255 - -
- * @param [rgbSpace = SRGB]
- * @param [digits = 1] - is the number of digits after the decimal
+ * @param g255 - ditto.
+ * @param b255 - ditto.
+ * @param [rgbSpace]
+ * @param [digits] - is the number of digits after the decimal
  * point. Must be non-negative integer. Note that the units digit of the hue
  * prefix is assumed to be already after the decimal point.
- * @param [threshold = 1e-6]
- * @param [maxIteration = 200]
- * @param [ifReachMax = "error"]
- * @param [factor = 0.5]
+ * @param [threshold]
+ * @param [maxIteration]
+ * @param [ifReachMax]
+ * @param [factor]
  * @returns {string} Munsell Color code
  * @see {@link lchabToMhvc}
  */
@@ -543,20 +542,19 @@ export const rgb255ToMunsell = (
  * not depends on the parameters though the following behaviours are guaranteed
  * and tested on Node.js:
 
- * <p> If the optional parameters are default,
+ * If the optional parameters have default values,
 
- * <ol>
- * <li>hexToMhvc() successfully returns Munsell HVC before maxIteration</li>
- * <li>and the round-trip is invariant for 24-bit hex color: i.e. {@link mhvcToHex}(hexToMhvc(hex)) returns the same hex color.</li>
- * </ol>
+ * 1. hexToMhvc() successfully returns Munsell HVC before maxIteration
+ * 2. and the round-trip is invariant for 24-bit hex color, i.e.
+ * {@link mhvcToHex}(hexToMhvc(hex)) returns the same hex color.
 
  * @param hex - may be 24-bit RGB (#XXXXXX), 12-bit RGB (#XXX), 32-bit
  * RGBA, (#XXXXXXXX), or 16-bit RGBA (#XXXX). Alpha channel is ignored.
- * @param [rgbSpace = SRGB]
- * @param [threshold = 1e-6]
- * @param [maxIteration = 200]
- * @param [ifReachMax = "error"]
- * @param [factor = 0.5]
+ * @param [rgbSpace]
+ * @param [threshold]
+ * @param [maxIteration]
+ * @param [ifReachMax]
+ * @param [factor]
  * @returns {Array} [Hue, Value, Chroma]
  * @see {@link lchabToMhvc}
  */
@@ -573,22 +571,22 @@ export const hexToMhvc = (
 
 /**
  * Converts hex color to Munsell Color string. Whether this conversion
- * succeeds or not depends on the parameters though the following behaviours are
+ * succeeds or not depends on the parameters though the following behaviour are
  * guaranteed and tested on Node.js:
 
- * <p> If the other optional parameters are default, hexToMunsell() successfully
- * returns a Munsell Color string before maxIteration.
+ * If the optional parameters except `digits` have default values,
+ * hexToMunsell() successfully returns a Munsell Color string before maxIteration.
 
  * @param hex - may be 24-bit RGB (#XXXXXX), 12-bit RGB (#XXX), 32-bit
  * RGBA, (#XXXXXXXX), or 16-bit RGBA (#XXXX). Alpha channel is ignored.
- * @param [rgbSpace = SRGB]
- * @param [digits = 1] - is the number of digits after the decimal
+ * @param [rgbSpace]
+ * @param [digits] - is the number of digits after the decimal
  * point. Must be non-negative integer. Note that the units digit of the hue
  * prefix is assumed to be already after the decimal point.
- * @param [threshold = 1e-6]
- * @param [maxIteration = 200]
- * @param [ifReachMax = "error"]
- * @param [factor = 0.5]
+ * @param [threshold]
+ * @param [maxIteration]
+ * @param [ifReachMax]
+ * @param [factor]
  * @returns {string} Munsell Color code
  * @see {@link lchabToMhvc}
  */
