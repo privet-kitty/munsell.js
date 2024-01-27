@@ -19,7 +19,7 @@
 <ul class="tsd-signatures">
 <li class="tsd-signature tsd-anchor-link" id="xyzToMunsell"><span class="tsd-kind-call-signature">xyz<wbr/>To<wbr/>Munsell</span><span class="tsd-signature-symbol">(</span><span class="tsd-kind-parameter">X</span>, <span class="tsd-kind-parameter">Y</span>, <span class="tsd-kind-parameter">Z</span>, <span class="tsd-kind-parameter">illuminant</span><span class="tsd-signature-symbol">?</span>, <span class="tsd-kind-parameter">digits</span><span class="tsd-signature-symbol">?</span>, <span class="tsd-kind-parameter">threshold</span><span class="tsd-signature-symbol">?</span>, <span class="tsd-kind-parameter">maxIteration</span><span class="tsd-signature-symbol">?</span>, <span class="tsd-kind-parameter">ifReachMax</span><span class="tsd-signature-symbol">?</span>, <span class="tsd-kind-parameter">factor</span><span class="tsd-signature-symbol">?</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><a href="#xyzToMunsell" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none" id="icon-anchor-a"></path><path d="M10 14a3.5 3.5 0 0 0 5 0l4 -4a3.5 3.5 0 0 0 -5 -5l-.5 .5" id="icon-anchor-b"></path><path d="M14 10a3.5 3.5 0 0 0 -5 0l-4 4a3.5 3.5 0 0 0 5 5l.5 -.5" id="icon-anchor-c"></path></svg></a></li>
 <li class="tsd-description">
-<div class="tsd-comment tsd-typography"><p>Converts XYZ to Munsell Color string, where Bradford transformation is used
+<div class="tsd-comment tsd-typography"><p>Converts XYZ to Munsell Color string, where the Bradford transformation is used
 as CAT.</p>
 
 <h3>See</h3><p><a href="lchabToMhvc.html" class="tsd-kind-function">lchabToMhvc</a></p>
@@ -36,7 +36,11 @@ as CAT.</p>
 <li>
 <h5><code class="tsd-tag ts-flagOptional">Optional</code> <span class="tsd-kind-parameter">illuminant</span>: <a href="../classes/Illuminant.html" class="tsd-signature-type tsd-kind-class">Illuminant</a><span class="tsd-signature-symbol"> = ILLUMINANT_D65</span></h5></li>
 <li>
-<h5><code class="tsd-tag ts-flagOptional">Optional</code> <span class="tsd-kind-parameter">digits</span>: <span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> = 1</span></h5></li>
+<h5><code class="tsd-tag ts-flagOptional">Optional</code> <span class="tsd-kind-parameter">digits</span>: <span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> = 1</span></h5>
+<div class="tsd-comment tsd-typography"><p>is the number of digits after the decimal
+point. Must be non-negative integer. Note that the units digit of the hue
+prefix is assumed to be already after the decimal point.</p>
+</div></li>
 <li>
 <h5><code class="tsd-tag ts-flagOptional">Optional</code> <span class="tsd-kind-parameter">threshold</span>: <span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> = 1e-6</span></h5></li>
 <li>
@@ -48,7 +52,7 @@ as CAT.</p>
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">string</span></h4><p>Munsell Color code</p>
 <aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/privet-kitty/munsell.js/blob/72c2cc3/src/invert.ts#L302">invert.ts:302</a></li></ul></aside></li></ul></section></div>
+<li>Defined in <a href="https://github.com/privet-kitty/munsell.js/blob/e90d9ae/src/invert.ts#L302">invert.ts:302</a></li></ul></aside></li></ul></section></div>
 <div class="col-sidebar">
 <div class="page-menu">
 <div class="tsd-navigation settings">

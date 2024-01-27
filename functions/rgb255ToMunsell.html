@@ -22,9 +22,10 @@
 <div class="tsd-comment tsd-typography"><p>Converts quantized RGB to Munsell Color string. Whether this conversion
 succeeds or not depends on the parameters though the following behaviours are
 guaranteed and tested on Node.js:</p>
-<p> If r255, g255, b255 are in {0, 1, ..., 255} and the other optional
-parameters are default, rgb255ToMunsell() successfully returns a Munsell
-Color string before maxIteration.
+<p>If <code>r255</code>, <code>g255</code>, <code>b255</code> are in {0, 1, ..., 255} and the optional
+parameters except digits have defaultvalues, rgb255ToMunsell() successfully
+returns a Munsell Color string before <code>maxIteration</code>.</p>
+
 <h3>See</h3><p><a href="lchabToMhvc.html" class="tsd-kind-function">lchabToMhvc</a></p>
 </div>
 <div class="tsd-parameters">
@@ -36,13 +37,21 @@ Color string before maxIteration.
 accepted and properly processed as out-of-gamut color.</p>
 </div></li>
 <li>
-<h5><span class="tsd-kind-parameter">g255</span>: <span class="tsd-signature-type">number</span></h5></li>
+<h5><span class="tsd-kind-parameter">g255</span>: <span class="tsd-signature-type">number</span></h5>
+<div class="tsd-comment tsd-typography"><p>ditto.</p>
+</div></li>
 <li>
-<h5><span class="tsd-kind-parameter">b255</span>: <span class="tsd-signature-type">number</span></h5></li>
+<h5><span class="tsd-kind-parameter">b255</span>: <span class="tsd-signature-type">number</span></h5>
+<div class="tsd-comment tsd-typography"><p>ditto.</p>
+</div></li>
 <li>
 <h5><code class="tsd-tag ts-flagOptional">Optional</code> <span class="tsd-kind-parameter">rgbSpace</span>: <a href="../classes/RGBSpace.html" class="tsd-signature-type tsd-kind-class">RGBSpace</a><span class="tsd-signature-symbol"> = SRGB</span></h5></li>
 <li>
-<h5><code class="tsd-tag ts-flagOptional">Optional</code> <span class="tsd-kind-parameter">digits</span>: <span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> = 1</span></h5></li>
+<h5><code class="tsd-tag ts-flagOptional">Optional</code> <span class="tsd-kind-parameter">digits</span>: <span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> = 1</span></h5>
+<div class="tsd-comment tsd-typography"><p>is the number of digits after the decimal
+point. Must be non-negative integer. Note that the units digit of the hue
+prefix is assumed to be already after the decimal point.</p>
+</div></li>
 <li>
 <h5><code class="tsd-tag ts-flagOptional">Optional</code> <span class="tsd-kind-parameter">threshold</span>: <span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> = 1e-6</span></h5></li>
 <li>
@@ -54,7 +63,7 @@ accepted and properly processed as out-of-gamut color.</p>
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">string</span></h4><p>Munsell Color code</p>
 <aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/privet-kitty/munsell.js/blob/72c2cc3/src/invert.ts#L524">invert.ts:524</a></li></ul></aside></li></ul></section></div>
+<li>Defined in <a href="https://github.com/privet-kitty/munsell.js/blob/e90d9ae/src/invert.ts#L523">invert.ts:523</a></li></ul></aside></li></ul></section></div>
 <div class="col-sidebar">
 <div class="page-menu">
 <div class="tsd-navigation settings">

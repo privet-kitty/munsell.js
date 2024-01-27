@@ -22,13 +22,14 @@
 <div class="tsd-comment tsd-typography"><p>Converts quantized RGB to Munsell HVC. Whether this conversion succeeds or
 not depends on the parameters though the following behaviours are guaranteed
 and tested on Node.js:</p>
-<p> If r255, g255, b255 are in {0, 1, ..., 255} and the other optional
-parameters are default,
-
+<p>If r255, g255, b255 are in {0, 1, ..., 255} and the optional
+parameters have default values,</p>
 <ol>
-<li>rgb255ToMhvc() successfully returns Munsell HVC before maxIteration</li>
-<li>and the round-trip is invariant: i.e. <a href="mhvcToRgb255.html" class="tsd-kind-function">mhvcToRgb255</a>(rgb255ToMhvc(r255, g255, b255)) returns [r255, g255, b255].</li>
+<li>rgb255ToMhvc() successfully returns Munsell HVC before maxIteration</li></li>
+<li>and the round-trip is invariant, i.e. <a href="mhvcToRgb255.html" class="tsd-kind-function">mhvcToRgb255</a>(rgb255ToMhvc(r255, g255, b255))
+returns [r255, g255, b255].</li>
 </ol>
+
 <h3>See</h3><p><a href="lchabToMhvc.html" class="tsd-kind-function">lchabToMhvc</a></p>
 </div>
 <div class="tsd-parameters">
@@ -40,9 +41,13 @@ parameters are default,
 accepted and properly processed as out-of-gamut color.</p>
 </div></li>
 <li>
-<h5><span class="tsd-kind-parameter">g255</span>: <span class="tsd-signature-type">number</span></h5></li>
+<h5><span class="tsd-kind-parameter">g255</span>: <span class="tsd-signature-type">number</span></h5>
+<div class="tsd-comment tsd-typography"><p>ditto.</p>
+</div></li>
 <li>
-<h5><span class="tsd-kind-parameter">b255</span>: <span class="tsd-signature-type">number</span></h5></li>
+<h5><span class="tsd-kind-parameter">b255</span>: <span class="tsd-signature-type">number</span></h5>
+<div class="tsd-comment tsd-typography"><p>ditto.</p>
+</div></li>
 <li>
 <h5><code class="tsd-tag ts-flagOptional">Optional</code> <span class="tsd-kind-parameter">rgbSpace</span>: <a href="../classes/RGBSpace.html" class="tsd-signature-type tsd-kind-class">RGBSpace</a><span class="tsd-signature-symbol"> = SRGB</span></h5></li>
 <li>
@@ -56,7 +61,7 @@ accepted and properly processed as out-of-gamut color.</p>
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type ">Vector3</span></h4><p>[Hue, Value, Chroma]</p>
 <aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/privet-kitty/munsell.js/blob/72c2cc3/src/invert.ts#L480">invert.ts:480</a></li></ul></aside></li></ul></section></div>
+<li>Defined in <a href="https://github.com/privet-kitty/munsell.js/blob/e90d9ae/src/invert.ts#L479">invert.ts:479</a></li></ul></aside></li></ul></section></div>
 <div class="col-sidebar">
 <div class="page-menu">
 <div class="tsd-navigation settings">

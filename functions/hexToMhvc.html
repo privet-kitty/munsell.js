@@ -22,12 +22,13 @@
 <div class="tsd-comment tsd-typography"><p>Converts hex color to Munsell HVC. Whether this conversion succeeds or
 not depends on the parameters though the following behaviours are guaranteed
 and tested on Node.js:</p>
-<p> If the optional parameters are default,
-
+<p>If the optional parameters have default values,</p>
 <ol>
 <li>hexToMhvc() successfully returns Munsell HVC before maxIteration</li>
-<li>and the round-trip is invariant for 24-bit hex color: i.e. <a href="mhvcToHex.html" class="tsd-kind-function">mhvcToHex</a>(hexToMhvc(hex)) returns the same hex color.</li>
+<li>and the round-trip is invariant for 24-bit hex color, i.e.
+<a href="mhvcToHex.html" class="tsd-kind-function">mhvcToHex</a>(hexToMhvc(hex)) returns the same hex color.</li>
 </ol>
+
 <h3>See</h3><p><a href="lchabToMhvc.html" class="tsd-kind-function">lchabToMhvc</a></p>
 </div>
 <div class="tsd-parameters">
@@ -51,7 +52,7 @@ RGBA, (#XXXXXXXX), or 16-bit RGBA (#XXXX). Alpha channel is ignored.</p>
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type ">Vector3</span></h4><p>[Hue, Value, Chroma]</p>
 <aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/privet-kitty/munsell.js/blob/72c2cc3/src/invert.ts#L563">invert.ts:563</a></li></ul></aside></li></ul></section></div>
+<li>Defined in <a href="https://github.com/privet-kitty/munsell.js/blob/e90d9ae/src/invert.ts#L561">invert.ts:561</a></li></ul></aside></li></ul></section></div>
 <div class="col-sidebar">
 <div class="page-menu">
 <div class="tsd-navigation settings">
