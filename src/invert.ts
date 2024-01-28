@@ -47,6 +47,13 @@ export const lToMunsellValue = (lstar: number): number => {
   return yToMunsellValue(lToY(lstar));
 };
 
+/**
+ * ProcType specifies the action to be taken when a computation doesn't converge
+ * within the given number of iterations. The following options are available:
+ * - `"error"`: throws Error;
+ * - `"init"`: returns the initial rough approximation.
+ * - `"last"`: returns the last approximation.
+ */
 export type ProcType = 'error' | 'init' | 'last';
 
 const invertMhvcToLchab = (
@@ -111,16 +118,8 @@ const invertMhvcToLchab = (
  * or if V ≦ threshold or when max(ΔH<sub>n</sub>, ΔC<sub>n</sub>) falls
  * below threshold.
 
- * `ifReachMax` specifies the action to be taken when the loop
- * reaches the maxIteration as follows:
-
- * - `"error"`: throws Error;
- * - `"init"`: returns the initial rough approximation.
- * - `"last"`: returns the last approximation.
-
- * Note that the given values are assumed to be under **Illuminant
- * C**. I don't recommend you use this function if you are not sure
- * what that means.
+ * Note that the given values are assumed to be under **Illuminant C**.
+ * I don't recommend you use this function if you are not sure what that means.
  * @param lstar
  * @param cstarab
  * @param hab
@@ -319,7 +318,7 @@ export const xyzToMunsell = (
 /**
  * Converts linear RGB to Munsell HVC.
  * @param lr - will be in [0, 1] though any real number is accepted and
- * properly processed as out-of-gamut color.
+ * properly processed as an out-of-gamut color.
  * @param lg - ditto.
  * @param lb - ditto.
  * @param [rgbSpace]
@@ -353,7 +352,7 @@ export const linearRgbToMhvc = (
 /**
  * Converts linear RGB to Munsell Color string.
  * @param lr - will be in [0, 1] though any real number is accepted and
- * properly processed as out-of-gamut color.
+ * properly processed as an out-of-gamut color.
  * @param lg - ditto.
  * @param lb - ditto.
  * @param [rgbSpace]
@@ -387,7 +386,7 @@ export const linearRgbToMunsell = (
 /**
  * Converts gamma-corrected RGB to Munsell HVC.
  * @param r - will be in [0, 1] though any real number is accepted and
- * properly processed as out-of-gamut color.
+ * properly processed as an out-of-gamut color.
  * @param g - ditto.
  * @param b - ditto.
  * @param [rgbSpace]
@@ -421,7 +420,7 @@ export const rgbToMhvc = (
 /**
  * Converts gamma-corrected RGB to Munsell Color string.
  * @param r - will be in [0, 1] though any real number is accepted and
- * properly processed as out-of-gamut color.
+ * properly processed as an out-of-gamut color.
  * @param g - ditto.
  * @param b - ditto.
  * @param [rgbSpace]
@@ -454,18 +453,18 @@ export const rgbToMunsell = (
 
 /**
  * Converts quantized RGB to Munsell HVC. Whether this conversion succeeds or
- * not depends on the parameters though the following behaviours are guaranteed
+ * not depends on the parameters though the following behavior is guaranteed
  * and tested on Node.js:
 
- * If r255, g255, b255 are in {0, 1, ..., 255} and the optional
+ * If `r255`, `g255`, and `b255` are in {0, 1, ..., 255} and the optional
  * parameters have default values,
 
- * 1. rgb255ToMhvc() successfully returns Munsell HVC before maxIteration</li>
+ * 1. `rgb255ToMhvc()` successfully returns Munsell HVC before maxIteration
  * 2. and the round-trip is invariant, i.e. {@link mhvcToRgb255}(rgb255ToMhvc(r255, g255, b255))
- * returns [r255, g255, b255].
+ * returns `[r255, g255, b255]`.
 
  * @param r255 - will be in {0, 1, ..., 255} though any integer is
- * accepted and properly processed as out-of-gamut color.
+ * accepted and properly processed as an out-of-gamut color.
  * @param g255 - ditto.
  * @param b255 - ditto.
  * @param [rgbSpace]
@@ -498,15 +497,15 @@ export const rgb255ToMhvc = (
 
 /**
  * Converts quantized RGB to Munsell Color string. Whether this conversion
- * succeeds or not depends on the parameters though the following behaviours are
+ * succeeds or not depends on the parameters though the following behaviour is
  * guaranteed and tested on Node.js:
 
  * If `r255`, `g255`, `b255` are in {0, 1, ..., 255} and the optional
- * parameters except digits have defaultvalues, rgb255ToMunsell() successfully
+ * parameters except `digits` have defaultvalues, `rgb255ToMunsell()` successfully
  * returns a Munsell Color string before `maxIteration`.
 
  * @param r255 - will be in {0, 1, ..., 255} though any integer is
- * accepted and properly processed as out-of-gamut color.
+ * accepted and properly processed as an out-of-gamut color.
  * @param g255 - ditto.
  * @param b255 - ditto.
  * @param [rgbSpace]
@@ -539,13 +538,13 @@ export const rgb255ToMunsell = (
 
 /**
  * Converts hex color to Munsell HVC. Whether this conversion succeeds or
- * not depends on the parameters though the following behaviours are guaranteed
+ * not depends on the parameters though the following behaviour is guaranteed
  * and tested on Node.js:
 
  * If the optional parameters have default values,
 
- * 1. hexToMhvc() successfully returns Munsell HVC before maxIteration
- * 2. and the round-trip is invariant for 24-bit hex color, i.e.
+ * 1. `hexToMhvc()` successfully returns Munsell HVC before `maxIteration`
+ * 2. and the round-trip is invariant for 24-bit hex colors, i.e.
  * {@link mhvcToHex}(hexToMhvc(hex)) returns the same hex color.
 
  * @param hex - may be 24-bit RGB (#XXXXXX), 12-bit RGB (#XXX), 32-bit
@@ -571,11 +570,11 @@ export const hexToMhvc = (
 
 /**
  * Converts hex color to Munsell Color string. Whether this conversion
- * succeeds or not depends on the parameters though the following behaviour are
+ * succeeds or not depends on the parameters though the following behavior is
  * guaranteed and tested on Node.js:
 
  * If the optional parameters except `digits` have default values,
- * hexToMunsell() successfully returns a Munsell Color string before maxIteration.
+ * `hexToMunsell()` successfully returns a Munsell Color string before `maxIteration`.
 
  * @param hex - may be 24-bit RGB (#XXXXXX), 12-bit RGB (#XXX), 32-bit
  * RGBA, (#XXXXXXXX), or 16-bit RGBA (#XXXX). Alpha channel is ignored.

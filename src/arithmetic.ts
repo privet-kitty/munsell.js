@@ -40,7 +40,7 @@ export const polarToCartesian = (r: number, theta: number, perimeter = TWO_PI): 
 };
 
 /**
- * Compares the counterclockwise distances between theta1 and x and
+ * Compares the counterclockwise distance between theta1 and x and that
  * between x and theta2, and returns theta1 or theta2 whichever is
  * nearer.
  * @param x - must be in the counterclockwise interval [min, max]
