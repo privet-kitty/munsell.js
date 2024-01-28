@@ -20,10 +20,10 @@
 <li class="tsd-signature tsd-anchor-link" id="rgb255ToMunsell"><span class="tsd-kind-call-signature">rgb255<wbr/>To<wbr/>Munsell</span><span class="tsd-signature-symbol">(</span><span class="tsd-kind-parameter">r255</span>, <span class="tsd-kind-parameter">g255</span>, <span class="tsd-kind-parameter">b255</span>, <span class="tsd-kind-parameter">rgbSpace</span><span class="tsd-signature-symbol">?</span>, <span class="tsd-kind-parameter">digits</span><span class="tsd-signature-symbol">?</span>, <span class="tsd-kind-parameter">threshold</span><span class="tsd-signature-symbol">?</span>, <span class="tsd-kind-parameter">maxIteration</span><span class="tsd-signature-symbol">?</span>, <span class="tsd-kind-parameter">ifReachMax</span><span class="tsd-signature-symbol">?</span>, <span class="tsd-kind-parameter">factor</span><span class="tsd-signature-symbol">?</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><a href="#rgb255ToMunsell" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none" id="icon-anchor-a"></path><path d="M10 14a3.5 3.5 0 0 0 5 0l4 -4a3.5 3.5 0 0 0 -5 -5l-.5 .5" id="icon-anchor-b"></path><path d="M14 10a3.5 3.5 0 0 0 -5 0l-4 4a3.5 3.5 0 0 0 5 5l.5 -.5" id="icon-anchor-c"></path></svg></a></li>
 <li class="tsd-description">
 <div class="tsd-comment tsd-typography"><p>Converts quantized RGB to Munsell Color string. Whether this conversion
-succeeds or not depends on the parameters though the following behaviours are
+succeeds or not depends on the parameters though the following behaviour is
 guaranteed and tested on Node.js:</p>
 <p>If <code>r255</code>, <code>g255</code>, <code>b255</code> are in {0, 1, ..., 255} and the optional
-parameters except digits have defaultvalues, rgb255ToMunsell() successfully
+parameters except <code>digits</code> have defaultvalues, <code>rgb255ToMunsell()</code> successfully
 returns a Munsell Color string before <code>maxIteration</code>.</p>
 
 <h3>See</h3><p><a href="lchabToMhvc.html" class="tsd-kind-function">lchabToMhvc</a></p>
@@ -34,7 +34,7 @@ returns a Munsell Color string before <code>maxIteration</code>.</p>
 <li>
 <h5><span class="tsd-kind-parameter">r255</span>: <span class="tsd-signature-type">number</span></h5>
 <div class="tsd-comment tsd-typography"><p>will be in {0, 1, ..., 255} though any integer is
-accepted and properly processed as out-of-gamut color.</p>
+accepted and properly processed as an out-of-gamut color.</p>
 </div></li>
 <li>
 <h5><span class="tsd-kind-parameter">g255</span>: <span class="tsd-signature-type">number</span></h5>
@@ -63,7 +63,7 @@ prefix is assumed to be already after the decimal point.</p>
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">string</span></h4><p>Munsell Color code</p>
 <aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/privet-kitty/munsell.js/blob/46e43d6/src/invert.ts#L523">invert.ts:523</a></li></ul></aside></li></ul></section></div>
+<li>Defined in <a href="https://github.com/privet-kitty/munsell.js/blob/de57a75/src/invert.ts#L522">invert.ts:522</a></li></ul></aside></li></ul></section></div>
 <div class="col-sidebar">
 <div class="page-menu">
 <div class="tsd-navigation settings">

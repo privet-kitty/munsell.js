@@ -34,16 +34,8 @@ Open-Source Inversion Algorithm for the Munsell Renotation&quot; by Paul Centore
 step. This function returns Munsell HVC values if C<sub>0</sub> ≦ threshold
 or if V ≦ threshold or when max(ΔH<sub>n</sub>, ΔC<sub>n</sub>) falls
 below threshold.</p>
-<p><code>ifReachMax</code> specifies the action to be taken when the loop
-reaches the maxIteration as follows:</p>
-<ul>
-<li><code>&quot;error&quot;</code>: throws Error;</li>
-<li><code>&quot;init&quot;</code>: returns the initial rough approximation.</li>
-<li><code>&quot;last&quot;</code>: returns the last approximation.</li>
-</ul>
-<p>Note that the given values are assumed to be under <strong>Illuminant
-C</strong>. I don&#39;t recommend you use this function if you are not sure
-what that means.</p>
+<p>Note that the given values are assumed to be under <strong>Illuminant C</strong>.
+I don&#39;t recommend you use this function if you are not sure what that means.</p>
 </div>
 <div class="tsd-parameters">
 <h4 class="tsd-parameters-title">Parameters</h4>
@@ -65,7 +57,7 @@ what that means.</p>
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type ">Vector3</span></h4><p>[Hue, Value, Chroma]</p>
 <aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/privet-kitty/munsell.js/blob/46e43d6/src/invert.ts#L133">invert.ts:133</a></li></ul></aside></li></ul></section></div>
+<li>Defined in <a href="https://github.com/privet-kitty/munsell.js/blob/de57a75/src/invert.ts#L132">invert.ts:132</a></li></ul></aside></li></ul></section></div>
 <div class="col-sidebar">
 <div class="page-menu">
 <div class="tsd-navigation settings">

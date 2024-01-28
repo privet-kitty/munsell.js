@@ -20,12 +20,12 @@
 <li class="tsd-signature tsd-anchor-link" id="hexToMhvc"><span class="tsd-kind-call-signature">hex<wbr/>To<wbr/>Mhvc</span><span class="tsd-signature-symbol">(</span><span class="tsd-kind-parameter">hex</span>, <span class="tsd-kind-parameter">rgbSpace</span><span class="tsd-signature-symbol">?</span>, <span class="tsd-kind-parameter">threshold</span><span class="tsd-signature-symbol">?</span>, <span class="tsd-kind-parameter">maxIteration</span><span class="tsd-signature-symbol">?</span>, <span class="tsd-kind-parameter">ifReachMax</span><span class="tsd-signature-symbol">?</span>, <span class="tsd-kind-parameter">factor</span><span class="tsd-signature-symbol">?</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type ">Vector3</span><a href="#hexToMhvc" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none" id="icon-anchor-a"></path><path d="M10 14a3.5 3.5 0 0 0 5 0l4 -4a3.5 3.5 0 0 0 -5 -5l-.5 .5" id="icon-anchor-b"></path><path d="M14 10a3.5 3.5 0 0 0 -5 0l-4 4a3.5 3.5 0 0 0 5 5l.5 -.5" id="icon-anchor-c"></path></svg></a></li>
 <li class="tsd-description">
 <div class="tsd-comment tsd-typography"><p>Converts hex color to Munsell HVC. Whether this conversion succeeds or
-not depends on the parameters though the following behaviours are guaranteed
+not depends on the parameters though the following behaviour is guaranteed
 and tested on Node.js:</p>
 <p>If the optional parameters have default values,</p>
 <ol>
-<li>hexToMhvc() successfully returns Munsell HVC before maxIteration</li>
-<li>and the round-trip is invariant for 24-bit hex color, i.e.
+<li><code>hexToMhvc()</code> successfully returns Munsell HVC before <code>maxIteration</code></li>
+<li>and the round-trip is invariant for 24-bit hex colors, i.e.
 <a href="mhvcToHex.html" class="tsd-kind-function">mhvcToHex</a>(hexToMhvc(hex)) returns the same hex color.</li>
 </ol>
 
@@ -52,7 +52,7 @@ RGBA, (#XXXXXXXX), or 16-bit RGBA (#XXXX). Alpha channel is ignored.</p>
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type ">Vector3</span></h4><p>[Hue, Value, Chroma]</p>
 <aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/privet-kitty/munsell.js/blob/46e43d6/src/invert.ts#L561">invert.ts:561</a></li></ul></aside></li></ul></section></div>
+<li>Defined in <a href="https://github.com/privet-kitty/munsell.js/blob/de57a75/src/invert.ts#L560">invert.ts:560</a></li></ul></aside></li></ul></section></div>
 <div class="col-sidebar">
 <div class="page-menu">
 <div class="tsd-navigation settings">

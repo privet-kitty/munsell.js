@@ -20,14 +20,14 @@
 <li class="tsd-signature tsd-anchor-link" id="rgb255ToMhvc"><span class="tsd-kind-call-signature">rgb255<wbr/>To<wbr/>Mhvc</span><span class="tsd-signature-symbol">(</span><span class="tsd-kind-parameter">r255</span>, <span class="tsd-kind-parameter">g255</span>, <span class="tsd-kind-parameter">b255</span>, <span class="tsd-kind-parameter">rgbSpace</span><span class="tsd-signature-symbol">?</span>, <span class="tsd-kind-parameter">threshold</span><span class="tsd-signature-symbol">?</span>, <span class="tsd-kind-parameter">maxIteration</span><span class="tsd-signature-symbol">?</span>, <span class="tsd-kind-parameter">ifReachMax</span><span class="tsd-signature-symbol">?</span>, <span class="tsd-kind-parameter">factor</span><span class="tsd-signature-symbol">?</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type ">Vector3</span><a href="#rgb255ToMhvc" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none" id="icon-anchor-a"></path><path d="M10 14a3.5 3.5 0 0 0 5 0l4 -4a3.5 3.5 0 0 0 -5 -5l-.5 .5" id="icon-anchor-b"></path><path d="M14 10a3.5 3.5 0 0 0 -5 0l-4 4a3.5 3.5 0 0 0 5 5l.5 -.5" id="icon-anchor-c"></path></svg></a></li>
 <li class="tsd-description">
 <div class="tsd-comment tsd-typography"><p>Converts quantized RGB to Munsell HVC. Whether this conversion succeeds or
-not depends on the parameters though the following behaviours are guaranteed
+not depends on the parameters though the following behavior is guaranteed
 and tested on Node.js:</p>
-<p>If r255, g255, b255 are in {0, 1, ..., 255} and the optional
+<p>If <code>r255</code>, <code>g255</code>, and <code>b255</code> are in {0, 1, ..., 255} and the optional
 parameters have default values,</p>
 <ol>
-<li>rgb255ToMhvc() successfully returns Munsell HVC before maxIteration</li></li>
+<li><code>rgb255ToMhvc()</code> successfully returns Munsell HVC before maxIteration</li>
 <li>and the round-trip is invariant, i.e. <a href="mhvcToRgb255.html" class="tsd-kind-function">mhvcToRgb255</a>(rgb255ToMhvc(r255, g255, b255))
-returns [r255, g255, b255].</li>
+returns <code>[r255, g255, b255]</code>.</li>
 </ol>
 
 <h3>See</h3><p><a href="lchabToMhvc.html" class="tsd-kind-function">lchabToMhvc</a></p>
@@ -38,7 +38,7 @@ returns [r255, g255, b255].</li>
 <li>
 <h5><span class="tsd-kind-parameter">r255</span>: <span class="tsd-signature-type">number</span></h5>
 <div class="tsd-comment tsd-typography"><p>will be in {0, 1, ..., 255} though any integer is
-accepted and properly processed as out-of-gamut color.</p>
+accepted and properly processed as an out-of-gamut color.</p>
 </div></li>
 <li>
 <h5><span class="tsd-kind-parameter">g255</span>: <span class="tsd-signature-type">number</span></h5>
@@ -61,7 +61,7 @@ accepted and properly processed as out-of-gamut color.</p>
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type ">Vector3</span></h4><p>[Hue, Value, Chroma]</p>
 <aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/privet-kitty/munsell.js/blob/46e43d6/src/invert.ts#L479">invert.ts:479</a></li></ul></aside></li></ul></section></div>
+<li>Defined in <a href="https://github.com/privet-kitty/munsell.js/blob/de57a75/src/invert.ts#L478">invert.ts:478</a></li></ul></aside></li></ul></section></div>
 <div class="col-sidebar">
 <div class="page-menu">
 <div class="tsd-navigation settings">
