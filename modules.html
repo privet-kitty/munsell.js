@@ -39,10 +39,10 @@ accepted. An ugly specification like <code>&quot;2e-02RP .9/0xf&quot;</code> (eq
 <code>&quot;0.02RP 0.9/15&quot;</code>) will be also available. However, the capital letters
 A-Z and the slash &#39;/&#39; are reserved.</p>
 <a id="md:other-color-spaces" class="tsd-anchor"></a><h2><a href="#md:other-color-spaces">Other color spaces</a></h2><ul>
-<li><code>hex</code> is the hex string expression of the gamma-corrected RGB, e.g. <code>#ff0000</code>.<ul>
-<li>The output of the converters is always the 24-bit RGB.</li>
-<li>The input may be 24-bit RGB (#rrggbb), 12-bit RGB (#rgb), 32-bit RGBA (#rrggbbaa), or 16-bit RGBA (#rgba).</li>
-<li>The converters will ignore the alpha channel even when it is given.</li>
+<li><code>hex</code> is the hex string expression of the gamma-corrected RGB, e.g. <code>##f2f4f8</code>.<ul>
+<li>The output of the converters <code>xxxToHex</code> is always the 24-bit RGB.</li>
+<li>The input of the converters <code>hexToYyy</code> may be 24-bit RGB (#rrggbb), 12-bit RGB (#rgb), 32-bit RGBA (#rrggbbaa), or 16-bit RGBA (#rgba).</li>
+<li>The converters will ignore the alpha channel if it is given.</li>
 </ul>
 </li>
 <li><code>rgb255</code> is the 3-integer expression of the gamma-corrected RGB, quantized to 0, 1, ..., 255.</li>
@@ -52,6 +52,15 @@ A-Z and the slash &#39;/&#39; are reserved.</p>
 <li><code>lab</code> is the 3-number expression of the CIE 1976 L*a*b* color space.</li>
 <li><code>lchab</code> is the 3-number expression of the CIE 1976 L*C*h(ab) color space.</li>
 </ul>
+<a id="md:mechanism" class="tsd-anchor"></a><h2><a href="#md:mechanism">Mechanism</a></h2><p>The underlying data of this library is the <a href="https://www.rit.edu/cos/colorscience/rc_munsell_renotation.php">Munsell Renotation Data</a>.
+Since this data assume that the illuminant is the standard illuminant C,
+munsell.js uses the Bradford transformation as CAT to other illumnants (e.g. D65).</p>
+<p>munsell.js inter- and extrapolates the above data via LCHab space, the method of which is
+in common with <a href="https://github.com/privet-kitty/dufy">dufy</a>, my colorimetry library for
+Common Lisp. The inversion method from LCHab to Munsell Color is essentially the same as
+the one suggested by Paul Centore. Please see the links and articles for more information.</p>
+<p>Centore, Paul. (2012). An open-source inversion algorithm for the Munsell renotation.
+Color Research &amp; Application. 37. 10.1002/col.20715.</p>
 </div></section>
 <section class="tsd-panel-group tsd-index-group">
 <section class="tsd-panel tsd-index-panel">
@@ -134,7 +143,8 @@ A-Z and the slash &#39;/&#39; are reserved.</p>
 <li>
 <ul>
 <li><a href="#md:data-structure-for-munsell-color"><span>Data structure for <wbr/>Munsell <wbr/>Color</span></a></li>
-<li><a href="#md:other-color-spaces"><span>Other color spaces</span></a></li></ul></li></ul></li></ul></div></details></div>
+<li><a href="#md:other-color-spaces"><span>Other color spaces</span></a></li>
+<li><a href="#md:mechanism"><span>Mechanism</span></a></li></ul></li></ul></li></ul></div></details></div>
 <div class="site-menu">
 <nav class="tsd-navigation"><a href="modules.html" class="current"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><rect fill="var(--color-icon-background)" stroke="var(--color-ts-namespace)" stroke-width="1.5" x="1" y="1" width="22" height="22" rx="6" id="icon-4-path"></rect><path d="M9.33 16V7.24H10.77L13.446 14.74C13.43 14.54 13.41 14.296 13.386 14.008C13.37 13.712 13.354 13.404 13.338 13.084C13.33 12.756 13.326 12.448 13.326 12.16V7.24H14.37V16H12.93L10.266 8.5C10.282 8.692 10.298 8.936 10.314 9.232C10.33 9.52 10.342 9.828 10.35 10.156C10.366 10.476 10.374 10.784 10.374 11.08V16H9.33Z" fill="var(--color-text)" id="icon-4-text"></path></svg><span>munsell</span></a>
 <ul class="tsd-small-nested-navigation">
