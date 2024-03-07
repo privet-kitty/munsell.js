@@ -13,20 +13,45 @@
 <div class="tsd-page-title">
 <h2>munsell</h2></div>
 <section class="tsd-panel tsd-comment">
-<div class="tsd-comment tsd-typography"><a id="md:data-structure-for-munsell-color" class="tsd-anchor"></a><h2><a href="#md:data-structure-for-munsell-color">Data structure for Munsell Color</a></h2><p><code>mhvc</code>, or Munsell HVC, is a 3-number expression of Munsell
+<div class="tsd-comment tsd-typography"><a id="md:naming-convention" class="tsd-anchor"></a><h2><a href="#md:naming-convention">Naming convention</a></h2><p>Every converter is named as <code>xxxToYyy</code> where <code>xxx</code> and <code>yyy</code> are the names of color spaces,
+e.g. <code>munsellToHex</code>. Please see the following sections for the names of color spaces.</p>
+<a id="md:data-structure-for-munsell-color" class="tsd-anchor"></a><h2><a href="#md:data-structure-for-munsell-color">Data structure for Munsell Color</a></h2><p><code>mhvc</code>, or Munsell HVC, is a 3-number expression of Munsell
 Color composed of [Hue, Value, Chroma]: e.g. <code>[94.2, 3.5, 11]</code> or
-<code>[0, 10 ,0]</code>. Hue is in the circle group R/100Z, e.g. the value of 0R (=
-10RP) is 0 (= 100 = 300 = -2000) and that of 2YR is 12 (= -88
-= 412). Value is in the interval [0, 10] and the converters will clamp it if
-a given value exceeds it. Chroma is non-negative and the converters will
-assume it to be zero if a given chroma is negative. Note that every converter
-accepts a huge chroma outside the Munsell Renotation Data (e.g. 1000000) and
-returns a extrapolated result.</p>
+<code>[0, 10 ,0]</code>. The range of each number is as follows:</p>
+<ul>
+<li><em>Hue</em> is in the circle group R/100Z.<ul>
+<li>e.g. the number of 0R (= 10RP) is 0 (= 100 = 300 = -2000) and that of 2YR is 12 (= -88 = 412).</li>
+</ul>
+</li>
+<li><em>Value</em> is in the range [0, 10].<ul>
+<li>The converters will clamp it if a given value exceeds this range.</li>
+</ul>
+</li>
+<li><em>Chroma</em> is a non-negative number.<ul>
+<li>The converters will assume it to be zero if a given chroma is negative.</li>
+<li>Note that every converter accepts a huge chroma outside the Munsell Renotation Data (e.g. 1000000) and returns a extrapolated result.</li>
+</ul>
+</li>
+</ul>
 <p><code>munsell</code> is the standard string specification of the Munsell Color:
 e.g. <code>&quot;4.2RP 3.5/11&quot;</code> or <code>&quot;N 10&quot;</code>. Here various notations of numbers are
 accepted. An ugly specification like <code>&quot;2e-02RP .9/0xf&quot;</code> (equivalent to
 <code>&quot;0.02RP 0.9/15&quot;</code>) will be also available. However, the capital letters
 A-Z and the slash &#39;/&#39; are reserved.</p>
+<a id="md:other-color-spaces" class="tsd-anchor"></a><h2><a href="#md:other-color-spaces">Other color spaces</a></h2><ul>
+<li><code>hex</code> is the hex string expression of the gamma-corrected RGB, e.g. <code>#ff0000</code>.<ul>
+<li>The output of the converters is always the 24-bit RGB.</li>
+<li>The input may be 24-bit RGB (#rrggbb), 12-bit RGB (#rgb), 32-bit RGBA (#rrggbbaa), or 16-bit RGBA (#rgba).</li>
+<li>The converters will ignore the alpha channel even when it is given.</li>
+</ul>
+</li>
+<li><code>rgb255</code> is the 3-integer expression of the gamma-corrected RGB, quantized to 0, 1, ..., 255.</li>
+<li><code>rgb</code> is the 3-number expression of the gamma-corrected RGB, normalized to the range [0, 1].</li>
+<li><code>linearRgb</code> is the 3-number expression of the linear RGB, normalized to the range [0, 1].</li>
+<li><code>xyz</code> is the 3-number expression of the CIE 1931 XYZ color space.</li>
+<li><code>lab</code> is the 3-number expression of the CIE 1976 L*a*b* color space.</li>
+<li><code>lchab</code> is the 3-number expression of the CIE 1976 L*C*h(ab) color space.</li>
+</ul>
 </div></section>
 <section class="tsd-panel-group tsd-index-group">
 <section class="tsd-panel tsd-index-panel">
@@ -105,7 +130,11 @@ A-Z and the slash &#39;/&#39; are reserved.</p>
 <ul>
 <li>
 <ul>
-<li><a href="#md:data-structure-for-munsell-color"><span>Data structure for <wbr/>Munsell <wbr/>Color</span></a></li></ul></li></ul></div></details></div>
+<li><a href="#md:naming-convention"><span>Naming convention</span></a></li>
+<li>
+<ul>
+<li><a href="#md:data-structure-for-munsell-color"><span>Data structure for <wbr/>Munsell <wbr/>Color</span></a></li>
+<li><a href="#md:other-color-spaces"><span>Other color spaces</span></a></li></ul></li></ul></li></ul></div></details></div>
 <div class="site-menu">
 <nav class="tsd-navigation"><a href="modules.html" class="current"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><rect fill="var(--color-icon-background)" stroke="var(--color-ts-namespace)" stroke-width="1.5" x="1" y="1" width="22" height="22" rx="6" id="icon-4-path"></rect><path d="M9.33 16V7.24H10.77L13.446 14.74C13.43 14.54 13.41 14.296 13.386 14.008C13.37 13.712 13.354 13.404 13.338 13.084C13.33 12.756 13.326 12.448 13.326 12.16V7.24H14.37V16H12.93L10.266 8.5C10.282 8.692 10.298 8.936 10.314 9.232C10.33 9.52 10.342 9.828 10.35 10.156C10.366 10.476 10.374 10.784 10.374 11.08V16H9.33Z" fill="var(--color-text)" id="icon-4-text"></path></svg><span>munsell</span></a>
 <ul class="tsd-small-nested-navigation">
