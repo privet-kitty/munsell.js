@@ -1,11 +1,11 @@
-# munsell.js - library for handling Munsell Color System
+# munsell.js - A Library for Handling the Munsell Color System
 
 [![Build Status](https://github.com/privet-kitty/munsell.js/actions/workflows/ci-master.yml/badge.svg)](https://github.com/privet-kitty/munsell.js/actions)
 [![Coverage Status](https://coveralls.io/repos/github/privet-kitty/munsell.js/badge.svg?branch=master)](https://coveralls.io/github/privet-kitty/munsell.js?branch=master)
 
-munsell.js is a library for JavaScript and Node.js, whose main facility is converting Munsell Color to/from other color spaces (e.g. RGB).
+munsell.js is a JavaScript library primarily focused on converting colors between the Munsell Color System and other color spaces (e.g., RGB).
 
-_[API Reference](https://privet-kitty.github.io/munsell.js/modules.html) provides the details beyond this README file._
+_[API Reference](https://privet-kitty.github.io/munsell.js/modules.html) provides the detailed information beyond this README._
 
 ## Getting started
 
@@ -37,14 +37,14 @@ munsell.hexToMhvc('#ABCDEF');
 
 ## Mechanism
 
-munsell.js expresses the Munsell Color in two ways, a string or triplet of numbers, which can be identified by the name of method. The former is `munsell`, the standard string specification of the Munsell Color: e.g. `"4.2RP 3/11"`, `"N 10"`. The latter is `mhvc`, or Munsell HVC, its 3-number expression composed of [Hue, Value, Chroma]: e.g. `[94.2, 3, 11]`, `[0, 10 ,0]`.
+munsell.js represents Munsell colors in two formats: as strings or as triplets of numbers. These formats can be recognized by the function name used. The string format, `munsell`, follows the standard string specification of Munsell colors, e.g., `"4.2RP 3/11"`, `"N 10"`. The triplet format, `mhvc` (Munsell Hue, Value, Chroma), expresses colors as three numbers: e.g., `[94.2, 3, 11]`, `[0, 10, 0]`.
 
-The underlying data of this library is the [Munsell Renotation Data](https://www.rit.edu/cos/colorscience/rc_munsell_renotation.php). Since this data assume the illuminant to be the Standard Illuminant C, munsell.js uses the Bradford transformation as CAT to other illumnants (e.g. D65).
+The foundation of this library is the [Munsell Renotation Data](https://www.rit.edu/cos/colorscience/rc_munsell_renotation.php), which assumes the standard illuminant C as the light source. munsell.js employs the Bradford transformation for chromatic adaptation to other illuminants (e.g., D65).
 
-munsell.js inter- and extrapolates the data via LCHab space, the method of which is in common with [dufy](https://github.com/privet-kitty/dufy), my color library for Common Lisp. The inversion from LCHab to Munsell Color is based on the method suggested by Paul Centore. See the links and articles for more information.
+munsell.js inter- and extrapolates the data via LCHab space, the method of which is in common with [dufy](https://github.com/privet-kitty/dufy), my color library for Common Lisp. The inversion from LCHab to Munsell colors is based on a method proposed by Paul Centore. For more information, refer to the following article.
 
 - Centore, Paul. (2012). An open-source inversion algorithm for the Munsell renotation. Color Research & Application. 37. 10.1002/col.20715.
 
 ## Copyright
 
-Copyright (c) 2018-2021 Hugo Sansaqua.
+Copyright (c) 2018-2024 Hugo Sansaqua.
