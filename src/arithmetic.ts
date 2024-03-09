@@ -11,7 +11,7 @@ export type Vector2 = [number, number];
 export type Vector3 = [number, number, number];
 export type Matrix33 = [Vector3, Vector3, Vector3];
 
-export const TWO_PI = Math.PI + Math.PI;
+export const TWO_PI = Math.PI * 2;
 
 export const mod = (dividend: number, divisor: number): number => {
   const x = dividend % divisor;
@@ -40,76 +40,30 @@ export const polarToCartesian = (r: number, theta: number, perimeter = TWO_PI): 
 };
 
 /**
- * Compares the counterclockwise distance between theta1 and x and that
- * between x and theta2, and returns theta1 or theta2 whichever is
- * nearer.
- * @param x - must be in the counterclockwise interval [min, max]
- * @param theta1
- * @param theta2
- * @param [perimeter]
- */
-export const circularNearer = (
-  x: number,
-  theta1: number,
-  theta2: number,
-  perimeter = TWO_PI,
-): number => {
-  if (mod(x - theta1, perimeter) <= mod(theta2 - x, perimeter)) {
-    return theta1;
-  } else {
-    return theta2;
-  }
-};
-
-/**
- * Is a clamp function in a circle group. If x is not in the
- * (counterclockwise) closed interval [min, max], circularClamp returns
- * min or max whichever is nearer to x.
- * @param x
- * @param min
- * @param max
- * @param [perimeter]
- */
-export const circularClamp = (x: number, min: number, max: number, perimeter = TWO_PI): number => {
-  const xMod = mod(x, perimeter);
-  const minMod = mod(min, perimeter);
-  const maxMod = mod(max, perimeter);
-  if (isNaN(xMod) || isNaN(minMod) || isNaN(maxMod)) {
-    return NaN;
-  }
-  if (minMod <= maxMod) {
-    if (minMod <= xMod && xMod <= maxMod) {
-      return x;
-    } else {
-      // minMod <= maxMod < xMod or xMod < minMod <= maxMod.
-      return circularNearer(x, max, min);
-    }
-  } else {
-    if (xMod <= maxMod || minMod <= xMod) {
-      return x; // xMod <= maxMod < minMod or maxMod < minMod <= xMod
-    } else {
-      return circularNearer(x, max, min); // maxMod < xMod < minMod
-    }
-  }
-};
-
-/**
  * Is a counterclockwise linear interpolation from theta1 to theta2 in a
  * circle group. It is guaranteed that the returned value is within the
- * given interval from theta1 to theta2 if coef is in [0, 1].
- * @param coef - should be in [0, 1]
+ * given interval if amount is in [0, 1].
+ * @param amount - should be in [0, 1]
  * @param theta1
  * @param theta2
  * @param [perimeter]
  */
 export const circularLerp = (
-  coef: number,
+  amount: number,
   theta1: number,
   theta2: number,
   perimeter = TWO_PI,
 ): number => {
-  const arcLength = mod(theta2 - theta1, perimeter);
-  return circularClamp(theta1 + arcLength * coef, theta1, theta2, perimeter);
+  const theta1Mod = mod(theta1, perimeter);
+  const theta2Mod = mod(theta2, perimeter);
+  if (amount === 1) return theta2Mod; // special treatment to avoid computational error
+  const res =
+    theta1Mod * (1 - amount) + (theta1Mod > theta2Mod ? theta2Mod + perimeter : theta2Mod) * amount;
+  if (res >= perimeter) {
+    return Math.min(res - perimeter, theta2Mod);
+  } else {
+    return res;
+  }
 };
 
 /**

@@ -3,8 +3,6 @@ import {
   TWO_PI,
   cartesianToPolar,
   polarToCartesian,
-  circularNearer,
-  circularClamp,
   circularLerp,
   circularDelta,
   Vector2,
@@ -35,41 +33,39 @@ describe('cartesian <-> polar', () => {
       [3.9e10, 3.9e-10],
       [0, 0],
     ] as Array<Vector2>) {
-      expect(polarToCartesian(...cartesianToPolar(...ab, 100), 100)).toNearlyEqual(ab, 10);
+      expect(polarToCartesian(...cartesianToPolar(...ab, 100), 100)).toNearlyEqual(ab, 8);
     }
   });
 });
 
-describe('circularNearer()', () => {
-  test('basic behaviours', () => {
-    expect(circularNearer(6.2, 4.2, 1)).toBe(1);
-    expect(circularNearer(-0.5, 358, 10, 360)).toBe(358);
-  });
-});
-
-describe('circularClamp()', () => {
-  test('zero perimeter case', () => {
-    expect(circularClamp(2, 1, 3, 0)).toBeNaN();
-  });
-  test('basic behaviours', () => {
-    expect(circularClamp(50, 0, 0)).toBe(0);
-    expect(circularClamp(-3, 350, 10, 360)).toBe(-3);
-    expect(circularClamp(-11, 350, 10, 360)).toBe(350);
-    expect(circularClamp(30, 350, 10, 360)).toBe(10);
-  });
-});
-
 describe('circularLerp()', () => {
-  test('basic behaviours', () => {
-    expect(circularLerp(1, 0.2, 1)).toBe(1);
-    expect(circularLerp(0.4, 350, 10, 360)).toBeCloseTo(358, 10);
+  test('non-wrapped case', () => {
+    expect(circularLerp(0.4, 10, 30, 360)).toBe(18);
+    expect(circularLerp(0.6, 10, 30, 360)).toBe(22);
+  });
+  test('wrapped case', () => {
+    expect(circularLerp(0.4, 350, 10, 360)).toBe(358);
+    expect(circularLerp(0.6, 350, 10, 360)).toBe(2);
+  });
+  test('theta1 == theta2', () => {
+    expect(circularLerp(0.5, 0, 0)).toBe(0);
+    expect(circularLerp(0.6, 0.12, 0.12)).toBe(0.12);
+    expect(circularLerp(0, 0.123, 0.123)).toBe(0.123);
+  });
+  test('should return theta2 when amount is 1', () => {
+    expect(circularLerp(1, 0.1, 1.2)).toBe(1.2);
+    expect(circularLerp(1, 0.12, 0.1)).toBe(0.1);
+  });
+  test('should return theta1 when amount is 0', () => {
+    expect(circularLerp(0, 0.1, 1.2)).toBe(0.1);
+    expect(circularLerp(0, 0.12, 0.1)).toBe(0.12);
   });
 });
 
 describe('circularDelta()', () => {
   test('basic behaviours', () => {
-    expect(circularDelta(13, 6)).toBeCloseTo(7 - TWO_PI, 10);
-    expect(circularDelta(4, 6)).toBeCloseTo(-2, 10);
-    expect(circularDelta(1, 350, 360)).toBeCloseTo(11, 10);
+    expect(circularDelta(13, 6)).toBe(7 - TWO_PI);
+    expect(circularDelta(4, 6)).toBe(-2);
+    expect(circularDelta(1, 350, 360)).toBe(11);
   });
 });
