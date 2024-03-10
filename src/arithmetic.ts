@@ -23,9 +23,7 @@ export const mod = (dividend: number, divisor: number): number => {
 };
 
 export const clamp = (x: number, min: number, max: number): number => {
-  if (x < min) return min;
-  else if (x > max) return max;
-  return x;
+  return Math.min(Math.max(x, min), max);
 };
 
 export const cartesianToPolar = (x: number, y: number, perimeter = TWO_PI): Vector2 => {
