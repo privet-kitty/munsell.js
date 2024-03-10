@@ -30,7 +30,7 @@ export const clamp = (x: number, min: number, max: number): number => {
 
 export const cartesianToPolar = (x: number, y: number, perimeter = TWO_PI): Vector2 => {
   const factor = perimeter / TWO_PI;
-  return [Math.sqrt(x * x + y * y), mod(Math.atan2(y, x) * factor, 360)];
+  return [Math.sqrt(x * x + y * y), mod(Math.atan2(y, x) * factor, perimeter)];
 };
 
 export const polarToCartesian = (r: number, theta: number, perimeter = TWO_PI): Vector2 => {
@@ -56,7 +56,7 @@ export const circularLerp = (
 ): number => {
   const theta1Mod = mod(theta1, perimeter);
   const theta2Mod = mod(theta2, perimeter);
-  if (amount === 1) return theta2Mod; // special treatment to avoid computational error
+  if (amount === 1) return theta2Mod; // special treatment to decrease computational error
   const res =
     theta1Mod * (1 - amount) + (theta1Mod > theta2Mod ? theta2Mod + perimeter : theta2Mod) * amount;
   if (res >= perimeter) {

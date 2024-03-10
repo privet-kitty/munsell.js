@@ -21,19 +21,25 @@ describe('mod()', () => {
   });
 });
 
-describe('cartesian <-> polar', () => {
+describe('cartesian - polar', () => {
   test('boundary case', () => {
     expect(polarToCartesian(1, TWO_PI)).toNearlyEqual([1, 0], 10);
     expect(polarToCartesian(2, -90, 360)).toNearlyEqual([0, -2], 10);
     expect(cartesianToPolar(1, 0)).toNearlyEqual([1, 0], 10);
   });
   test('round-trip', () => {
-    for (const ab of [
-      [-3, 4],
-      [3.9e10, 3.9e-10],
-      [0, 0],
-    ] as Array<Vector2>) {
-      expect(polarToCartesian(...cartesianToPolar(...ab, 100), 100)).toNearlyEqual(ab, 8);
+    for (const perimeter of [TWO_PI, 360, 100, 1, 1000] as Array<number>) {
+      for (const [a, b] of [
+        [-3, 4],
+        [3.9e10, 3.9e-10],
+        [0, 0],
+        [-1, 1],
+      ] as Array<Vector2>) {
+        expect(polarToCartesian(...cartesianToPolar(a, b, perimeter), perimeter)).toNearlyEqual(
+          [a, b],
+          8,
+        );
+      }
     }
   });
 });
@@ -55,10 +61,14 @@ describe('circularLerp()', () => {
   test('should return theta2 when amount is 1', () => {
     expect(circularLerp(1, 0.1, 1.2)).toBe(1.2);
     expect(circularLerp(1, 0.12, 0.1)).toBe(0.1);
+    expect(circularLerp(1, 0.1, 1.2, 0.03)).toBe(mod(0.12, 0.03));
+    expect(circularLerp(1, 0.12, 0.1, 0.03)).toBe(mod(0.1, 0.03));
   });
   test('should return theta1 when amount is 0', () => {
     expect(circularLerp(0, 0.1, 1.2)).toBe(0.1);
     expect(circularLerp(0, 0.12, 0.1)).toBe(0.12);
+    expect(circularLerp(0, 0.1, 1.2, 0.03)).toBe(mod(0.1, 0.03));
+    expect(circularLerp(0, 0.12, 0.1, 0.03)).toBe(mod(0.12, 0.03));
   });
 });
 
