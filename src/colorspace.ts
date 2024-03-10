@@ -2,7 +2,7 @@ import {
   polarToCartesian,
   cartesianToPolar,
   multMatrixVector,
-  clamp,
+  clamp as _clamp,
   Vector3,
   Matrix33,
 } from './arithmetic';
@@ -207,7 +207,7 @@ export const rgbToLinearRgb = (r: number, g: number, b: number, rgbSpace = SRGB)
 
 export const rgbToRgb255 = (r: number, g: number, b: number, clamp = true): Vector3 => {
   if (clamp) {
-    return [r, g, b].map((x) => Math.max(Math.min(Math.round(x * 255), 255), 0)) as Vector3;
+    return [r, g, b].map((x) => _clamp(Math.round(x * 255), 0, 255)) as Vector3;
   } else {
     return [r, g, b].map((x) => Math.round(x * 255)) as Vector3;
   }
@@ -218,28 +218,25 @@ export const rgb255ToRgb = (r255: number, g255: number, b255: number): Vector3 =
 };
 
 export const rgbToHex = (r: number, g: number, b: number): string => {
-  return '#'.concat(
-    [r, g, b]
-      .map((x) => {
-        const hex = clamp(Math.round(x * 255), 0, 255).toString(16);
-        return hex.length === 1 ? `0${hex}` : hex;
-      })
-      .join(''),
-  );
+  const toHex = (x: number) =>
+    Math.round(_clamp(x, 0, 1) * 255)
+      .toString(16)
+      .padStart(2, '0');
+  return `#${toHex(r)}${toHex(g)}${toHex(b)}`;
 };
 
 export const hexToRgb = (hex: string): Vector3 => {
-  const num = parseInt(hex.slice(1), 16);
-  const length = hex.length;
-  switch (length) {
+  switch (hex.length) {
     case 7: // #XXXXXX
-      return [num >> 16, num >> 8, num].map((x) => (x & 0xff) / 255) as Vector3;
-    case 4: // #XXX
-      return [num >> 8, num >> 4, num].map((x) => (x & 0xf) / 15) as Vector3;
     case 9: // #XXXXXXXX
-      return [num >> 24, num >> 16, num >> 8].map((x) => (x & 0xff) / 255) as Vector3;
+      return [
+        parseInt(hex.slice(1, 3), 16) / 255,
+        parseInt(hex.slice(3, 5), 16) / 255,
+        parseInt(hex.slice(5, 7), 16) / 255,
+      ];
+    case 4: // #XXX
     case 5: // #XXXX
-      return [num >> 12, num >> 8, num >> 4].map((x) => (x & 0xf) / 15) as Vector3;
+      return [parseInt(hex[1], 16) / 15, parseInt(hex[2], 16) / 15, parseInt(hex[3], 16) / 15];
     default:
       throw SyntaxError(`The length of hex color is invalid: ${hex}`);
   }

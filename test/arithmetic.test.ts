@@ -21,7 +21,7 @@ describe('mod()', () => {
   });
 });
 
-describe('cartesian - polar', () => {
+describe('cartesian <-> polar', () => {
   test('boundary case', () => {
     expect(polarToCartesian(1, TWO_PI)).toNearlyEqual([1, 0], 10);
     expect(polarToCartesian(2, -90, 360)).toNearlyEqual([0, -2], 10);
