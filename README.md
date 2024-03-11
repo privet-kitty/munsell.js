@@ -15,7 +15,7 @@ _[API Reference](https://privet-kitty.github.io/munsell.js/modules.html) provide
 $ npm install munsell
 ```
 
-### Load
+### Import
 
 #### ES module
 
@@ -44,6 +44,11 @@ The foundation of this library is the [Munsell Renotation Data](https://www.rit.
 munsell.js inter- and extrapolates the data via LCHab space, the method of which is in common with [dufy](https://github.com/privet-kitty/dufy), my color library for Common Lisp. The inversion from LCHab to Munsell colors is based on a method proposed by Paul Centore. For more information, refer to the following article.
 
 - Centore, Paul. (2012). An open-source inversion algorithm for the Munsell renotation. Color Research & Application. 37. 10.1002/col.20715.
+
+## Example
+
+https://privet-kitty.github.io/albert/
+This is a simple web app that uses munsell.js. It is a training tool to guess the Munsell code of a displayed color.
 
 ## Copyright
 
