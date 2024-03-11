@@ -470,11 +470,14 @@ export const mhvcToMunsell = (
   const canonicalHue100 = mod(hue100, 100);
   const huePrefix = canonicalHue100 % 10;
   const hueNumber = Math.round((canonicalHue100 - huePrefix) / 10);
-  // If the hue prefix is 0, 10 is used instead with the previous hue name.
+  // If the hue prefix is 0, we use 10 with the previous hue name instead, which is a
+  // common practice in the Munsell system.
+  const hueDigits = Math.max(digits - 1, 0);
+  const fixedHuePrefix = huePrefix.toFixed(hueDigits);
   const hueStr =
-    huePrefix === 0
-      ? Number(10).toFixed(Math.max(digits - 1, 0)) + hueNames[mod(hueNumber - 1, 10)]
-      : huePrefix.toFixed(Math.max(digits - 1, 0)) + hueNames[hueNumber];
+    parseFloat(fixedHuePrefix) === 0
+      ? Number(10).toFixed(hueDigits) + hueNames[mod(hueNumber - 1, 10)]
+      : huePrefix.toFixed(hueDigits) + hueNames[hueNumber];
   const chromaStr = chroma.toFixed(digits);
   const valueStr = value.toFixed(digits);
   if (parseFloat(chromaStr) === 0) {

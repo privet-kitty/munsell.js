@@ -53,7 +53,11 @@ describe('mhvcToMunsell()', () => {
     expect(mhvcToMunsell(1.234, 2.1166, 11.255, 3)).toBe('1.23R 2.117/11.255');
   });
   test('not 0 but 10 is used as hue prefix', () => {
+    expect(mhvcToMunsell(98.9, 2, 3)).toBe('9RP 2.0/3.0');
+    expect(mhvcToMunsell(99.9, 2, 3)).toBe('10RP 2.0/3.0');
     expect(mhvcToMunsell(100, 2, 3)).toBe('10RP 2.0/3.0');
+    expect(mhvcToMunsell(100.0001, 2, 3)).toBe('10RP 2.0/3.0');
+    expect(mhvcToMunsell(100.9, 2, 3)).toBe('1R 2.0/3.0');
   });
   test('hue outside [0, 100]', () => {
     expect(mhvcToMunsell(-1089, 100, 1000)).toBe('1YR 100.0/1000.0');
