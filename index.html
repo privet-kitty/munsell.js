@@ -18,7 +18,7 @@
 <p><em><a href="https://privet-kitty.github.io/munsell.js/modules.html">API Reference</a> provides the detailed information beyond this README.</em></p>
 <a id="md:getting-started" class="tsd-anchor"></a><h2><a href="#md:getting-started">Getting started</a></h2><a id="md:install" class="tsd-anchor"></a><h3><a href="#md:install">Install</a></h3><pre><code><span class="hl-0">$</span><span class="hl-1"> </span><span class="hl-0">npm</span><span class="hl-1"> </span><span class="hl-0">install</span><span class="hl-1"> </span><span class="hl-0">munsell</span>
 </code><button>Copy</button></pre>
-<a id="md:load" class="tsd-anchor"></a><h3><a href="#md:load">Load</a></h3><a id="md:es-module" class="tsd-anchor"></a><h4><a href="#md:es-module">ES module</a></h4><pre><code class="language-javascript"><span class="hl-2">import</span><span class="hl-1"> </span><span class="hl-3">*</span><span class="hl-1"> </span><span class="hl-2">as</span><span class="hl-1"> </span><span class="hl-0">munsell</span><span class="hl-1"> </span><span class="hl-2">from</span><span class="hl-1"> </span><span class="hl-4">&#39;munsell&#39;</span><span class="hl-1">;</span><br/><br/><span class="hl-0">munsell</span><span class="hl-1">.</span><span class="hl-5">munsellToRgb255</span><span class="hl-1">(</span><span class="hl-4">&#39;2.3YR 6.7/4.22&#39;</span><span class="hl-1">);</span><br/><span class="hl-6">// =&gt; [ 201, 156, 135 ]</span>
+<a id="md:import" class="tsd-anchor"></a><h3><a href="#md:import">Import</a></h3><a id="md:es-module" class="tsd-anchor"></a><h4><a href="#md:es-module">ES module</a></h4><pre><code class="language-javascript"><span class="hl-2">import</span><span class="hl-1"> </span><span class="hl-3">*</span><span class="hl-1"> </span><span class="hl-2">as</span><span class="hl-1"> </span><span class="hl-0">munsell</span><span class="hl-1"> </span><span class="hl-2">from</span><span class="hl-1"> </span><span class="hl-4">&#39;munsell&#39;</span><span class="hl-1">;</span><br/><br/><span class="hl-0">munsell</span><span class="hl-1">.</span><span class="hl-5">munsellToRgb255</span><span class="hl-1">(</span><span class="hl-4">&#39;2.3YR 6.7/4.22&#39;</span><span class="hl-1">);</span><br/><span class="hl-6">// =&gt; [ 201, 156, 135 ]</span>
 </code><button>Copy</button></pre>
 <a id="md:commonjs" class="tsd-anchor"></a><h4><a href="#md:commonjs">CommonJS</a></h4><pre><code class="language-javascript"><span class="hl-3">const</span><span class="hl-1"> </span><span class="hl-7">munsell</span><span class="hl-1"> = </span><span class="hl-5">require</span><span class="hl-1">(</span><span class="hl-4">&#39;munsell&#39;</span><span class="hl-1">);</span><br/><br/><span class="hl-0">munsell</span><span class="hl-1">.</span><span class="hl-5">hexToMhvc</span><span class="hl-1">(</span><span class="hl-4">&#39;#ABCDEF&#39;</span><span class="hl-1">);</span><br/><span class="hl-6">// =&gt; [ 73.43648829473781, 8.05763439330249, 5.304123165279228 ]</span>
 </code><button>Copy</button></pre>
@@ -28,6 +28,8 @@
 <ul>
 <li>Centore, Paul. (2012). An open-source inversion algorithm for the Munsell renotation. Color Research &amp; Application. 37. 10.1002/col.20715.</li>
 </ul>
+<a id="md:example" class="tsd-anchor"></a><h2><a href="#md:example">Example</a></h2><p><a href="https://privet-kitty.github.io/albert/">https://privet-kitty.github.io/albert/</a>
+This is a simple web app that uses munsell.js. It is a training tool to guess the Munsell code of a displayed color.</p>
 <a id="md:copyright" class="tsd-anchor"></a><h2><a href="#md:copyright">Copyright</a></h2><p>Copyright (c) 2018-2024 Hugo Sansaqua.</p>
 </div></div>
 <div class="col-sidebar">
@@ -58,12 +60,13 @@
 <li>
 <ul>
 <li><a href="#md:install"><span>Install</span></a></li>
-<li><a href="#md:load"><span>Load</span></a></li>
+<li><a href="#md:import"><span>Import</span></a></li>
 <li>
 <ul>
 <li><a href="#md:es-module"><span>ES module</span></a></li>
 <li><a href="#md:commonjs"><span>CommonJS</span></a></li></ul></li></ul></li>
 <li><a href="#md:mechanism"><span>Mechanism</span></a></li>
+<li><a href="#md:example"><span>Example</span></a></li>
 <li><a href="#md:copyright"><span>Copyright</span></a></li></ul></li></ul></li></ul></div></details></div>
 <div class="site-menu">
 <nav class="tsd-navigation"><a href="modules.html" class="current"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><rect fill="var(--color-icon-background)" stroke="var(--color-ts-namespace)" stroke-width="1.5" x="1" y="1" width="22" height="22" rx="6" id="icon-4-path"></rect><path d="M9.33 16V7.24H10.77L13.446 14.74C13.43 14.54 13.41 14.296 13.386 14.008C13.37 13.712 13.354 13.404 13.338 13.084C13.33 12.756 13.326 12.448 13.326 12.16V7.24H14.37V16H12.93L10.266 8.5C10.282 8.692 10.298 8.936 10.314 9.232C10.33 9.52 10.342 9.828 10.35 10.156C10.366 10.476 10.374 10.784 10.374 11.08V16H9.33Z" fill="var(--color-text)" id="icon-4-text"></path></svg><span>munsell</span></a>
