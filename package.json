@@ -15,6 +15,7 @@
   "main": "dist/src/index.js",
   "files": [
     "dist/src",
+    "src",
     "README.md",
     "LICENSE"
   ],
