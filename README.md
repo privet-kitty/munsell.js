@@ -52,4 +52,4 @@ This is a simple web app that uses munsell.js. It is a training tool to guess th
 
 ## Copyright
 
-Copyright (c) 2018-2024 Hugo Sansaqua.
+Copyright (c) 2018-2026 Hugo Sansaqua.
