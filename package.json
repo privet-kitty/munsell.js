@@ -20,7 +20,7 @@
     "LICENSE"
   ],
   "scripts": {
-    "build": "tsc",
+    "build": "tsc -p tsconfig.build.json",
     "test": "jest",
     "test-coverage": "jest --coverage",
     "lint": "eslint src test",
@@ -43,6 +43,10 @@
       "^.+\\.ts$": "ts-jest"
     },
     "verbose": true,
+    "testPathIgnorePatterns": [
+      "/node_modules/",
+      "/dist/"
+    ],
     "collectCoverageFrom": [
       "src/**/*.ts",
       "!**/gen-*.ts",
